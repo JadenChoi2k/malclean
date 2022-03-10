@@ -88,14 +88,23 @@ public class Lottery {
         Random random = new Random();
         lastRoleDateTime = LocalDateTime.now();
         for (int i = 0; i < pick.size(); i++) {
+            // 만약 구역 수가 참가자 수를 넘어서기 시작하면.
             if (i >= partinSize) {
                 int minCount = Integer.MAX_VALUE;
+                int minDifficulty = Integer.MAX_VALUE;
                 Member next = new Member();
                 for (Map.Entry<Member, List<Area>> entry : participantsMap.entrySet()) {
                     int size = entry.getValue().size();
                     if (size < minCount && !entry.getValue().contains(pick.get(i))) {
                         next = entry.getKey();
                         minCount = size;
+                    }
+                    if (size == minCount && !entry.getValue().contains(pick.get(i))) {
+                        int pickedMinDifficulty = entry.getValue().stream().map(Area::getDifficulty).mapToInt(a -> a).min().getAsInt();
+                        if (pickedMinDifficulty < minDifficulty) {
+                            next = entry.getKey();
+                            minDifficulty = pickedMinDifficulty;
+                        }
                     }
                 }
                 participantsMap.get(next).add(pick.get(i));

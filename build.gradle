@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'Choi'
-version = '0.1.0-beta'
+version = '0.1.2-beta'
 sourceCompatibility = '11'
 
 configurations {

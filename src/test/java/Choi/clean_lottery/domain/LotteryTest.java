@@ -94,16 +94,18 @@ class LotteryTest {
     @Test
     public void 구역수_더많음() throws Exception {
         // given
-        Lottery lottery = testHelper.createLottery(3);
+        Lottery lottery = testHelper.createLottery(5);
         List<Area> areas = lottery.getRole().getAreas();
         List<Area> pick = new ArrayList<>();
         for (Area area : areas) {
-            for(int i = 0; i < area.getMinimumPeople() + 2; i++) {
-                pick.add(area);
-            }
+            pick.add(area);
         }
         // when
         List<LotteryResult> lotteryResults = lottery.drawLottery(pick);
+        for (LotteryResult lotteryResult : lotteryResults) {
+            System.out.print(lotteryResult.getMember().getName());
+            System.out.println(" -> " + lotteryResult.getArea().getName() + " " + lotteryResult.getArea().getDifficulty());
+        }
         Map<Member, List<Area>> resultMap = lottery.getParticipantsMap();
         // then
         int maxCount = Integer.MIN_VALUE;

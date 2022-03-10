@@ -1,0 +1,212 @@
+package Choi.clean_lottery.web.role;
+
+import Choi.clean_lottery.domain.Role;
+import Choi.clean_lottery.dto.RoleDto;
+import Choi.clean_lottery.dto.TeamDto;
+import Choi.clean_lottery.service.MemberService;
+import Choi.clean_lottery.service.RoleService;
+import Choi.clean_lottery.service.TeamService;
+import Choi.clean_lottery.service.query.RoleQueryService;
+import Choi.clean_lottery.service.query.TeamQueryService;
+import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.web.utils.MalUtility;
+import Choi.clean_lottery.web.validator.SetStringNotEmptyValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RequestMapping("/team/roles")
+@Slf4j
+@Controller
+@RequiredArgsConstructor
+public class RoleController {
+
+    private final TeamQueryService teamQueryService;
+    private final RoleService roleService;
+    private final RoleQueryService roleQueryService;
+    private final MalUtility malUtility;
+
+    @GetMapping
+    public String roleHome(HttpServletRequest request, Model model) {
+        // 매니저일 경우 수정/추가 버튼 있다.
+        boolean isManager = malUtility.isManager(request);
+        TeamDto team = teamQueryService.findDtoByMemberId(
+                (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+        if (team == null)
+            return "redirect:/";
+        List<RoleDto> roles = team.getRoles();
+        if(!roles.isEmpty()) model.addAttribute("currentRole", roles.get(0));
+        model.addAttribute("roles", roles);
+        model.addAttribute("isManager", isManager);
+
+        return "team/roles/role-home";
+    }
+
+    @GetMapping("/{roleId}")
+    @ResponseBody
+    public Map<String, Object> getRole(@PathVariable Long roleId) {
+        Role role = roleService.findWithAreas(roleId);
+        Map<String, Object> json = new HashMap<>();
+        if (role != null) {
+            json.put("id", role.getId());
+            json.put("name", role.getName());
+            json.put("area", role.getAreas().toArray());
+            json.put("startDate", role.getStartDate());
+            json.put("duration", role.getDuration());
+        } else {
+            json.put("error", 404);
+            json.put("msg", "not found");
+        }
+        return json;
+    }
+
+    // 전체 역할의 순서나 시작 날짜(첫 번째 역할) 등을 수정해서 제출한다.
+    @GetMapping("/change-roles")
+    public String rolesChangeForm(HttpServletRequest request, Model model) {
+        boolean isManager = malUtility.isManager(request);
+        if (!isManager) {
+            return "redirect:/team/roles";
+        }
+        TeamDto team = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+        List<RoleDto> roles = team.getRoles();
+        RolesChangeForm changeForm = getRolesChangeForm(roles);
+        model.addAttribute("changeForm", changeForm);
+        return "team/roles/roles-change-form";
+    }
+
+    private RolesChangeForm getRolesChangeForm(List<RoleDto> roles) {
+        RolesChangeForm form = new RolesChangeForm();
+        List<Long> roleIds = new ArrayList<>();
+        List<String> roleNames = new ArrayList<>();
+        for (RoleDto role : roles) {
+            roleIds.add(role.getId());
+            roleNames.add(role.getName());
+        }
+        form.setRoleIds(roleIds);
+        form.setRoleNames(roleNames);
+        form.setStartDate(roles.get(0).getStartDate());
+        form.initializeSequence();
+        return form;
+    }
+
+    @PostMapping("/change-roles")
+    public String changeRoles(HttpServletRequest request,
+                              @Validated @ModelAttribute("changeForm") RolesChangeForm form,
+                              BindingResult bindingResult) {
+        boolean isManager = malUtility.isManager(request);
+        if (!isManager) {
+            bindingResult.reject("unauthorized.manager");
+            return "redirect:/";
+        }
+        TeamDto teamDto = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+        List<RoleDto> roles = teamDto.getRoles();
+        if (roles.isEmpty()) {
+            bindingResult.reject("WrongRequest");
+        }
+        List<Long> roleIds = form.getRoleIds();
+        for (RoleDto role : roles) {
+            if (!roleIds.contains(role.getId()))
+                bindingResult.reject("WrongRequest.wrongId.role");
+        }
+        if (bindingResult.hasErrors()) {
+            return "team/roles/roles-change-form";
+        }
+        // 순서 반영
+        roleService.changeSequence(teamDto.getId(), roleIds);
+        // 시작 날짜 반영 (null이면 하지 않는다)
+        if (form.getStartDate() != null)
+            roleService.changeStartDate(roleIds.get(0), form.getStartDate());
+        return "redirect:/team/roles";
+    }
+
+    @GetMapping("/{roleId}/edit")
+    public String roleEditForm(HttpServletRequest request, @PathVariable Long roleId,
+                               Model model) {
+        boolean isManager = malUtility.isManager(request);
+        if (!isManager) {
+            // 참고로 말하지만 예외 처리 다 해줘야 한다.
+            return "redirect:/team/roles";
+        }
+        RoleDto role = roleQueryService.findDto(roleId);
+        if (role == null) {
+            return "redirect:/team/roles";
+        }
+        RoleEditForm editForm = new RoleEditForm(role);
+        model.addAttribute("areas", role.getAreas());
+        model.addAttribute("editForm", editForm);
+        return "team/roles/edit-role";
+    }
+
+    @PostMapping("/{roleId}/edit")
+    public String edit(HttpServletRequest request, @Validated @ModelAttribute("editForm") RoleEditForm editForm,
+                       BindingResult bindingResult, @PathVariable Long roleId) {
+        Role role = roleService.findOne(roleId);
+        if (!malUtility.isManager(request)) {
+            bindingResult.reject("unauthorized.manager");
+        }
+        if (role == null) {
+            bindingResult.reject("WrongRequest");
+        }
+        if (role!=null && !role.getId().equals(editForm.getId())) {
+            bindingResult.reject("WrongRequest.wrongId.role");
+        }
+        if (bindingResult.hasErrors()) {
+            return "team/roles/edit-role";
+        }
+        roleService.editRole(editForm.getId(), editForm.getName(), editForm.getDuration());
+        return "redirect:/team/roles";
+    }
+
+    @GetMapping("/add")
+    public String roleAddForm(HttpServletRequest request, Model model) {
+        RoleAddForm addForm = new RoleAddForm();
+        model.addAttribute("addForm", addForm);
+        return "team/roles/add-role";
+    }
+
+    @PostMapping("/add")
+    public String addRole(HttpServletRequest request,
+                          @Validated @ModelAttribute("addForm") RoleAddForm form,
+                          BindingResult bindingResult) {
+        boolean isManager = malUtility.isManager(request);
+        if (!isManager) {
+            bindingResult.reject("unauthorized.manager");
+        }
+        if (form.getAreaNames().size() != form.getDifficulties().size() ||
+            form.getAreaNames().size() != form.getMinimumPeoples().size() ||
+            form.getDifficulties().size() != form.getMinimumPeoples().size()) {
+            bindingResult.reject("WrongRequest.wrongInput");
+        }
+        if (bindingResult.hasErrors()) {
+            return "team/roles/add-role";
+        }
+        // TODO DB에 반영하기
+        TeamDto team = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+        roleService.createRole(form.getName(), team.getId(), form.getAreaNames(),
+                form.getDifficulties(), form.getMinimumPeoples(), form.getDuration());
+        return "redirect:/team/roles/change-roles";
+    }
+
+    @RequestMapping("/{roleId}/remove")
+    public String removeRole(HttpServletRequest request, @PathVariable Long roleId,
+                             @RequestParam(required = false) String redirectURI) {
+        boolean isManager = malUtility.isManager(request);
+        if (isManager) {
+            Role role = roleService.findOne(roleId);
+            if (role != null) {
+                roleService.delete(role);
+            }
+        }
+        return "redirect:/team/roles" + (redirectURI == null ? "" : redirectURI);
+    }
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <link href="../../../static/css/role-page.css" th:href="@{/css/role-page.css}" rel="stylesheet">
+    <link href="../../../static/css/roles-change-page.css" th:href="@{/css/roles-change-page.css}" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/1.0.3/jquery.tablednd.js"></script>
+    <script type="text/javascript" src="../../../static/js/role-page.js" th:src="@{/js/role-page.js}"></script>
+    <script type="text/javascript" src="../../../static/js/roles-change-page.js" th:src="@{/js/roles-change-page.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Initialise the table
+            $("#role-change-table").tableDnD({
+                onDragStop: function(table, row) {
+                    let isChanged = updateSequence();
+                    if (!isChanged) fetchRoleInfo(row);
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-dark text-white text-center">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div th:replace="~{fragment/body::common-header}"></div>
+<form th:action th:object="${changeForm}" method="post">
+    <input type="hidden" th:field="*{preSequence}">
+    <input type="hidden" th:field="*{roleIds}">
+    <input type="hidden" th:field="*{roleNames}">
+    <div class="row m-3">
+        <label class="col-4" for="startDate">시작 날짜</label>
+        <input class="col-8" type="date" id="startDate" th:field="*{startDate}">
+    </div>
+    <table class="table text-white" id="role-change-table">
+        <thead>
+        <tr>
+            <th scope="col">순번</th>
+            <th scope="col">ID</th>
+            <th scope="col">이름</th>
+        </tr>
+        </thead>
+        <tr class="roles-change-row" th:each="name:*{roleNames}">
+            <td class="role-sequence-col" th:text="${nameStat.count}"></td>
+            <td class="role-id-col" th:text="${changeForm.roleIds.get(nameStat.index)}"></td>
+            <td th:text="${name}"></td>
+        </tr>
+    </table>
+    <button class="btn btn-warning" onclick="updateInputFields()" type="submit">수정</button>
+    <button class="btn btn-light" onclick="javascript:history.back();">취소</button>
+</form>
+</body>
+</html>

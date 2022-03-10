@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>말년 청소 - 로그인</title>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        a {
+          text-decoration: none;
+          color: whitesmoke;
+        }
+
+        a:active {
+          color: #51585e;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-login {
+            width: 100%;
+            max-width: 330px;
+            margin: auto;
+        }
+
+        .form-login .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-login input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-login input[type="password"] {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="text-center text-white bg-dark">
+    <main class="form-login flex-column">
+        <form method="post" action="loginForm.html" th:action th:object="${loginForm}">
+            <!--/*/
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}">
+                    <script>
+                        alert('[[${err}]]')
+                    </script>
+                </p>
+            </div>
+            /*/-->
+            <div class="h2 mb-auto"><a class="text-white" href="../index.html" th:href="@{/}">말년 청소</a></div>
+            <div class="display-4 my-2">로그인</div>
+            <div class="form-floating">
+                <input type="text" class="form-control" th:field="*{loginId}"
+                       th:errorclass="field-error" id="floatingID" placeholder="아이디를 입력해주세요">
+                <label class="text-dark" for="floatingID">아이디</label>
+                <div th:errors="*{loginId}" class="field-error" />
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" th:field="*{password}"
+                       th:errorclass="field-error" id="floatingPassword" placeholder="비밀번호를 입력해주세요">
+                <label class="text-dark" for="floatingPassword">비밀번호</label>
+                <div th:errors="*{password}" class="field-error" />
+            </div>
+            <button class="btn btn-lg btn-light mt-4 w-100">로그인</button>
+            <div class="mt-2">
+                회원이 아니신가요? <a class="text-warning" href="../join/joinForm.html" th:href="@{/join}">회원가입</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.global-error {
+    border: 1px solid #b02a37;
+    border-radius: 5px;
+    color: #b02a37;
+    text-align: center;
+    margin: 5px;
+}
+
+.field-error {
+    color: #b02a37;
+}
+
+@media (min-width: 768px) {
+    body {
+        max-width:768px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.add-section {
+    cursor: pointer;
+    border: 2px dashed powderblue;
+    border-radius: 5px;
+    background-color: #badce38c;
+    min-height: 40px;
+}
+
+.add-section:hover {
+    background-color: #badce39f;
+}

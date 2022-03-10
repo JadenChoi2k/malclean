@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="~{fragment/head::common-head}"></div>
+        <style>
+            img {
+                width: 125px;
+                height: 125px;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body class="text-white bg-dark text-center m-0">
+    <div th:replace="~{fragment/body::common-header}"></div>
+    <div th:replace="~{fragment/sidebar::sidebar}"></div>
+        <div class="display-2 mt-3" style="font-family: 'MaruBuri', Serif;" th:text="${team.name}">팀 이름</div>
+        <div class="team-table row max-md">
+            <div class="team-member col-6 col-sm-3 text-center p-0" th:each="member:${members}">
+                <img class="profile-image" th:src="${member.profile_url}">
+                <h5 class="my-1" th:text="${member.name}">내이름</h5>
+            </div>
+        </div>
+        <div class="my-3">
+            <a class="btn btn-lg btn-outline-light" th:href="@{team/lottery/pick}" th:unless="${team.currentRole == null}">청소 뽑기</a>
+            <div th:if="${team.currentRole == null}">
+                <h3>아직 역할이 없어요.</h3>
+                <a class="btn btn-lg btn-outline-light" th:href="@{team/roles/add}">역할 만들기</a>
+            </div>
+        </div>
+    </body>
+</html>

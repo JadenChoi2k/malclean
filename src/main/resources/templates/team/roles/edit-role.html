@@ -1,0 +1,161 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <script type="text/javascript" src="../../../static/js/role-page.js" th:src="@{/js/role-page.js}"></script>
+    <link rel="stylesheet" href="../../../static/css/role-page.css" th:href="@{/css/role-page.css}">
+</head>
+<body class="bg-dark text-white mx-auto">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div th:replace="~{fragment/body::common-header}"></div>
+<form class="mx-2" th:object="${editForm}" th:action method="post">
+    <input type="hidden" th:field="*{id}">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div th:each="error:${#fields.globalErrors()}">
+            <div class="global-error" th:text="${error}">에러가 났을 때</div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label class="col-form-label col-sm-2" for="name">역할 이름</label>
+        <div class="col-sm-10">
+            <input class="form-control" type="text" placeholder="역할 이름" th:field="*{name}" id="name">
+            <div class="field-error" th:errors="*{name}">이름 오류</div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="text-center"><h2>구역 목록</h2></div>
+        <div class="row">
+            <div class="row col-12 col-sm-6 mt-2" th:id="'area$$' + ${area.id}" th:each="area: ${areas}">
+                <div class="col-6" th:text="${area.name}">구역이름</div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-sm btn-outline-warning"
+                            th:onclick="|openEditAreaModal(${area.id})|">
+                        수정</button>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-sm btn-outline-danger" th:onclick="|deleteArea(${area.id})|">삭제</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3 p-0">
+            <button type="button" class="btn btn-lg btn-outline-primary" onclick="addModal.show();">구역 추가</button>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label class="col-form-label col-sm-2" for="duration">지속 기간 (일)</label>
+        <div class="field-error" th:errors="*{duration}">지속기간 오류</div>
+        <div class="col-sm-10">
+            <input type="number" th:field="*{duration}" id="duration" class="form-control col-sm-10"
+                   step="1" value="1" required>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-primary mx-3" type="submit">수정</button>
+        <button class="btn btn-light mx-3">취소</button>
+    </div>
+</form>
+<div class="modal text-dark" id="add-area-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">구역 생성</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="add-area-name" class="form-control" placeholder="역할 이름">
+                <div class="row">
+                    <label class="col-12 col-sm-3 col-form-label" for="add-area-difficulty-range">난이도 <span id="add-area-difficulty-range-value">0</span></label>
+                    <input type="range" id="add-area-difficulty-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10"
+                           onchange="document.getElementById('add-area-difficulty-range-value').innerText=this.value" value="0">
+                    <label class="col-12 col-sm-3 col-form-label" for="add-area-minimumPeople-range">최소인원 <span id="add-area-minimumPeople-range-value">0</span></label>
+                    <input type="range" id="add-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10"
+                           onchange="document.getElementById('add-area-minimumPeople-range-value').innerText=this.value" value="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" onclick="addAreaByModalForm();">생성</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal text-dark" id="edit-area-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">구역 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-area-id">
+                <input type="text" id="edit-area-name" class="form-control" placeholder="역할 이름">
+                <div class="row">
+                    <label class="col-12 col-sm-3 col-form-label" for="edit-area-difficulty-range">난이도 <span id="edit-area-difficulty-range-value">0</span></label>
+                    <input type="range" id="edit-area-difficulty-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10" value="0"
+                           onchange="document.getElementById('edit-area-difficulty-range-value').innerText=this.value">
+                    <label class="col-12 col-sm-3 col-form-label" for="edit-area-minimumPeople-range">최소인원 <span id="edit-area-minimumPeople-range-value">0</span></label>
+                    <input type="range" id="edit-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10" value="0"
+                           onchange="document.getElementById('edit-area-minimumPeople-range-value').innerText=this.value">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-warning" onclick="editAreaByModalForm();">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var addModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('add-area-modal'));
+    var editModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('edit-area-modal'));
+
+    function addAreaByModalForm() {
+        const name = document.getElementById('add-area-name').value;
+        const difficulty = document.getElementById('add-area-difficulty-range').value;
+        const minimumPeople = document.getElementById('add-area-minimumPeople-range').value;
+        if (!name || !difficulty || !minimumPeople) {
+            alert('양식을 다 채워주세요.');
+        }
+        createArea({
+            name: name,
+            difficulty: difficulty,
+            minimumPeople: minimumPeople,
+        });
+        addModal.hide();
+    }
+
+    // area: {id, name, difficulty, minimumPeople}
+    function openEditAreaModal(areaId) {
+        getAreaFromServer(areaId).then(area => {
+            if (area == null) {
+                alert('역할 가져오기 실패');
+                return;
+            }
+            document.getElementById('edit-area-id').value = area.id;
+            document.getElementById('edit-area-name').value = area.name;
+            document.getElementById('edit-area-difficulty-range').value = area.difficulty;
+            document.getElementById('edit-area-minimumPeople-range').value = area.minimumPeople;
+            editModal.show();
+        })
+    }
+
+    function editAreaByModalForm() {
+        const areaId = document.getElementById('edit-area-id').value;
+        const name = document.getElementById('edit-area-name').value;
+        const difficulty = document.getElementById('edit-area-difficulty-range').value;
+        const minimumPeople = document.getElementById('edit-area-minimumPeople-range').value;
+        if (!areaId || !name || !difficulty || !minimumPeople) {
+            alert('양식을 다 채워주세요.');
+        }
+        editArea({
+            areaId: areaId,
+            name: name,
+            difficulty: difficulty,
+            minimumPeople: minimumPeople,
+        });
+        editModal.hide();
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <style>
+        .h1, .h2, .h4 {
+            font-family: 'MaruBuri', Serif;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white text-center h-100">
+<div th:replace="~{fragment/body::common-header}"></div>
+    <div class="h-75 d-flex align-content-center">
+        <div class="m-auto">
+            <div class="h2" th:text="|${invite.senderName}님으로부터 도착한|"></div>
+            <div class="h1" th:text="'「' + ${invite.teamName} + '」 입장권'"></div>
+            <div class="h4">말년 청소로 편하게 청소 뽑기</div>
+            <a class="btn btn-lg btn-outline-light m-1" th:href="@{/invite/{uuid}/accept(uuid=${invite.getUuid()})}">수락</a>
+            <a class="btn btn-lg btn-outline-warning m-1" th:href="@{/invite/{uuid}/reject(uuid=${invite.getUuid()})}">거절</a>
+        </div>
+    </div>
+</body>
+</html>

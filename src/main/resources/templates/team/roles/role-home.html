@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <link href="../../../static/css/role-page.css" th:href="@{/css/role-page.css}" rel="stylesheet">
+    <script type="text/javascript" src="../../../static/js/role-page.js" th:src="@{/js/role-page.js}"></script>
+</head>
+<body class="bg-dark text-white text-center">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div th:replace="~{fragment/body::common-header}"></div>
+    <table class="table text-white">
+        <thead>
+            <tr>
+                <th scope="col">순번</th>
+                <th scope="col">ID</th>
+                <th scope="col">이름</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tr th:each="role:${roles}">
+            <td th:text="${role.id == currentRole.id} ? ${roleStat.count}+'✅' : ${roleStat.count}"></td>
+            <td th:text="${role.id}"></td>
+            <td th:text="${role.name}"></td>
+            <td>
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#roleDetail"
+                    th:data-bs-target="'#roleDetail' + ${role.id}">
+                    자세히 보기
+                </button>
+                <div class="modal fade text-dark text-start" id="roleDetail" th:id="'roleDetail' + ${role.id}"
+                     tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" th:text="${role.name}"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>구역</h5>
+                                <ul>
+                                    <li th:each="area:${role.areas}" th:text="|${area.name} 난이도: ${area.difficulty} 최소인원: ${area.minimumPeople}|"></li>
+                                </ul>
+                                <h5 th:text="'시작날짜 - ' + ${role.startDate}"></h5>
+                                <h5 th:text="'지속기간 - ' + ${role.duration}"></h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" th:if="${isManager}" th:onclick="|getToRoleEdit(${role.id})|">수정</button>
+                                <button type="button" class="btn btn-danger" th:if="${isManager}"
+                                        th:onclick="|confirmPost('삭제하시겠습니까?', '/team/roles/${role.id}/remove')|">삭제</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <a th:if="${isManager}" class="btn btn-lg btn-outline-warning m-2" th:href="@{/team/roles/change-roles}">수정</a>
+    <a th:if="${isManager}" class="btn btn-lg btn-outline-light m-2" th:href="@{/team/roles/add}">추가</a>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+</head>
+<header th:fragment="common-header" class="text-center mt-3 mb-auto">
+    <div>
+        <a  href="#" th:href="@{/}" id="top-title" class="text-white display-2 mb-0" th:text="#{common.title}">말년 청소</a>
+    </div>
+</header>
+</html>

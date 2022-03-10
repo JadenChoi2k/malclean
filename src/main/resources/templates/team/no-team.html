@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{common.title}">말년청소</title>
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="../css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</header>
+<body class="bg-dark">
+    <div class="h-100 text-center my-auto">
+        <div class="text-white display-4">아직 팀이 없습니다.</div>
+        <a href="add-team.html" class="text-primary h3" th:href="@{/team/add}">팀 생성하기</a>
+    </div>
+</body>
+</html>

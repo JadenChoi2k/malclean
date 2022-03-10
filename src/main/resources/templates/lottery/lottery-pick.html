@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <link href="../../static/css/lottery-page.css" th:href="@{/css/lottery-page.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div id="body-slide" class="carousel slide h-100 text-center" data-bs-interval="false">
+    <div class="carousel-inner h-100">
+        <div class="carousel-item active bg-dark h-100">
+            <div class="bg-dark text-white d-block w-100">
+                <h2 class="mt-3" th:text="|오늘은 ${currentRole.name}|">현재 역할 이름</h2>
+                <h3 class="m-3" th:if="${currentRole.state} == ${T(Choi.clean_lottery.domain.RoleState).CHANGE_DAY}">오늘은 인수인계
+                    날입니다.</h3>
+                <div class="m-4">
+                    <input class="form-control form-text max-md" type="text" th:value="|${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일')}의 ${currentRole.name} 청소|" id="lottery-name-input">
+                </div>
+                <div class="row p-5 max-lg">
+                    <span class="col-sm-1"></span>
+                    <button class="btn btn-lg btn-outline-warning col-sm-4 my-2" data-bs-toggle="modal" data-bs-target="#change-role">수동으로 역할 정하기</button>
+                    <div class="modal fade text-dark text-start" id="change-role" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">수동으로 역할 선택</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="list-group">
+                                        <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"
+                                                th:each="role: ${roles}" th:text="${role.name}" th:onclick="|changeRoleById(${role.id})|">역할의 이름</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="col-2"></span>
+                    <button class="btn btn-lg btn-light col-sm-4 my-2" onclick="onRoleConfirmed()">이 역할로 진행하기</button>
+                    <span class="col-sm-1"></span>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item bg-dark text-white h-100">
+            <div class="d-block w-100">
+                <h2 class="m-3">청소 인원 정하기</h2>
+                <h4 class="partin-number">현재원 : -1명</h4>
+                <div class="row max-md mx-auto">
+                    <div th:each="member:${members}" class="col-md-3 col-6 member" id="member123"
+                         th:id="'member' + ${member.id}"
+                         onclick="memberToggle(123)" th:onclick="|memberToggle(${member.id})|" partin="true">
+                        <img src="http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+                             th:src="${member.profile_url}" class="partin">
+                        <h5 class="mt-2" th:text="${member.name}">홍길동</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="py-3">
+                <button class="btn btn-outline-light w-25" onclick="slide.prev()">이전</button>
+                <button class="btn btn-light w-25" onclick="onMemberConfirmed()">결정</button>
+            </div>
+        </div>
+        <div class="carousel-item bg-dark text-white h-100">
+            <div class="d-block w-100 area-section">
+                <h2 class="m-3">청소 구역 정하기</h2>
+                <h4 class="partin-number">현재원 : -1명</h4>
+                <h4 class="m-3 pick-number">현재 구역 수 : -1</h4>
+                <h3>구역 선택</h3>
+                <div class="row text-center my-2 area" th:each="area:${currentRole.areas}">
+                    <span class="col-md-3"></span>
+                    <div class="col-6 col-md-3 h3" th:text="${area.name}">2층 중앙복도 및 계단</div>
+                    <div class="col-5 col-lg-3">
+                        <div class="row m-0">
+                            <button class="col-md-3 col-4 btn btn-outline-light"
+                                    th:data-area="${area.id}" th:onclick="|subArea(&quot;area$$${area.id}&quot;, &quot;${area.minimumPeople}&quot;)|" onclick="subArea('area$$' + this.getAttribute('data-area'))"><h4>-</h4></button>
+                            <label class="col-md-6 col-4 mt-2 h5 area-num" id="area$$id" th:id="'area$$' + ${area.id}" th:text="${area.minimumPeople}"></label>
+                            <button class="col-md-3 col-4 btn btn-outline-light"
+                                    th:data-area="${area.id}" onclick="addArea('area$$' + this.getAttribute('data-area'))"><h5>+</h5></button>
+                        </div>
+                    </div>
+                    <span class="col-1 col-md-3"></span>
+                </div>
+            </div>
+            <div class="py-3">
+                <button class="btn btn-outline-light w-25" onclick="slide.prev()">이전</button>
+                <button class="btn btn-light w-25" onclick="drawLottery()">뽑기</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        // 이곳에 역할 목록을 주입해준다.
+        // Role 객체 => name, id, mainArea, subArea 로 저장
+        var currentRole = /*[[${currentRole}]]*/ null;
+        const roles = [];
+
+        /*[# th:each="role : ${roles}"]*/
+        roles.push(/*[[${role}]]*/);
+        /*[/]*/
+    </script>
+    <script type="text/javascript" src="../../static/js/bootstrap.bundle.min.js"
+            th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" src="../../static/js/lottery-page.js"
+            th:src="@{/js/lottery-page.js}"></script>
+
+</div>
+</body>
+</html>

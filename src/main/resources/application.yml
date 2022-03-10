@@ -1,0 +1,46 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+#    url: jdbc:h2:tcp://localhost/~/cleanlottery
+    url: jdbc:mysql://db-malclean.c5w8e40igxqy.ap-northeast-2.rds.amazonaws.com:3306/mal-clean?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&createDatabaseIfNotExist=true
+#    username: sa
+#    password:
+    username: admin
+    password: dbmalclean1234
+#    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        show-sql: true
+        format-sql: true
+
+  messages:
+    basename: errors, messages
+
+logging:
+#  level: debug
+  file:
+    path: /Logs/spring-boot.log
+  level:
+    root: info
+    me.choi.clean: debug
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: debug
+  logback:
+    rollingpolicy:
+      max-file-size: 500MB
+      max-history: 10
+#  org.hibernate.SQL: debug

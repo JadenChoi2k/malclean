@@ -1,0 +1,100 @@
+.sidebar {
+    position: fixed;
+    z-index: 111;
+    left: -250px;
+    top: 0px;
+    width: 250px;
+    height: 100%;
+    background: #1e2125;
+    transition: all .5s ease;
+    font-family: "MaruBuri", Serif;
+}
+
+#sidebar-outside {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+
+.sidebar header{
+    font-size: 22px;
+    color: white;
+    text-align: center;
+    line-height: 70px;
+    background: #1e2125;
+    user-select: none;
+}
+
+.sidebar ul a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 65px;
+    font-size: 20px;
+    color: white;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid black;
+    transition: .4s;
+}
+
+.sidebar ul li:hover a {
+    padding-left: 50px;
+}
+
+.sidebar ul a i {
+    margin-right: 16px;
+}
+
+#side-check{
+    display: none;
+}
+
+label #burger, label #cancel {
+    position: absolute;
+    cursor: pointer;
+    background: none;
+    border-radius: 3px;
+}
+
+label #burger {
+    z-index: 111;
+    left: 10px;
+    top: 4px;
+    font-size: 35px;
+    color: white;
+    padding: 0;
+    transition: all .5s;
+}
+
+label #cancel {
+    z-index: 1111;
+    left: -195px;
+    top: 6px;
+    font-size: 30px;
+    color: #f9fafb;
+    padding: 4px 9px;
+    transition: all .5s ease;
+}
+
+#side-check:checked ~ .sidebar {
+    left: 0;
+}
+
+#side-check:checked ~ #sidebar-outside {
+    left: 0;
+}
+
+#side-check:checked ~ label #burger {
+    left: 250px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#side-check:checked ~ label #cancel {
+    left: 195px;
+}

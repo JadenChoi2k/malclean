@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .h2 {
+            font-family: "MaruBuri", Serif;
+        }
+    </style>
+</head>
+<body class="text-center bg-dark text-white h-100">
+<div th:replace="~{fragment/body::common-header}"></div>
+    <div class="w-100 h-75">
+        <div class="h2 m-2">팀 생성</div>
+        <form method="post" action="add-team.html" th:action th:object="${teamForm}">
+            <div class="mx-3">
+                <div class="form-floating text-dark max-sm">
+                    <input type="text" class="form-control" th:field="${teamForm.teamName}" id="teamNameInput" placeholder="팀 이름"
+                           th:classappend="${#fields.hasErrors()}?'field-error':''">
+                    <label for="teamNameInput">팀 이름</label>
+                    <div class="field-error" th:errors="${teamForm.teamName}" />
+                </div>
+            </div>
+            <button class="m-3 btn btn-lg btn-outline-light">팀 생성</button>
+        </form>
+    </div>
+</body>
+</html>

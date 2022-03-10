@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+@media (min-width: 576px) {
+    .max-sm {
+        max-width: 576px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .max-md {
+        max-width: 768px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .max-lg {
+        max-width: 992px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.profile-image-small {
+    border-radius: 10px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.profile-image {
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.profile-image-big {
+    border-radius: 20px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+#top-title {
+    font-family: "Nanum Myeongjo", Serif;
+}
+
+.top-title {
+    font-family: "Nanum Myeongjo", Serif;
+}
+
+.vertical-30 {
+    position: absolute;
+    top: 30%;
+}

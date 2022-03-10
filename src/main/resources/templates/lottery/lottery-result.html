@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <style>
+        @font-face {
+            font-family: 'Cafe24SsurroundAir';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .display-1, .display-2, .display-4, .h3, .h4 {
+            font-family: 'Cafe24SsurroundAir';
+        }
+    </style>
+    <link href="../../static/css/lottery-page.css" th:href="@{/css/lottery-page.css}" rel="stylesheet"/>
+    <script>
+        function resultMessageTemplate(title, description, lotteryId) {
+            window.Kakao.Link.sendCustom({
+                templateId: 69676,
+                templateArgs: {
+                    'title': title,
+                    'description': description,
+                    'lotteryId': lotteryId
+                }
+            })
+        }
+
+        function sendResultMessage() {
+            const title = document.getElementById('result-content-title').value;
+            const description = document.getElementById('result-content-description').value;
+            const lotteryId = document.getElementById('result-content-lotteryId').value;
+
+            isAuthorizedToInvite()
+                .then(data => {
+                    return data.scopes.length === 2;
+                }).then(isAuth => {
+                if (isAuth) resultMessageTemplate(title, description, lotteryId);
+                else window.Kakao.Auth.login({
+                    scope: 'friends, talk_message'
+                }).then(() => resultMessageTemplate(title, description, lotteryId));
+            })
+        }
+    </script>
+</head>
+<body>
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div id="body-slide" class="carousel slide h-100 text-center" data-bs-interval="false">
+    <input type="hidden" id="result-content-title" th:value="${lottery.name}">
+    <input type="hidden" id="result-content-description" th:value="|${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM일 dd일')}의 ${team.name}. 오늘은 ${role.name} 청소하는 날입니다.|">
+    <input type="hidden" id="result-content-lotteryId" th:value="${lottery.id}">
+    <div class="bg-dark text-white carousel-inner h-100">
+        <div class="carousel-item active h-100">
+            <div class="d-block w-100 vertical-30">
+                <div class="h-100 mx-2">
+                    <div class="h4" th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM월 dd일')}"></div>
+                    <div class="h3" th:if="${role.state} == ${T(Choi.clean_lottery.domain.RoleState).CHANGE_DAY}">오늘은 인수인계입니다.</div>
+                    <div class="my-2 text-start text-md-center display-2" th:text="'「' + ${member.name} + '」님은'">
+                        「홍길동」님은
+                    </div>
+                    <div th:if="${myAreas.isEmpty()}" class="display-1">휴식</div>
+                    <div th:unless="${myAreas.isEmpty()}">
+                        <div class="text-end text-md-center">
+                        <span class="text-end display-1" th:text="'「' + ${#strings.arrayJoin(myAreas, ', ')} + '」'">
+                            「화장실」
+                        </span>
+                            <span class="display-4">입니다</span>
+                        </div>
+                        <div class="h4" th:if="${companions.isEmpty()}">
+                            혼자서 진행하시면 됩니다.
+                        </div>
+                        <div th:unless="${companions.isEmpty()}" th:each="entry: ${companions}">
+                            <span class="h4" th:text="|${entry.getKey()} 전우: |"></span>
+                            <span th:each="member: ${entry.getValue()}">
+                            <span class="h4" th:if="${memberStat.last}" th:text="|${member.name}님|"></span>
+                            <span class="h4" th:unless="${memberStat.last}" th:text="|${member.name}님, |"></span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <button class="btn btn-outline-light" onclick="slide.to(1);">
+                        전체 결과 확인하기
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item bg-dark text-white h-100">
+            <div class="d-block w-100">
+                <div class="h3 m-4">전체 결과</div>
+                <div class="h3" th:text="'팀 : ' + ${team.name}">팀 이름</div>
+                <div class="h4 m-1" th:text="'담당구역 : ' + ${role.name}">역할 이름</div>
+                <div class="h4" th:text="'일시 : ' + ${#temporals.format(lottery.lastRoleDateTime, 'yyyy-MM-dd HH:mm')}">시간</div>
+                <table class="table table-borderless text-white max-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">사람</th>
+                            <th scope="col">구역</th>
+                        </tr>
+                    </thead>
+                    <tr th:each="result:${lottery.result}">
+                        <td>
+                            <img class="profile-image" th:src="${result.member.profile_url}">
+                            <h5 th:text="${result.member.name}"></h5>
+                        </td>
+                        <td class="align-middle">
+                            <div class="h3" th:text="${result.area.name}"></div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="m-1">
+                    <a class="btn btn-lg btn-outline-light mb-3" href="/" th:href="@{/}">홈으로</a>
+                    <button class="btn btn-lg btn-outline-warning mb-3" onclick="sendResultMessage()">공유하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../static/js/bootstrap.bundle.min.js"
+            th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" src="../../static/js/lottery-page.js"
+            th:src="@{/js/lottery-page.js}"></script>
+
+</div>
+</body>
+</html>

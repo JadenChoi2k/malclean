@@ -1,0 +1,41 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" class="w-100 h-100">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+
+    <style>
+        a:hover {
+            background-color: rgba(120, 120, 120, 0.1);
+        }
+
+        a:focus {
+            background-color: rgba(120, 120, 120, 0.2);
+        }
+
+        * {
+            font-family: "MaruBuri", "맑은 고딕";
+        }
+    </style>
+</head>
+<body class="w-100 h-100 text-center bg-dark text-white">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<h1 class="m-3">내 정보</h1>
+<img class="profile-image-big" src="http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+     th:href="${member.profile_url}">
+<h3 class="m-2" th:text="${member.name}">홍길동</h3>
+<h4 th:text="|${team.name}의 매니저입니다.|" th:if="${isManager}"></h4>
+<h4 th:text="|${team.name}의 멤버입니다.|" th:unless="${isManager}">팀팀의 멤버입니다</h4>
+<a class="d-block border-top border-bottom border-light p-2 max-sm text-white h4 mt-3 mb-0"
+    href="javascript:askConfirm('로그아웃하시겠습니까?', '/member/logout')">
+    로그아웃
+</a>
+<a class="d-block border-bottom border-light p-2 max-sm text-white h4 my-0"
+   href="javascript:askConfirm('팀을 나가시겠습니까?', '/member/team-out')">
+    팀 나가기
+</a>
+<a class="d-block border-bottom border-light p-2 max-sm text-white h4 my-0"
+   href="javascript:askConfirm('말년 청소를 탈퇴하시겠습니까?', '/member/delete')">
+    말년청소 탈퇴
+</a>
+</body>
+</html>

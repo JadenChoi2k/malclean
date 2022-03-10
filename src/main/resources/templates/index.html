@@ -1,0 +1,37 @@
+<!doctype html>
+<html class="h-100">
+  <head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <style>
+
+    </style>
+  </head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+    
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="mb-auto">
+    <div>
+      <a  href="#" th:href="@{/}" id="top-title" class="text-white display-2 mb-0" th:text="#{common.title}">말년 청소</a>
+    </div>
+  </header>
+
+  <main class="px-3">
+    <h1>말년 청소</h1>
+    <p class="lead" th:text="#{main.comment}">말년도 청소시키는 임무분담 뽑기</p>
+    <p class="lead">
+      <a href="javascript:kakaoLogin()" id="kakao-login-btn">
+        <img src="../static/img/kakao_login_large_narrow.png"
+             width="255"
+             th:src="@{/img/kakao_login_large_narrow.png}"/>
+      </a>
+    </p>
+    <p id="token-result"></p>
+  </main>
+
+  <footer class="mt-auto text-white-50">
+  </footer>
+</div>
+  </body>
+</html>

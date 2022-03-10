@@ -1,0 +1,24 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="common-head">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title th:text="#{common.title}">말년청소</title>
+        <!-- import css -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+        <link href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+        <link th:href="@{/css/sidebar.css}" rel="stylesheet">
+        <link th:href="@{/css/common.css}" rel="stylesheet">
+        <script type="text/javascript" src="js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <!-- download font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+        <link href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css" rel="stylesheet">
+        <!-- kakao javascript api -->
+        <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" ></script>
+        <script type="text/javascript" src="../../static/js/kakao-util.js" th:src="@{/js/kakao-util.js}"></script>
+        <!-- javascript util -->
+        <script type="text/javascript" src="../../static/js/mal-util.js" th:src="@{/js/mal-util.js}"></script>
+    </head>
+</html>

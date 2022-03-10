@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragment/head::common-head}"></div>
+    <style>
+        .h2 {
+            font-family: "MaruBuri", Serif;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white text-center">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div th:replace="~{fragment/body::common-header}"></div>
+<div class="h2 mt-3" th:text="${team.name}"></div>
+    <table class="table text-white max-md">
+        <thead>
+            <th>ID</th>
+            <th>이름</th>
+            <th>역할</th>
+            <th>날짜</th>
+        </thead>
+        <tr th:each="lottery : ${lotteryList}" th:onclick="'window.open(\'/team/lottery/result/' + ${lottery.id} + '\')'">
+            <td th:text="${lottery.id}">id</td>
+            <td th:text="${lottery.name}">name</td>
+            <td th:text="${lottery.role.name}">role name</td>
+            <td th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy/MM/dd')}">날짜</td>
+        </tr>
+    </table>
+    <div class="text-center">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" th:href="@{/team/lottery/history(page=${firstCount - 1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="page : ${#numbers.sequence(firstCount, lastCount)}">
+                <a class="page-link" href="#" th:href="@{/team/lottery/history(page=${page})}"
+                   th:classappend="${page == currentPage ? 'fw-bold' : ''}" th:text="${page + 1}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" th:href="@{/team/lottery/history(page=${lastCount + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

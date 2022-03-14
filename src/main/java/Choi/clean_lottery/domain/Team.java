@@ -57,6 +57,11 @@ public class Team {
         this.createDateTime = LocalDateTime.now();
     }
 
+    @PostLoad
+    private void postLoad() {
+        this.updateCurrentRole();
+    }
+
     public void addMember(Member member) {
         member.changeTeam(this);
     }
@@ -91,15 +96,22 @@ public class Team {
         return roles;
     }
 
-    public Role updateCurrentRole() {
-        RoleState roleState = currentRole.getRoleState(LocalDate.now());
+    public Role updateCurrentRole(LocalDate time) {
+        if (currentRole == null) {
+            return null;
+        }
+        RoleState roleState = currentRole.getRoleState(time);
         while (roleState == RoleState.ALREADY_CHANGED) {
             LocalDate changeDate = currentRole.getStartDate().plusDays(currentRole.getDuration());
             currentRole = currentRole.getNextRole();
             currentRole.setStartDate(changeDate);
-            roleState = currentRole.getRoleState(LocalDate.now());
+            roleState = currentRole.getRoleState(time);
         }
         return currentRole;
+    }
+
+    public Role updateCurrentRole() {
+        return updateCurrentRole(LocalDate.now());
     }
 
     public void addRole(Role role) {

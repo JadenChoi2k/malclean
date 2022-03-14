@@ -43,7 +43,7 @@ public class TeamRepository {
     }
 
     public List<Team> findAll() {
-        return em.createQuery("select t from Team t").
+        return em.createQuery("select t from Team t", Team.class).
                 getResultList();
     }
 }

@@ -87,34 +87,28 @@ public class Lottery {
 
         Random random = new Random();
         lastRoleDateTime = LocalDateTime.now();
+        // 뽑기 시작
         for (int i = 0; i < pick.size(); i++) {
+            Member next;
             // 만약 구역 수가 참가자 수를 넘어서기 시작하면.
             if (i >= partinSize) {
-                int minCount = Integer.MAX_VALUE;
-                int minDifficulty = Integer.MAX_VALUE;
-                Member next = new Member();
+                // 난이도의 합이 가장 작은 사람부터 넣어준다.
+                int minDifficultySum = Integer.MAX_VALUE;
+                next = new Member();
                 for (Map.Entry<Member, List<Area>> entry : participantsMap.entrySet()) {
-                    int size = entry.getValue().size();
-                    if (size < minCount && !entry.getValue().contains(pick.get(i))) {
+                    int pickedMinDifficultySum = entry.getValue().stream().map(Area::getDifficulty).mapToInt(a -> a).sum();
+                    if (pickedMinDifficultySum < minDifficultySum) {
                         next = entry.getKey();
-                        minCount = size;
-                    }
-                    if (size == minCount && !entry.getValue().contains(pick.get(i))) {
-                        int pickedMinDifficulty = entry.getValue().stream().map(Area::getDifficulty).mapToInt(a -> a).min().getAsInt();
-                        if (pickedMinDifficulty < minDifficulty) {
-                            next = entry.getKey();
-                            minDifficulty = pickedMinDifficulty;
-                        }
+                        minDifficultySum = pickedMinDifficultySum;
                     }
                 }
-                participantsMap.get(next).add(pick.get(i));
             } else {
-                Member next = participants.get(random.nextInt(partinSize));
+                next = participants.get(random.nextInt(partinSize));
                 while (!participantsMap.get(next).isEmpty()) {
                     next = participants.get(random.nextInt(partinSize));
                 }
-                participantsMap.get(next).add(pick.get(i));
             }
+            participantsMap.get(next).add(pick.get(i));
         }
         for (Map.Entry<Member, List<Area>> entry : participantsMap.entrySet()) {
             Member member = entry.getKey();

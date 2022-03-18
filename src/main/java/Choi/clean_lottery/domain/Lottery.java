@@ -92,10 +92,14 @@ public class Lottery {
             Member next;
             // 만약 구역 수가 참가자 수를 넘어서기 시작하면.
             if (i >= partinSize) {
-                // 난이도의 합이 가장 작은 사람부터 넣어준다.
+                // 난이도의 합이 가장 작고 해당 역할이 없는 사람부터 넣어준다.
                 int minDifficultySum = Integer.MAX_VALUE;
                 next = new Member();
                 for (Map.Entry<Member, List<Area>> entry : participantsMap.entrySet()) {
+                    // 해당 역할이 이미 있으면 패스.
+                    if (entry.getValue().contains(pick.get(i))) {
+                        continue;
+                    }
                     int pickedMinDifficultySum = entry.getValue().stream().map(Area::getDifficulty).mapToInt(a -> a).sum();
                     if (pickedMinDifficultySum < minDifficultySum) {
                         next = entry.getKey();

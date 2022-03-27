@@ -37,7 +37,7 @@ public class RoleRepository {
 
     public List<Role> findRolesByTeam(Team team) {
         team = em.merge(team);
-        return team.getRolesBySequence();
+        return team.getRoles();
     }
 
     public List<Role> findRolesByTeamId(Long teamId) {
@@ -45,14 +45,14 @@ public class RoleRepository {
 //                .setParameter("teamId", teamId)
 //                .getResultList();
         Team team = em.find(Team.class, teamId);
-        return team.getRolesBySequence();
+        return team.getRoles();
     }
 
     public void delete(Role role) {
         role = em.merge(role);
-        role.getTeam().setCurrentRole(role.getNextRole());
-        role.getPrevRole().setNext(role.getNextRole());
-        role.getNextRole().setPrev(role.getPrevRole());
+        if (role.getTeam().getCurrentRole() == role) {
+            role.getTeam().setCurrentRole(null);
+        }
         em.remove(role);
     }
 }

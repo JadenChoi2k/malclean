@@ -102,10 +102,10 @@ class LotteryTest {
         }
         // when
         List<LotteryResult> lotteryResults = lottery.drawLottery(pick);
-        for (LotteryResult lotteryResult : lotteryResults) {
-            System.out.print(lotteryResult.getMember().getName());
-            System.out.println(" -> " + lotteryResult.getArea().getName() + " " + lotteryResult.getArea().getDifficulty());
-        }
+//        for (LotteryResult lotteryResult : lotteryResults) {
+//            System.out.print(lotteryResult.getMember().getName());
+//            System.out.println(" -> " + lotteryResult.getArea().getName() + " " + lotteryResult.getArea().getDifficulty());
+//        }
         Map<Member, List<Area>> resultMap = lottery.getParticipantsMap();
         // then
         int maxCount = Integer.MIN_VALUE;

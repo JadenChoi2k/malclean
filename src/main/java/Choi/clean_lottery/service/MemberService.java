@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,6 +25,11 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findOne(Long memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findWithTeam(Long memberId) {
+        return memberRepository.findWithTeam(memberId);
     }
 
     public Member join(Member member) {

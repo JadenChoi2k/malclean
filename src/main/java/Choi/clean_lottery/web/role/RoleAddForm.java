@@ -23,6 +23,7 @@ public class RoleAddForm {
     @NotEmpty
     @Size(min = 1)
     private List<Integer> minimumPeoples;
-    @NotNull
-    private Integer duration;
+    @NotEmpty
+    @Size(min = 1)
+    private List<Boolean> changeable;
 }

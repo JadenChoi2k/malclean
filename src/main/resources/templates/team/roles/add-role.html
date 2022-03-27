@@ -27,57 +27,58 @@
             <div class="field-error col" th:errors="*{areaNames}">구역 오류</div>
             <div th:each="area:*{areaNames}">
                 <div class="input-group main-area-input mb-2">
-                    <input type="text" class="form-control" placeholder="구역 이름" name="areaNames"
-                           th:value="${area}">
-                    <select class="form-select form-select-sm" name="difficulties">
-                        <option selected>난이도</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="7">8</option>
-                        <option value="7">9</option>
-                        <option value="7">10</option>
-                    </select>
-                    <select class="form-select form-select-sm" name="minimumPeoples">
-                        <option selected>최소인원</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="7">8</option>
-                        <option value="7">9</option>
-                        <option value="7">10</option>
-                    </select>
-                    <span class="input-group-text">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="구역 이름"
+                               th:value="${area}" name="areaNames">
+                        <span class="input-group-text">
                         <button type="button" class="btn-close" aria-label="Close"></button>
                     </span>
+                    </div>
+                    <div class="input-group border-top-0">
+                        <select class="form-select form-select-sm" name="difficulties">
+                            <option selected>난이도</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <select class="form-select form-select-sm" name="minimumPeoples">
+                            <option selected>최소인원</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <select class="form-select form-select-sm" name="changeable">
+                            <option selected>인수인계</option>
+                            <option value="true">한다</option>
+                            <option value="">하지 않는다.</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="add-section text-center" onclick="addMainAreaInput();">
                 <div class="mt-1">구역 추가</div>
             </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-primary mx-3" type="submit">만들기</button>
+                <button class="btn btn-light mx-3" type="button" onclick="javascript:history.back();">취소</button>
+            </div>
         </div>
-    </div>
-    <div class="row mb-2">
-        <label class="col-form-label col-sm-2" for="duration">지속 기간 (일)</label>
-        <div class="col-sm-10">
-            <input type="number" th:field="*{duration}" id="duration" class="form-control col-sm-10"
-                   step="1" value="1" required>
-            <div class="field-error" th:errors="*{duration}">지속기간 오류</div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-primary mx-3" type="submit">만들기</button>
-        <button class="btn btn-light mx-3" type="button" onclick="javascript:history.back();">취소</button>
     </div>
 </form>
 </body>

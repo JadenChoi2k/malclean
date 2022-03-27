@@ -14,6 +14,9 @@
     <div th:replace="~{fragment/body::common-header}"></div>
     <div th:replace="~{fragment/sidebar::sidebar}"></div>
         <div class="display-2 mt-3" style="font-family: 'MaruBuri', Serif;" th:text="${team.name}">팀 이름</div>
+        <div class="h2" th:if="${team.state} == ${T(Choi.clean_lottery.domain.TeamState).CHANGING_ROLE}">
+            지금은 <a class="text-warning" href="#" th:href="@{team/role-changing}">인수인계</a> 중!
+        </div>
         <div class="team-table row max-md">
             <div class="team-member col-6 col-sm-3 text-center p-0" th:each="member:${members}">
                 <img class="profile-image" th:src="${member.profile_url}">

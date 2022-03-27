@@ -45,13 +45,14 @@ public class RoleController {
         if (team == null)
             return "redirect:/";
         List<RoleDto> roles = team.getRoles();
-        if(!roles.isEmpty()) model.addAttribute("currentRole", roles.get(0));
+        if(!roles.isEmpty()) model.addAttribute("currentRole", team.getCurrentRole());
         model.addAttribute("roles", roles);
         model.addAttribute("isManager", isManager);
 
         return "team/roles/role-home";
     }
 
+    // RoleApiController로 옮겨질 예정
     @GetMapping("/{roleId}")
     @ResponseBody
     public Map<String, Object> getRole(@PathVariable Long roleId) {
@@ -62,7 +63,6 @@ public class RoleController {
             json.put("name", role.getName());
             json.put("area", role.getAreas().toArray());
             json.put("startDate", role.getStartDate());
-            json.put("duration", role.getDuration());
         } else {
             json.put("error", 404);
             json.put("msg", "not found");
@@ -179,6 +179,7 @@ public class RoleController {
                           @Validated @ModelAttribute("addForm") RoleAddForm form,
                           BindingResult bindingResult) {
         boolean isManager = malUtility.isManager(request);
+        log.info("roleAddForm = {}", form.toString());
         if (!isManager) {
             bindingResult.reject("unauthorized.manager");
         }
@@ -190,10 +191,9 @@ public class RoleController {
         if (bindingResult.hasErrors()) {
             return "team/roles/add-role";
         }
-        // TODO DB에 반영하기
         TeamDto team = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
         roleService.createRole(form.getName(), team.getId(), form.getAreaNames(),
-                form.getDifficulties(), form.getMinimumPeoples(), form.getDuration());
+                form.getDifficulties(), form.getMinimumPeoples(), form.getChangeable());
         return "redirect:/team/roles/change-roles";
     }
 

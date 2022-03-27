@@ -77,7 +77,7 @@ public class KakaoApiHelper {
         Map<String, String> params = new HashMap<>();
         params.put("grant_type", "authorization_code");
         params.put("client_id", KakaoAppConst.REST_API_KEY);
-        params.put("redirect_uri", redirectURI + "/member/join-pass");
+        params.put("redirect_uri", redirectURI);
         params.put("code", code);
         String tokenInfoJson = request(HttpMethodType.POST, OAUTH_TOKEN_PATH, mapToParams(params));
         return KakaoTokenInfo.fromJson(tokenInfoJson);

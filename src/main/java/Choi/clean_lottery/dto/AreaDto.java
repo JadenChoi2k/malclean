@@ -9,11 +9,13 @@ public class AreaDto {
     private String name;
     private Integer difficulty;
     private Integer minimumPeople;
+    private Boolean changeable;
 
     public AreaDto(Area area) {
         id = area.getId();
         name = area.getName();
         difficulty = area.getDifficulty();
         minimumPeople = area.getMinimumPeople();
+        changeable = area.getChangeable();
     }
 }

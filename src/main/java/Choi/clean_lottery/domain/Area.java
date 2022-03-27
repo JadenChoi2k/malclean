@@ -1,12 +1,14 @@
 package Choi.clean_lottery.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Area {
     @Id
     @GeneratedValue
@@ -32,13 +34,20 @@ public class Area {
     @Setter
     private Integer minimumPeople;
 
-    public Area() {
-    }
+    // 인수인계에서 해당하는 역할인지 여부.
+    @Column
+    @Setter
+    private Boolean changeable;
 
     public Area(Role role, String name, Integer difficulty, Integer minimumPeople) {
+        this(role, name, difficulty, minimumPeople, true);
+    }
+
+    public Area(Role role, String name, Integer difficulty, Integer minimumPeople, Boolean changeable) {
         this.role = role;
         this.name = name;
         this.difficulty = difficulty;
         this.minimumPeople = minimumPeople;
+        this.changeable = changeable;
     }
 }

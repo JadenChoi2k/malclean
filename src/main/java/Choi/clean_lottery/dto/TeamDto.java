@@ -1,6 +1,7 @@
 package Choi.clean_lottery.dto;
 
 import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.TeamState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class TeamDto {
     private LocalDateTime createDateTime;
     private RoleDto currentRole;
     private List<RoleDto> roles;
+    private TeamState state;
 
     public TeamDto(Team team) {
         id = team.getId();
@@ -26,7 +28,8 @@ public class TeamDto {
         if (team.getCurrentRole() != null) {
             currentRole = new RoleDto(team.getCurrentRole());
         }
-        roles = team.getRolesBySequence().stream().map(RoleDto::new).collect(Collectors.toList());
+        roles = team.getRoles().stream().map(RoleDto::new).collect(Collectors.toList());
+        state = team.getState();
     }
 
     public boolean isRoleOf(Long roleId) {

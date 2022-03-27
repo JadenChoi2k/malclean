@@ -80,7 +80,8 @@ public class AreaApiController {
             return malUtility.createErrorResponse("404 not found", "team has no role for request", 404);
         }
         Role role = roleRepository.findById(areaAddForm.getRoleId());
-        Area addArea = new Area(role, areaAddForm.getName(), areaAddForm.getDifficulty(), areaAddForm.getMinimumPeople());
+        Area addArea = new Area(role, areaAddForm.getName(), areaAddForm.getDifficulty(),
+                areaAddForm.getMinimumPeople(), areaAddForm.getChangeable());
         areaRepository.save(addArea);
         return malUtility.createResultResponse("201 createed", "area", new AreaDto(addArea), 201);
     }
@@ -108,6 +109,7 @@ public class AreaApiController {
         _area.setName(areaEditForm.getName());
         _area.setDifficulty(areaEditForm.getDifficulty());
         _area.setMinimumPeople(areaEditForm.getMinimumPeople());
+        _area.setChangeable(areaEditForm.getChangeable());
         areaRepository.save(_area);
         return malUtility.createResultResponse("area edited", "area", new AreaDto(_area), 200);
     }

@@ -36,7 +36,7 @@ public class RoleService {
     }
 
     public Role createRole(String name, Long teamId, List<String> areas, List<Integer> difficulties,
-                           List<Integer> minimumPeoples,Integer changeDate) {
+                           List<Integer> minimumPeoples, List<Boolean> changeable) {
         Team team = teamRepository.findOne(teamId);
         Role role = new Role(name, team);
 
@@ -47,22 +47,16 @@ public class RoleService {
             if (minimumPeoples.get(i) < 0 || minimumPeoples.get(i) == null) {
                 minimumPeoples.set(i, 0);
             }
-            Area area = new Area(role, areas.get(i), difficulties.get(i), minimumPeoples.get(i));
+            if (changeable.get(i) == null) {
+                changeable.set(i, false);
+            }
+            Area area = new Area(role, areas.get(i), difficulties.get(i), minimumPeoples.get(i), changeable.get(i));
             role.addArea(area);
         }
 
-        role.setDuration(changeDate);
-
-        List<Role> roles = team.getRolesBySequence();
-        if (!roles.isEmpty()) {
-            Role prev = roles.get(roles.size() - 1);
-            Role next = roles.get(0);
-            role.setPrev(prev);
-            prev.setNext(role);
-            role.setNext(next);
-            next.setPrev(role);
+        if (team.getCurrentRole() == null) {
+            team.setCurrentRole(role);
         }
-
         roleRepository.save(role);
         return role;
     }
@@ -73,7 +67,6 @@ public class RoleService {
 
         if (role == null) return;
         if (name != null) role.setName(name);
-        if (changeDate != null && changeDate != 0) role.setDuration(changeDate);
         roleRepository.merge(role);
     }
 
@@ -100,16 +93,7 @@ public class RoleService {
             roles.add(role);
         }
 
-        // 만약 currentRole이 없으면 삽입해준다.
-        // TODO 이는 더 고민해봐야 할 문제다. 맨 처음 lottery를 돌릴 때 currentRole이 없으므로 rolesChangePage로 오게 하나?
-        // 일단 그렇게 하자.
         team.setCurrentRole(roles.get(0));
-
-        // 순서를 삽입해준다.
-        for (int i = 0; i < roles.size(); i++) {
-            roles.get(i).setNext(roles.get((i + 1) % roles.size()));
-            roles.get(i).setPrev(roles.get((i - 1 + roles.size()) % roles.size()));
-        }
     }
 
     public void delete(Role role) {

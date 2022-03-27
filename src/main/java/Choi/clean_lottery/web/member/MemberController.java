@@ -49,16 +49,19 @@ public class MemberController {
             throws JsonProcessingException {
         KakaoTokenInfo tokenInfo;
         try {
-            String host = new URL(request.getRequestURI()).getHost();
+            String host = request.getRequestURL().toString();
             tokenInfo = kakaoApiHelper.getTokenByCode(code, host);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
+            log.info("tokenInfo를 받아오던 중 오류가 생겼습니다 {}", e.toString());
             tokenInfo = kakaoApiHelper.getTokenByCode(code);
         }
         if (tokenInfo.hasError()) {
+            log.info("tokenInfo에 에러가 있습니다.");
             return "redirect:/";
         }
         KakaoUserInfo kakaoUserInfo = memberRequestFinder.getKakaoUserInfo(tokenInfo.getAccess_token());
         if (kakaoUserInfo == null || kakaoUserInfo.hasError()) {
+            log.info("kakoUserInfo가 null이거나 kakaoUserInfo에 에러가 있습니다.");
             return "redirect:/";
         }
 

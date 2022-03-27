@@ -28,12 +28,10 @@ public class RoleEditForm {
     public RoleEditForm(Role role) {
         id = role.getId();
         name = role.getName();
-        duration = role.getDuration();
     }
 
     public RoleEditForm(RoleDto role) {
         id = role.getId();
         name = role.getName();
-        duration = role.getDuration();
     }
 }

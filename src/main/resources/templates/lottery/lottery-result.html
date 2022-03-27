@@ -55,7 +55,6 @@
             <div class="d-block w-100 vertical-30">
                 <div class="h-100 mx-2">
                     <div class="h4" th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM월 dd일')}"></div>
-                    <div class="h3" th:if="${role.state} == ${T(Choi.clean_lottery.domain.RoleState).CHANGE_DAY}">오늘은 인수인계입니다.</div>
                     <div class="my-2 text-start text-md-center display-2" th:text="'「' + ${member.name} + '」님은'">
                         「홍길동」님은
                     </div>

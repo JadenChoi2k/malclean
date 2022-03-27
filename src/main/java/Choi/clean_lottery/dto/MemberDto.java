@@ -20,4 +20,17 @@ public class MemberDto {
             isManager = member.getTeam().getManager() == member;
         }
     }
+
+    public MemberDto(Member member, boolean teamLoad) {
+        id = member.getId();
+        name = member.getName();
+        profile_url = member.getProfile_url();
+        if (member.getTeam() != null && teamLoad) {
+            teamName = member.getTeam().getName();
+            isManager = member.getTeam().getManager() == member;
+        } else {
+            teamName = null;
+            isManager = null;
+        }
+    }
 }

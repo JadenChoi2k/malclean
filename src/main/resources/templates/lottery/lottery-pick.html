@@ -11,8 +11,6 @@
         <div class="carousel-item active bg-dark h-100">
             <div class="bg-dark text-white d-block w-100">
                 <h2 class="mt-3" th:text="|오늘은 ${currentRole.name}|">현재 역할 이름</h2>
-                <h3 class="m-3" th:if="${currentRole.state} == ${T(Choi.clean_lottery.domain.RoleState).CHANGE_DAY}">오늘은 인수인계
-                    날입니다.</h3>
                 <div class="m-4">
                     <input class="form-control form-text max-md" type="text" th:value="|${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일')}의 ${currentRole.name} 청소|" id="lottery-name-input">
                 </div>

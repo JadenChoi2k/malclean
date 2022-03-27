@@ -2,7 +2,14 @@ const domParser = new DOMParser();
 
 function getAreaInput() {
     return `<div class="input-group main-area-input mb-2">
+                <div class="input-group">
                     <input type="text" class="form-control" placeholder="구역 이름" name="areaNames">
+                    
+                    <span class="input-group-text">
+                        <button type="button" class="btn-close" aria-label="Close"></button>
+                    </span>
+                </div>
+                <div class="input-group border-top-0">
                     <select class="form-select form-select-sm" name="difficulties">
                         <option selected>난이도</option>
                         <option value="0">0</option>
@@ -13,9 +20,9 @@ function getAreaInput() {
                         <option value="5">5</option>
                         <option value="6">6</option>
                         <option value="7">7</option>
-                        <option value="7">8</option>
-                        <option value="7">9</option>
-                        <option value="7">10</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
                     </select>
                     <select class="form-select form-select-sm" name="minimumPeoples">
                         <option selected>최소인원</option>
@@ -27,14 +34,17 @@ function getAreaInput() {
                         <option value="5">5</option>
                         <option value="6">6</option>
                         <option value="7">7</option>
-                        <option value="7">8</option>
-                        <option value="7">9</option>
-                        <option value="7">10</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
                     </select>
-                    <span class="input-group-text">
-                        <button type="button" class="btn-close" aria-label="Close"></button>
-                    </span>
-                </div>`;
+                    <select class="form-select form-select-sm" name="changeable">
+                        <option selected>인수인계</option>
+                        <option value="true">한다</option>
+                        <option value="">하지 않는다.</option>
+                    </select>
+                </div>
+            </div>`;
 }
 
 function onRemoveClicked(event) {
@@ -48,18 +58,10 @@ function addMainAreaInput() {
     const textInput = domParser.parseFromString(inputText, 'text/html').
                         getElementsByClassName("main-area-input")[0];
     textInput.getElementsByTagName("button")[0].addEventListener('click',
-            event => event.path[2].remove());
-    inputGroup.insertBefore(textInput, addButton);
-}
-
-function addSubAreaInput() {
-    const inputGroup = document.getElementById("sub-area");
-    const addButton = inputGroup.getElementsByClassName("add-section")[0]
-    const inputText = getAreaInput("sub", "보조 구역 입력");
-    const textInput = domParser.parseFromString(inputText, 'text/html').
-                        getElementsByClassName("sub-area-input")[0]
-    textInput.getElementsByTagName("button")[0].addEventListener('click',
-        event => event.path[2].remove());
+            event => {
+                event.path[2].remove();
+                event.path[3].remove();
+            });
     inputGroup.insertBefore(textInput, addButton);
 }
 

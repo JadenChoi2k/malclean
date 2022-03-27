@@ -9,4 +9,5 @@ public class AreaEditForm {
     private String name;
     private Integer difficulty;
     private Integer minimumPeople;
+    private Boolean changeable;
 }

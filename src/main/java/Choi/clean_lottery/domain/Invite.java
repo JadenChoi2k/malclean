@@ -20,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Invite {
+public class Invite extends BaseTimeEntity {
     @Id
     private String uuid;
     @OneToOne

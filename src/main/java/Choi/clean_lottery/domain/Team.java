@@ -31,6 +31,12 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Member> members = new ArrayList<>();
 
+    // 팀의 상태
+    @Enumerated(EnumType.STRING)
+    @Column(name = "team_state")
+    @Setter
+    private TeamState state = TeamState.ON;
+
     // 팀이 만들어진 날짜
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDateTime;
@@ -57,11 +63,6 @@ public class Team {
         this.createDateTime = LocalDateTime.now();
     }
 
-    @PostLoad
-    private void postLoad() {
-        this.updateCurrentRole();
-    }
-
     public void addMember(Member member) {
         member.changeTeam(this);
     }
@@ -74,44 +75,22 @@ public class Team {
         member.getOutOfTeam();
     }
 
-    // 현재 역할부터 순서대로 역할을 받아온다.
-    // 주의점... 역할이 currentRole을 시작점과 끝점으로 지정할 수 있는 닫힌 구간이 있어야 한다.
-    // 무한 루프 방지를 위해 사이즈 제약을 걸었다. 더 나은 방법이 있기를 바란다. TODO
-    public List<Role> getRolesBySequence() {
-        // 만약 현재 역할이 없으면 roles 반환.
-        if (currentRole == null) return getRoles();
-
-        int maxSize = this.roles.size();
-        Role nextRole = updateCurrentRole().getNextRole();
-        List<Role> roles = new ArrayList<>();
-        roles.add(currentRole);
-        while (nextRole != null && !nextRole.getId().equals(currentRole.getId())) {
-            roles.add(nextRole);
-            nextRole = nextRole.getNextRole();
-            if (roles.size() > maxSize) {
-                System.out.println("아마도 무한루프?");
-                break;
-            }
-        }
-        return roles;
+    public void startRoleChanging() {
+        this.state = TeamState.CHANGING_ROLE;
     }
 
-    public Role updateCurrentRole(LocalDate time) {
-        if (currentRole == null) {
-            return null;
-        }
-        RoleState roleState = currentRole.getRoleState(time);
-        while (roleState == RoleState.ALREADY_CHANGED) {
-            LocalDate changeDate = currentRole.getStartDate().plusDays(currentRole.getDuration());
-            currentRole = currentRole.getNextRole();
-            currentRole.setStartDate(changeDate);
-            roleState = currentRole.getRoleState(time);
-        }
-        return currentRole;
+    public void endRoleChanging() {
+        this.state = TeamState.ON;
     }
 
-    public Role updateCurrentRole() {
-        return updateCurrentRole(LocalDate.now());
+    public Role updateCurrentRole(Role role, LocalDate time) {
+        this.currentRole = role;
+        role.setStartDate(time);
+        return this.currentRole;
+    }
+
+    public Role updateCurrentRole(Role role) {
+        return updateCurrentRole(role, LocalDate.now());
     }
 
     public void addRole(Role role) {
@@ -123,12 +102,6 @@ public class Team {
 
     // 이렇게 관계를 해제하고 나면 리포지토리에서 역할을 지워줘야 한다.
     public void subRole(Role role) {
-        Role prev = role.getPrevRole();
-        Role next = role.getNextRole();
-        if (prev != null && next != null) {
-            prev.setNext(next);
-            next.setPrev(prev);
-        }
         roles.remove(role);
     }
 

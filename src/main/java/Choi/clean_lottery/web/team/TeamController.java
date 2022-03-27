@@ -1,9 +1,12 @@
 package Choi.clean_lottery.web.team;
 
+import Choi.clean_lottery.domain.ChangeRoleTable;
 import Choi.clean_lottery.domain.Member;
 import Choi.clean_lottery.dto.MemberDto;
 import Choi.clean_lottery.dto.TeamDto;
+import Choi.clean_lottery.repository.ChangeRoleTableRepository;
 import Choi.clean_lottery.service.MemberService;
+import Choi.clean_lottery.service.RoleService;
 import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
@@ -13,10 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,6 +32,8 @@ public class TeamController {
     private final MemberService memberService;
     private final TeamService teamService;
     private final TeamQueryService teamQueryService;
+    private final RoleService roleService;
+    private final ChangeRoleTableRepository changeRoleTableRepository;
     private final MalUtility malUtility;
 
     @GetMapping
@@ -81,6 +83,29 @@ public class TeamController {
         Long memberId = (Long) session.getAttribute(SessionConst.LOGIN_MEMBER);
         teamService.createTeam(memberId, teamForm.getTeamName());
 
+        return "redirect:/team";
+    }
+
+    @GetMapping("/role-changing/start/{roleId}")
+    public String rolesChangingStart(HttpServletRequest request, @PathVariable Long roleId) {
+        /**
+         * 검증
+         * 1. 매니저인가?
+         * 2. 구역이 역할 내에 있는가?
+         * 3. 교체하려는 구역이 현재 하고 있는 구역은 아닌가?
+         */
+        boolean isManager = malUtility.isManager(request);
+        if (isManager) {
+            TeamDto team = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
+            if (team.getCurrentRole().getId().equals(roleId)
+                || team.getRoles().stream().filter(r -> r.getId().equals(roleId)).count() != 1L) {
+                return "redirect:/team";
+            }
+            // TODO 역할 교체 테이블 생성 후 페이지 찍어내기.
+            ChangeRoleTable changeRoleTable = changeRoleTableRepository.saveByTeamAndRole(team.getId(), roleId);
+
+            return "redirect:/team/role-changing";
+        }
         return "redirect:/team";
     }
 }

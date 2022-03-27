@@ -1,0 +1,244 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    <div th:replace="~{fragment/head::common-head}"></div>-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{common.title}">말년청소</title>
+    <!-- import css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="../../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/sidebar.css}" href="../../../static/css/sidebar.css" rel="stylesheet">
+    <link th:href="@{/css/common.css}" href="../../../static/css/common.css" rel="stylesheet">
+    <script type="text/javascript" src="../../../static/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <!-- download font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css" rel="stylesheet">
+    <!-- kakao javascript api -->
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js" ></script>
+    <script type="text/javascript" src="../../../static/js/kakao-util.js" th:src="@{/js/kakao-util.js}"></script>
+    <!-- javascript util -->
+    <script type="text/javascript" src="../../../static/js/mal-util.js" th:src="@{/js/mal-util.js}"></script>
+
+    <style>
+        h2 {
+            font-family: "LeferiPoint-WhiteObliqueA", Serif;
+        }
+
+        main {
+            font-family: "MaruBuri", Serif;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .not-yet {
+            color: #ffc720;
+        }
+
+        .in-progress {
+            color: ivory;
+        }
+
+        .completed {
+            color: lightgreen;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white">
+<div th:replace="~{fragment/sidebar::sidebar}"></div>
+<div th:replace="~{fragment/body::common-header}"></div>
+<main class="text-center mx-auto max-sm">
+    <input type="hidden" th:value="${memberId}" id="my-member-id">
+    <h2>인수인계</h2>
+    <th:block th:switch="${changeTable.state}">
+        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.ChangeRoleState).IN_PROCESS}">진행 중입니다</h3>
+        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.ChangeRoleState).DONE}">인수인계 완료</h3>
+    </th:block>
+    <hr>
+    <h3 th:text="'주는 역할 - ' + ${givingRole.name}">주는 역할</h3>
+    <table class="table table-dark table-borderless w-100">
+        <thead>
+        <th>구역</th>
+        <th>상태</th>
+        <th>담당</th>
+        </thead>
+        <tr th:each="giveCard: ${changeTable.givingCardList}" th:id="'area$$' + ${giveCard.id}">
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <hr>
+    <h3 th:text="'받는 역할 - ' + ${receivingRole.name}">받는 역할</h3>
+    <table class="table table-dark table-borderless">
+        <thead>
+        <th>구역</th>
+        <th>상태</th>
+        <th>담당</th>
+        </thead>
+        <tr th:each="receiveCard: ${changeTable.receivingCardList}" th:id="'area$$' + ${receiveCard.id}">
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <button th:if="${isManager}" class="btn btn-warning mb-4" onclick="if (confirm('인수인계를 모두 마치겠습니까?')) completeTable();">인수인계 완료</button>
+</main>
+<script type="text/javascript">
+    const myMemberId = document.getElementById('my-member-id').value;
+    const pathName = new URL(location.href).pathname
+    const tableId = parseInt(pathName.substring(pathName.lastIndexOf('/') + 1));
+    const domParser = new DOMParser();
+    const stateMap = {
+        "YET": {
+            className:"not-yet",
+            stateName:"인수인계 전"
+        },
+        "IN_PROCESS": {
+            className:"in-progress",
+            stateName:"진행 중"
+        },
+        "DONE": {
+            className:"completed",
+            stateName:"완료"
+        }
+    }
+
+    updateFromServer();
+    setInterval(updateFromServer, 3000);
+
+    function updateFromServer() {
+        fetch(`/team/role-changing/api/${tableId}`, {
+            method: 'GET'
+        }).then(response => response.json())
+        .then(data => {
+            if (data.code === 200) {
+                if (data.data.state === "DONE") {
+                    document.getElementById('table-state').innerText = '인수인계 완료!';
+                }
+                for (let areaCard of data.data.givingCardList) {
+                    updateRowByAreaCard(areaCard);
+                }
+                for (let areaCard of data.data.receivingCardList) {
+                    updateRowByAreaCard(areaCard);
+                }
+            }
+        })
+    }
+
+    // areaCard {id, areaName, changer, state}
+    // state : YET, IN_PROCESS, DONE
+    function updateRowByAreaCard(areaCard) {
+        const row = document.getElementById(`area$$${areaCard.id}`);
+        if (!row) {
+            return;
+        }
+        const prevStateName = row.children[1].innerText;
+        row.children[0].innerText = areaCard.areaName;
+        row.children[1].class = stateMap[areaCard.state].className;
+        row.children[1].innerText = stateMap[areaCard.state].stateName;
+        // 상태 변화가 없으면 여기서 리턴.
+        if (prevStateName == row.children[1].innerText) {
+            return;
+        }
+        // changer {id, name, profile_url}
+        while (row.children[2].hasChildNodes()) {
+            row.children[2].removeChild(row.children[2].lastChild);
+        }
+        let changer = null;
+        if (areaCard.changer) {
+            changer = areaCard.changer;
+            if (changer.id == parseInt(myMemberId) && areaCard.state != "DONE") {
+                const buttonGroup = domParser.parseFromString(`<div class="button-group">
+                <button class="btn btn-outline-warning m-1" onclick="completeArea(${areaCard.id})">완료</button>
+                <button class="btn btn-outline-light m-1" onclick="cancelArea(${areaCard.id})">취소</button></div>`, 'text/html');
+                for (let elem of buttonGroup.getElementsByClassName('button-group')) {
+                    row.children[2].appendChild(elem);
+                }
+            } else {
+                const profileGroup = domParser.parseFromString(`<div class="profile-group">
+                <img src="${changer.profile_url}"><span class="m-1">${changer.name}</span></div>`, 'text/html');
+                for (let elem of profileGroup.getElementsByClassName('profile-group')) {
+                    row.children[2].appendChild(elem);
+                }
+            }
+        } else {
+            const takePartInButton = domParser.parseFromString(`<button class="btn btn-outline-light" onclick="takePartInArea(${areaCard.id})">내가 맡기</button>`, 'text/html')
+            row.children[2].appendChild(takePartInButton.getElementsByTagName('button')[0]);
+        }
+    }
+
+    function takePartInArea(areaCardId) {
+        if (confirm('이 구역을 인수인계하시겠습니까?')) {
+            fetch(`/team/role-changing/api/${tableId}/${areaCardId}/get`, {
+                method: 'GET'
+            }).then(response => response.json())
+            .then(data => {
+                if (data.code != 200) {
+                    console.log(JSON.stringify(data));
+                    alert('오류가 발생했습니다. ' + data.msg);
+                    return;
+                }
+                updateFromServer();
+                alert('등록 완료');
+            });
+        }
+    }
+
+    function cancelArea(areaCardId) {
+        if (confirm('맡은 구역을 취소하시겠습니까?')) {
+            fetch(`/team/role-changing/api/${tableId}/${areaCardId}/cancel`, {
+                method: 'GET'
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.code != 200) {
+                        alert('오류가 발생했습니다. ' + data.msg);
+                        return;
+                    }
+                    updateFromServer();
+                    alert('취소 완료');
+                });
+        }
+    }
+
+    function completeArea(areaCardId) {
+        if (confirm('인수인계가 완료되었습니까?')) {
+            fetch(`/team/role-changing/api/${tableId}/${areaCardId}/done`, {
+                method: 'GET'
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.code != 200) {
+                        alert('오류가 발생했습니다. ' + data.msg);
+                        return;
+                    }
+                    updateFromServer();
+                    alert('완료!');
+                });
+        }
+    }
+
+    function completeTable() {
+        fetch(`/team/role-changing/api/${tableId}/complete`, {
+            method:'GET'
+        }).then(response => response.json())
+        .then(data => {
+            if (data.code === 200) {
+                alert('인수인계가 모두 완료되었습니다!');
+            } else {
+                alert('인수인계가 완료되지 못했습니다.');
+            }
+        })
+    }
+</script>
+</body>
+</html>

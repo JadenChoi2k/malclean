@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+        url: jdbc:h2:tcp://localhost/~/cleanlottery
+        username: sa
+        password:
+        driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        show-sql: true
+        format-sql: true
+
+  messages:
+    basename: errors, messages
+
+logging:
+  #  level: debug
+  file:
+    path: /Logs/spring-boot.log
+  level:
+    root: info
+    me.choi.clean: debug
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: debug
+  logback:
+    rollingpolicy:
+      max-file-size: 500MB
+      max-history: 10
+#  org.hibernate.SQL: debug

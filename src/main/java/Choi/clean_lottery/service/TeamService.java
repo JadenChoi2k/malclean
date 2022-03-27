@@ -28,6 +28,10 @@ public class TeamService {
         return teamRepository.findOne(teamId);
     }
 
+    public void save(Team team) {
+        teamRepository.save(team);
+    }
+
     public List<Member> findMembersByTeamId(Long teamId) {
         return teamRepository.findMembers(teamId);
     }

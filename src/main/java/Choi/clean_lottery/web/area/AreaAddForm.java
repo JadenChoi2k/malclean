@@ -8,4 +8,5 @@ public class AreaAddForm {
     private String name;
     private Integer difficulty;
     private Integer minimumPeople;
+    private Boolean changeable;
 }

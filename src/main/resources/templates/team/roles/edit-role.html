@@ -70,6 +70,8 @@
                     <label class="col-12 col-sm-3 col-form-label" for="add-area-minimumPeople-range">최소인원 <span id="add-area-minimumPeople-range-value">0</span></label>
                     <input type="range" id="add-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10"
                            onchange="document.getElementById('add-area-minimumPeople-range-value').innerText=this.value" value="0">
+                    <label class="col-12 col-sm-6 col-form-label" for="add-area-changeable">인수인계 여부</label>
+                    <input type="checkbox" id="add-area-changeable" class="col-12 col-sm-6 form-check px-3" checked="true">
                 </div>
             </div>
             <div class="modal-footer">
@@ -96,6 +98,8 @@
                     <label class="col-12 col-sm-3 col-form-label" for="edit-area-minimumPeople-range">최소인원 <span id="edit-area-minimumPeople-range-value">0</span></label>
                     <input type="range" id="edit-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10" value="0"
                            onchange="document.getElementById('edit-area-minimumPeople-range-value').innerText=this.value">
+                    <label class="col-12 col-sm-6 col-form-label" for="edit-area-changeable">인수인계 여부</label>
+                    <input type="checkbox" id="edit-area-changeable" class="col-12 col-sm-6 form-check px-3">
                 </div>
             </div>
             <div class="modal-footer">
@@ -113,6 +117,7 @@
         const name = document.getElementById('add-area-name').value;
         const difficulty = document.getElementById('add-area-difficulty-range').value;
         const minimumPeople = document.getElementById('add-area-minimumPeople-range').value;
+        const changeable = document.getElementById('add-area-changeable').checked;
         if (!name || !difficulty || !minimumPeople) {
             alert('양식을 다 채워주세요.');
         }
@@ -120,6 +125,7 @@
             name: name,
             difficulty: difficulty,
             minimumPeople: minimumPeople,
+            changeable: changeable
         });
         addModal.hide();
     }
@@ -133,8 +139,11 @@
             }
             document.getElementById('edit-area-id').value = area.id;
             document.getElementById('edit-area-name').value = area.name;
-            document.getElementById('edit-area-difficulty-range').value = area.difficulty;
-            document.getElementById('edit-area-minimumPeople-range').value = area.minimumPeople;
+            document.getElementById('edit-area-difficulty-range').value =
+            document.getElementById('edit-area-difficulty-range-value').innerText = area.difficulty
+            document.getElementById('edit-area-minimumPeople-range').value =
+            document.getElementById('edit-area-minimumPeople-range-value').innerText = area.minimumPeople;
+            document.getElementById('edit-area-changeable').checked = area.changeable;
             editModal.show();
         })
     }
@@ -144,6 +153,7 @@
         const name = document.getElementById('edit-area-name').value;
         const difficulty = document.getElementById('edit-area-difficulty-range').value;
         const minimumPeople = document.getElementById('edit-area-minimumPeople-range').value;
+        const changeable = document.getElementById('edit-area-changeable').checked;
         if (!areaId || !name || !difficulty || !minimumPeople) {
             alert('양식을 다 채워주세요.');
         }
@@ -152,6 +162,7 @@
             name: name,
             difficulty: difficulty,
             minimumPeople: minimumPeople,
+            changeable: changeable
         });
         editModal.hide();
     }

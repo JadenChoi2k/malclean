@@ -123,6 +123,8 @@ public class Lottery {
         return results;
     }
 
+    // deprecated : 다시 뽑을 일이 없다.
+    @Deprecated
     public List<LotteryResult> redrawLottery(List<Member> participants, Role role, List<Area> pick) throws IllegalArgumentException {
         setParticipantsAndValidate(participants);
         setRoleAndValidate(role);

@@ -5,7 +5,6 @@ import Choi.clean_lottery.domain.Role;
 import Choi.clean_lottery.dto.AreaDto;
 import Choi.clean_lottery.dto.RoleDto;
 import Choi.clean_lottery.dto.TeamDto;
-import Choi.clean_lottery.repository.AreaLotteryResultRepository;
 import Choi.clean_lottery.repository.AreaRepository;
 import Choi.clean_lottery.repository.RoleRepository;
 import Choi.clean_lottery.service.query.TeamQueryService;
@@ -25,7 +24,6 @@ public class AreaApiController {
 
     private final RoleRepository roleRepository;
     private final AreaRepository areaRepository;
-    private final AreaLotteryResultRepository areaLotteryResultRepository;
     private final TeamQueryService teamQueryService;
     private final MalUtility malUtility;
 
@@ -64,7 +62,7 @@ public class AreaApiController {
         if (!hasAreaInRoles) {
             return malUtility.createErrorResponse("404 not found", "area not exist in team", 404);
         }
-        areaLotteryResultRepository.deleteById(areaId);
+        areaRepository.deleteAreaCascadeById(areaId);
         return malUtility.createResultResponse("success", null, null, 200);
     }
 

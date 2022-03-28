@@ -87,6 +87,7 @@ function partinMembersAnimate() {
     setTimeout(() => {
         for (let member of members) {
             member.style.animationPlayState = 'paused';
+            member.style.width = '0';
         }
     }, 3450);
 }

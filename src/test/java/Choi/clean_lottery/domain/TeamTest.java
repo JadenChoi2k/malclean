@@ -35,33 +35,7 @@ public class TeamTest {
         team.addRole(role2);
         team.addRole(role3);
         team.setCurrentRole(role1);
-        role1.setNext(role2);
-        role2.setNext(role3);
-        role3.setNext(role1);
         return team;
-    }
-
-    @Test
-    public void 순서대로_역할받기() throws Exception {
-        // given
-        Team team = testHelper.createTeam();
-        Role role1 = new Role(1L, "role1", team);
-        Role role2 = new Role(2L, "role2", team);
-        Role role3 = new Role(3L, "role3", team);
-        team.addRole(role1);
-        team.addRole(role2);
-        team.addRole(role3);
-        team.setCurrentRole(role1);
-        // when
-        List<Role> rolesBySequence1 = team.getRolesBySequence();
-        role1.setNext(role2);
-        role2.setNext(role3);
-        role3.setNext(role1);
-        List<Role> rolesBySequence2 = team.getRolesBySequence();
-        // then
-        assertEquals(1, rolesBySequence1.size());
-        assertEquals(3, team.getRoles().size());
-        assertEquals(3, rolesBySequence2.size());
     }
 
     @Test
@@ -69,24 +43,17 @@ public class TeamTest {
         // given
         Team team = getTeamWithRoles();
         Role currentRole = team.getCurrentRole();
-        Role nextRole = currentRole.getNextRole();
-        List<Role> rolesBySequence = team.getRolesBySequence();
+        List<Role> roles = team.getRoles();
         // when
-        currentRole.setStartDate(LocalDate.now().minusDays(14));
-        currentRole.setDuration(14);
-        Role updateCurrentRole = team.updateCurrentRole();
-        Role lastRole = team.getRolesBySequence().get(rolesBySequence.size() - 1);
+        Role updateCurrentRole = team.updateCurrentRole(currentRole);
         // then
-        assertEquals(updateCurrentRole.getId(), nextRole.getId());
-        assertEquals(lastRole.getId(), currentRole.getId());
+        assertEquals(currentRole, updateCurrentRole);
     }
 
     @Test
     public void 인수인계() throws Exception {
         // given
-        Team team = getTeamWithRoles();
         // when
-        team.updateCurrentRole();
         // then
     }
 }

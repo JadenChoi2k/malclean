@@ -99,6 +99,7 @@ public class RoleController {
         return form;
     }
 
+    // TODO : changeSequence 없애고, role의 startDate랑 team의 currentRole만 바꾸도록 한다.
     @PostMapping("/change-roles")
     public String changeRoles(HttpServletRequest request,
                               @Validated @ModelAttribute("changeForm") RolesChangeForm form,
@@ -163,7 +164,7 @@ public class RoleController {
         if (bindingResult.hasErrors()) {
             return "team/roles/edit-role";
         }
-        roleService.editRole(editForm.getId(), editForm.getName(), editForm.getDuration());
+        roleService.editRole(editForm.getId(), editForm.getName());
         return "redirect:/team/roles";
     }
 

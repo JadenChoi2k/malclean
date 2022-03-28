@@ -32,6 +32,10 @@ public class TeamService {
         teamRepository.save(team);
     }
 
+    public void merge(Team team) {
+        teamRepository.merge(team);
+    }
+
     public List<Member> findMembersByTeamId(Long teamId) {
         return teamRepository.findMembers(teamId);
     }

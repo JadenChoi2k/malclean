@@ -20,8 +20,6 @@ public class RoleEditForm {
     @NotNull
     @Length(min = 1, max = 16)
     private String name;
-    @NotNull
-    private Integer duration;
 
     public RoleEditForm() {}
 

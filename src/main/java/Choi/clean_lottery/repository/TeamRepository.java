@@ -18,6 +18,10 @@ public class TeamRepository {
         em.persist(team);
     }
 
+    public void merge(Team team) {
+        em.merge(team);
+    }
+
     public Team findOne(Long teamId) {
         return em.find(Team.class, teamId);
     }

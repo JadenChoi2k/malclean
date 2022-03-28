@@ -24,29 +24,22 @@
     </div>
     <div class="row mb-2">
         <div class="text-center"><h2>구역 목록</h2></div>
-        <div class="row">
-            <div class="row col-12 col-sm-6 mt-2" th:id="'area$$' + ${area.id}" th:each="area: ${areas}">
-                <div class="col-6" th:text="${area.name}">구역이름</div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-sm btn-outline-warning"
-                            th:onclick="|openEditAreaModal(${area.id})|">
-                        수정</button>
-                </div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-sm btn-outline-danger" th:onclick="|deleteArea(${area.id})|">삭제</button>
-                </div>
-            </div>
-        </div>
-        <div class="text-center mt-3 p-0">
-            <button type="button" class="btn btn-lg btn-outline-primary" onclick="addModal.show();">구역 추가</button>
-        </div>
-    </div>
-    <div class="row mb-2">
-        <label class="col-form-label col-sm-2" for="duration">지속 기간 (일)</label>
-        <div class="field-error" th:errors="*{duration}">지속기간 오류</div>
-        <div class="col-sm-10">
-            <input type="number" th:field="*{duration}" id="duration" class="form-control col-sm-10"
-                   step="1" value="1" required>
+        <table class="table table-dark table-borderless text-center">
+            <thead>
+            <th>이름</th>
+            <th>최소 인원</th>
+            <th>난이도</th>
+            <th>인수인계</th>
+            </thead>
+            <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.id})|" th:id="'area$$' + ${area.id}">
+                <td th:text="${area.name}">이름</td>
+                <td th:text="${area.difficulty}">난이도</td>
+                <td th:text="${area.minimumPeople}">최소 인원</td>
+                <td th:text="${area.changeable}?'✅':''">인수인계</td>
+            </tr>
+        </table>
+        <div class="text-center my-2 p-0">
+            <button type="button" class="btn btn-outline-primary" onclick="addModal.show();">구역 추가</button>
         </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -70,8 +63,8 @@
                     <label class="col-12 col-sm-3 col-form-label" for="add-area-minimumPeople-range">최소인원 <span id="add-area-minimumPeople-range-value">0</span></label>
                     <input type="range" id="add-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10"
                            onchange="document.getElementById('add-area-minimumPeople-range-value').innerText=this.value" value="0">
-                    <label class="col-12 col-sm-6 col-form-label" for="add-area-changeable">인수인계 여부</label>
-                    <input type="checkbox" id="add-area-changeable" class="col-12 col-sm-6 form-check px-3" checked="true">
+                    <label class="col-6 col-form-label" for="add-area-changeable">인수인계 여부</label>
+                    <input type="checkbox" id="add-area-changeable" class="col-6 form-check px-3 mt-2" checked="true">
                 </div>
             </div>
             <div class="modal-footer">
@@ -98,13 +91,14 @@
                     <label class="col-12 col-sm-3 col-form-label" for="edit-area-minimumPeople-range">최소인원 <span id="edit-area-minimumPeople-range-value">0</span></label>
                     <input type="range" id="edit-area-minimumPeople-range" class="col-12 col-sm-9 form-range px-3" step="1" min="0" max="10" value="0"
                            onchange="document.getElementById('edit-area-minimumPeople-range-value').innerText=this.value">
-                    <label class="col-12 col-sm-6 col-form-label" for="edit-area-changeable">인수인계 여부</label>
-                    <input type="checkbox" id="edit-area-changeable" class="col-12 col-sm-6 form-check px-3">
+                    <label class="col-6 col-form-label" for="edit-area-changeable">인수인계 여부</label>
+                    <input type="checkbox" id="edit-area-changeable" class="col-6 form-check px-3">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-warning" onclick="editAreaByModalForm();">수정</button>
+                <button type="button" class="btn btn-danger" onclick="deleteAreaByModalForm();">삭제</button>
             </div>
         </div>
     </div>
@@ -165,6 +159,14 @@
             changeable: changeable
         });
         editModal.hide();
+    }
+
+    function deleteAreaByModalForm() {
+        if (confirm('이 구역을 삭제하시겠습니까?')) {
+            const areaId = document.getElementById('edit-area-id').value;
+            deleteArea(parseInt(areaId));
+            editModal.hide();
+        }
     }
 
 </script>

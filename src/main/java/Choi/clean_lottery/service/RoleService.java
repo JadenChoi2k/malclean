@@ -62,7 +62,7 @@ public class RoleService {
     }
 
     // 각 원소가 null이면 적용하지 않는다.
-    public void editRole(Long roleId, String name, Integer changeDate) {
+    public void editRole(Long roleId, String name) {
         Role role = roleRepository.findById(roleId);
 
         if (role == null) return;

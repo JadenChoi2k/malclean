@@ -45,7 +45,7 @@ public class RoleChangingController {
             return "redirect:/";
         }
         member.get().getTeam().setState(TeamState.CHANGING_ROLE);
-        teamService.save(member.get().getTeam());
+        teamService.merge(member.get().getTeam());
         return "redirect:/team/role-changing/" + table.getId();
     }
 

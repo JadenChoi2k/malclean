@@ -38,7 +38,7 @@
                                 <h5>구역</h5>
                                 <ul>
                                     <li th:each="area:${role.areas}"
-                                        th:text="|${area.name} 난이도: ${area.difficulty} 최소인원: ${area.minimumPeople} 인수인계: ${area.changeable}|"></li>
+                                        th:text="|${area.name} 난이도: ${area.difficulty} 최소인원: ${area.minimumPeople} 인수인계: ${area.changeable ? 'O' : 'X'}|"></li>
                                 </ul>
                                 <h5 th:text="'시작날짜 - ' + ${role.startDate}"></h5>
                             </div>
@@ -57,7 +57,7 @@
     <a th:if="${isManager}" class="btn btn-lg btn-outline-warning m-2" th:href="@{/team/roles/change-roles}">수정</a>
     <a th:if="${isManager}" class="btn btn-lg btn-outline-light m-2" th:href="@{/team/roles/add}">추가</a>
     <div>
-        <button th:if="${isManager}" class="btn btn-lg btn-outline-light m-2" data-bs-toggle="modal" data-bs-target="#getChanging">인수인계 시작하기</button>
+        <button th:if="${isManager}" class="btn btn-lg btn-outline-light m-2" data-bs-toggle="modal" data-bs-target="#getChanging">인수인계 시작</button>
         <div class="modal fade text-dark text-start" id="getChanging" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="list-group">
-                            <h5>다음 역할 선택</h5>
+                            <h5>다음 구역 선택</h5>
                             <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"
                                     th:each="role: ${roles}" th:text="${role.name}" th:unless="${role.id.equals(currentRole.id)}"
                                     th:onclick="|if(confirm(&quot;이 역할로 하시겠습니까?&quot;)) location.href=&quot;/team/role-changing/start/${role.id}&quot;|" >

@@ -12,15 +12,13 @@ function updateInputFields() {
 function updateSequence() {
     const rolesTable = document.getElementById('role-change-table');
     const roleSequenceColumn = rolesTable.getElementsByClassName('role-sequence-col');
-    let isChanged = false;
-    for (let i = 0; i < roleSequenceColumn.length; i++) {
-        let seq = (i + 1) + "";
-        if (seq != roleSequenceColumn[i].innerHTML) {
-            roleSequenceColumn[i].innerHTML = seq;
-            isChanged = true;
+    roleSequenceColumn[0].innerHTML = '✅';
+    for (let i = 1; i < roleSequenceColumn.length; i++) {
+        if (roleSequenceColumn[i].innerHTML == '✅') {
+            roleSequenceColumn[i].innerHTML = '';
+            return true;
         }
     }
-    return isChanged;
 }
 
 function fetchRoleInfo(row) {

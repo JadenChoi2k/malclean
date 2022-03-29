@@ -81,6 +81,7 @@ public class RoleController {
         List<RoleDto> roles = team.getRoles();
         RolesChangeForm changeForm = getRolesChangeForm(roles);
         model.addAttribute("changeForm", changeForm);
+        model.addAttribute("currentRole", team.getCurrentRole());
         return "team/roles/roles-change-form";
     }
 

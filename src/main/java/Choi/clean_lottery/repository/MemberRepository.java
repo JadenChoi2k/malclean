@@ -42,6 +42,21 @@ public class MemberRepository {
         em.remove(member);
     }
 
+    public void deleteCascadeById(Long id) {
+        em.createQuery("update ChangeAreaCard set changer = null" +
+                        " where changer.id = :memberId")
+                .setParameter("memberId", id)
+                .executeUpdate();
+        em.createQuery("update LotteryResult set member = null" +
+                        " where member.id = :memberId")
+                .setParameter("memberId", id)
+                .executeUpdate();
+        em.createQuery("delete from Invite where sender.id = :memberId or receiver.id = :memberId")
+                .setParameter("memberId", id)
+                .executeUpdate();
+        // TODO 해결할 문제... lottery의 participants에서 요 멤버만 쏙 빼기.
+    }
+
     public List<Member> findAll() {
         return em.createQuery("select m from Member m")
                 .getResultList();

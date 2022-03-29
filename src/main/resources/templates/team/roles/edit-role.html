@@ -27,8 +27,8 @@
         <table class="table table-dark table-borderless text-center">
             <thead>
             <th>이름</th>
-            <th>최소 인원</th>
             <th>난이도</th>
+            <th>최소 인원</th>
             <th>인수인계</th>
             </thead>
             <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.id})|" th:id="'area$$' + ${area.id}">

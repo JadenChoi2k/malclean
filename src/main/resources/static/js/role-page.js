@@ -9,7 +9,7 @@ function getAreaInput() {
                         <button type="button" class="btn-close" aria-label="Close"></button>
                     </span>
                 </div>
-                <div class="input-group border-top-0">
+                <div class="input-group border-top-0 my-2">
                     <select class="form-select form-select-sm" name="difficulties">
                         <option selected>난이도</option>
                         <option value="0">0</option>

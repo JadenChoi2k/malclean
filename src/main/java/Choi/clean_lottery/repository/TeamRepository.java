@@ -38,9 +38,6 @@ public class TeamRepository {
         em.createQuery("delete from Invite i where i.team = :team")
                 .setParameter("team", team).executeUpdate();
 
-        em.createQuery("update Role r set r.nextRole = null, r.prevRole = null" +
-                " where r.team =:team").setParameter("team", team).executeUpdate();
-
 //        em.createQuery("delete from Role r where r.team = :team")
 //                        .setParameter("team", team).executeUpdate();
         em.remove(team);

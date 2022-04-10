@@ -11,6 +11,8 @@ import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
 import Choi.clean_lottery.web.utils.MalUtility;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,10 +69,14 @@ public class AreaApiController {
     }
 
     @RequestMapping("/add")
-    public Map<String, Object> addArea(HttpServletRequest request, @RequestBody AreaAddForm areaAddForm) {
+    public Map<String, Object> addArea(HttpServletRequest request, @Validated @RequestBody AreaAddForm areaAddForm,
+                                       BindingResult bindingResult) {
         boolean isManager = malUtility.isManager(request);
         if (!isManager) {
             return malUtility.createErrorResponse("401 unauthorized", "not a manager of team", 401);
+        }
+        if (bindingResult.hasErrors()) {
+            return malUtility.createErrorResponse("400 bad request", "field error", 400);
         }
         Long memberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         TeamDto team = teamQueryService.findDtoByMemberId(memberId);
@@ -85,10 +91,14 @@ public class AreaApiController {
     }
 
     @RequestMapping("/edit/{areaId}")
-    public Map<String, Object> editArea(HttpServletRequest request, @RequestBody AreaEditForm areaEditForm) {
+    public Map<String, Object> editArea(HttpServletRequest request, @Validated @RequestBody AreaEditForm areaEditForm,
+                                        BindingResult bindingResult) {
         boolean isManager = malUtility.isManager(request);
         if (!isManager) {
             return malUtility.createErrorResponse("401 unauthorized", "not a manager of team", 401);
+        }
+        if (bindingResult.hasErrors()) {
+            return malUtility.createErrorResponse("400 bad request", "field error", 400);
         }
         Long memberId = (Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         TeamDto team = teamQueryService.findDtoByMemberId(memberId);

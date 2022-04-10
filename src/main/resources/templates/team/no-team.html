@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <header>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="#{common.title}">말년청소</title>
-    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link href="../css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <div th:replace="~{fragment/head::common-head}"></div>
     <style>
         html, body {
             width: 100%;
@@ -13,10 +9,22 @@
         }
     </style>
 </header>
-<body class="bg-dark">
-    <div class="h-100 text-center my-auto">
-        <div class="text-white display-4">아직 팀이 없습니다.</div>
-        <a href="add-team.html" class="text-primary h3" th:href="@{/team/add}">팀 생성하기</a>
+<body class="bg-dark h-100 text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <a  href="#" th:href="@{/}" id="top-title" class="text-white display-2 mb-0" th:text="#{common.title}">말년 청소</a>
+        </div>
+    </header>
+    <div class="text-center px-3">
+        <div class="text-white h4">아직 팀이 없습니다.</div>
+        <a href="add-team.html" class="btn btn-lg btn-warning m-2" th:href="@{/team/add}">팀 생성하기</a>
+        <div>
+            <span class="text-white">말년 청소가 뭐죠? </span><a href="#" class="text-warning">알아보기</a>
+        </div>
     </div>
+    <footer class="mt-auto text-white-50">
+    </footer>
+</div>
 </body>
 </html>

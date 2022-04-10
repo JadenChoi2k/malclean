@@ -3,27 +3,26 @@ package Choi.clean_lottery.web.role;
 import Choi.clean_lottery.domain.Role;
 import Choi.clean_lottery.dto.RoleDto;
 import Choi.clean_lottery.dto.TeamDto;
-import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.RoleService;
-import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.RoleQueryService;
 import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
 import Choi.clean_lottery.web.utils.MalUtility;
-import Choi.clean_lottery.web.validator.SetStringNotEmptyValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.*;
 
 @RequestMapping("/team/roles")
 @Slf4j
@@ -35,6 +34,7 @@ public class RoleController {
     private final RoleService roleService;
     private final RoleQueryService roleQueryService;
     private final MalUtility malUtility;
+    private final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 
     @GetMapping
     public String roleHome(HttpServletRequest request, Model model) {
@@ -79,13 +79,13 @@ public class RoleController {
         }
         TeamDto team = teamQueryService.findDtoByMemberId((Long) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER));
         List<RoleDto> roles = team.getRoles();
-        RolesChangeForm changeForm = getRolesChangeForm(roles);
+        RolesChangeForm changeForm = getRolesChangeForm(roles, team.getCurrentRole());
         model.addAttribute("changeForm", changeForm);
         model.addAttribute("currentRole", team.getCurrentRole());
         return "team/roles/roles-change-form";
     }
 
-    private RolesChangeForm getRolesChangeForm(List<RoleDto> roles) {
+    private RolesChangeForm getRolesChangeForm(List<RoleDto> roles, RoleDto currentRole) {
         RolesChangeForm form = new RolesChangeForm();
         List<Long> roleIds = new ArrayList<>();
         List<String> roleNames = new ArrayList<>();
@@ -95,7 +95,7 @@ public class RoleController {
         }
         form.setRoleIds(roleIds);
         form.setRoleNames(roleNames);
-        form.setStartDate(roles.get(0).getStartDate());
+        form.setStartDate(currentRole.getStartDate());
         form.initializeSequence();
         return form;
     }
@@ -182,6 +182,9 @@ public class RoleController {
                           BindingResult bindingResult) {
         boolean isManager = malUtility.isManager(request);
         log.info("roleAddForm = {}", form.toString());
+        if (bindingResult.hasErrors()) {
+            return "team/roles/add-role";
+        }
         if (!isManager) {
             bindingResult.reject("unauthorized.manager");
         }
@@ -190,6 +193,8 @@ public class RoleController {
             form.getDifficulties().size() != form.getMinimumPeoples().size()) {
             bindingResult.reject("WrongRequest.wrongInput");
         }
+        // TODO : validate
+        validateList(form, bindingResult);
         if (bindingResult.hasErrors()) {
             return "team/roles/add-role";
         }
@@ -197,6 +202,28 @@ public class RoleController {
         roleService.createRole(form.getName(), team.getId(), form.getAreaNames(),
                 form.getDifficulties(), form.getMinimumPeoples(), form.getChangeable());
         return "redirect:/team/roles/change-roles";
+    }
+
+    private void validateList(RoleAddForm form, BindingResult bindingResult) {
+        Validator validator = validatorFactory.getValidator();
+        form.getAreaNames().forEach(name -> {
+            if (!validator.validate(name).isEmpty()) {
+                bindingResult.reject("areaName", "구역 이름을 확인해주세요.");
+//                bindingResult.addError(new ObjectError("areaName", "구역 이름을 확인해주세요."));
+            }
+        });
+        form.getDifficulties().forEach(diff -> {
+            if (!validator.validate(diff).isEmpty()) {
+                bindingResult.reject("difficulty", "난이도를 확인해주세요");
+//                bindingResult.addError(new ObjectError("difficulty", "난이도를 확인해주세요"));
+            }
+        });
+        form.getMinimumPeoples().forEach(min -> {
+            if (!validator.validate(min).isEmpty()) {
+                bindingResult.reject("minimumPeople", "최소인원을 확인해주세요");
+//                bindingResult.addError(new ObjectError("minimumPeople", "최소인원을 확인해주세요"));
+            }
+        });
     }
 
     @RequestMapping("/{roleId}/remove")

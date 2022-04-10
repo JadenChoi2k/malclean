@@ -1,5 +1,6 @@
 package Choi.clean_lottery.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Role extends BaseTimeEntity {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Area> areas = new ArrayList<>();
 

@@ -8,6 +8,7 @@
 
 .field-error {
     color: #b02a37;
+    border-color: #b02a37;
 }
 
 @media (min-width: 768px) {

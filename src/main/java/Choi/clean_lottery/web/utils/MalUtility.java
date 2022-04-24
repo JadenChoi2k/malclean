@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class MalUtility {
         Member member = memberService.findOne((Long) memberId);
         TeamDto team = teamQueryService.findDtoByMemberId((Long) memberId);
         if (team == null) return false;
-        return team.getManager().getId() == member.getId();
+        return Objects.equals(team.getManager().getId(), member.getId());
     }
 
     public Map<String, Object> createErrorResponse(String error, String msg, Integer code) {

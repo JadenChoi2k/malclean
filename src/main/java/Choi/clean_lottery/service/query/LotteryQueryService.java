@@ -26,7 +26,7 @@ public class LotteryQueryService {
         return em.createQuery(
                 "select new Choi.clean_lottery.dto.LotteryDto(l)" +
                         " from Lottery l" +
-                        " join l.role r" +
+                        " left join l.role r" +
                         " where l.team.id = :teamId" +
                         " order by l.lastRoleDateTime desc", LotteryDto.class)
                 .setParameter("teamId", teamId)

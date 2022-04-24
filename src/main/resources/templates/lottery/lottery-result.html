@@ -48,7 +48,7 @@
 <div th:replace="~{fragment/sidebar::sidebar}"></div>
 <div id="body-slide" class="carousel slide h-100 text-center" data-bs-interval="false">
     <input type="hidden" id="result-content-title" th:value="${lottery.name}">
-    <input type="hidden" id="result-content-description" th:value="|${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM일 dd일')}의 ${team.name}. 오늘은 ${role.name} 청소하는 날입니다.|">
+    <input type="hidden" id="result-content-description" th:value="|${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM일 dd일')}의 ${team.name}. 오늘은 ${role?.name} 청소하는 날입니다.|">
     <input type="hidden" id="result-content-lotteryId" th:value="${lottery.id}">
     <div class="bg-dark text-white carousel-inner h-100">
         <div class="carousel-item active h-100">
@@ -89,7 +89,7 @@
             <div class="d-block w-100">
                 <div class="h3 m-4">전체 결과</div>
                 <div class="h3" th:text="'팀 : ' + ${team.name}">팀 이름</div>
-                <div class="h4 m-1" th:text="'담당구역 : ' + ${role.name}">역할 이름</div>
+                <div class="h4 m-1" th:text="'담당구역 : ' + ${role?.name}">역할 이름</div>
                 <div class="h4" th:text="'일시 : ' + ${#temporals.format(lottery.lastRoleDateTime, 'yyyy-MM-dd HH:mm')}">시간</div>
                 <table class="table table-borderless text-white max-sm">
                     <thead>

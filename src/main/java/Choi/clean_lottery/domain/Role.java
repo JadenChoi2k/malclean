@@ -30,7 +30,7 @@ public class Role extends BaseTimeEntity {
     private Team team;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST)
     private List<Area> areas = new ArrayList<>();
 
     // 시작 날짜

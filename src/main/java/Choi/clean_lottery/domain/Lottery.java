@@ -6,6 +6,8 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -28,7 +30,6 @@ public class Lottery {
             inverseJoinColumns = @JoinColumn(name = "member_id"))
     private List<Member> participants = new ArrayList<>();
 
-    // 팀에서 가져온다.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
@@ -132,7 +133,23 @@ public class Lottery {
     }
 
     private boolean validatePicks(List<Area> pick) {
-        // pick이 과도하게 많으면 false 반환. O(N)
+        Map<Long, Long> AreaIdToCountMap = pick.stream()
+                .map(Area::getId)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        if (AreaIdToCountMap
+                .values().stream()
+                .anyMatch(count -> count > participants.size()))
+            return false;
+        if (pick.stream()
+                .anyMatch(area -> area == null
+                        || !role.isAreaOf(area)
+                        || AreaIdToCountMap.get(area.getId()) < area.getMinimumPeople()))
+            return false;
+        return true;
+    }
+
+    private boolean validatePicksOld(List<Area> pick) {
+        // pick이 과도하게 많으면 false 반환.
         Map<Area, Integer> pickCount = new HashMap<>();
         pick.forEach(p -> pickCount.put(p, 0));
         pick.forEach(p -> pickCount.put(p, pickCount.get(p) + 1));

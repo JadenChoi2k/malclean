@@ -23,7 +23,9 @@ public class LotteryDto {
         id = lottery.getId();
         name = lottery.getName();
         participants = lottery.getParticipants().stream().map(MemberDto::new).collect(Collectors.toList());
-        role = new RoleDto(lottery.getRole());
+        if (lottery.getRole() != null) {
+            role = new RoleDto(lottery.getRole());
+        }
         lastRoleDateTime = lottery.getLastRoleDateTime();
         result = lottery.getResults().stream().map(LotteryResultDto::new).collect(Collectors.toList());
     }

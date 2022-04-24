@@ -52,4 +52,19 @@ public class Area {
         this.minimumPeople = minimumPeople;
         this.changeable = changeable;
     }
+
+    public void changeAttribute(String name, Integer difficulty, Integer minimumPeople, Boolean changeable) {
+        if (name != null && name.length() > 0) {
+            this.name = name;
+        }
+        if (difficulty != null && difficulty >= 0) {
+            this.difficulty = difficulty;
+        }
+        if (minimumPeople != null && minimumPeople >= 0) {
+            this.minimumPeople = minimumPeople;
+        }
+        if (changeable != null) {
+            this.changeable = changeable;
+        }
+    }
 }

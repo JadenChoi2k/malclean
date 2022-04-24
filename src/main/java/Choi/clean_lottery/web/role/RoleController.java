@@ -151,7 +151,7 @@ public class RoleController {
 
     @PostMapping("/{roleId}/edit")
     public String edit(HttpServletRequest request, @Validated @ModelAttribute("editForm") RoleEditForm editForm,
-                       BindingResult bindingResult, @PathVariable Long roleId) {
+                       BindingResult bindingResult, @PathVariable Long roleId, Model model) {
         Role role = roleService.findOne(roleId);
         if (!malUtility.isManager(request)) {
             bindingResult.reject("unauthorized.manager");
@@ -163,6 +163,7 @@ public class RoleController {
             bindingResult.reject("WrongRequest.wrongId.role");
         }
         if (bindingResult.hasErrors()) {
+            model.addAttribute("areas", role.getAreas());
             return "team/roles/edit-role";
         }
         roleService.editRole(editForm.getId(), editForm.getName());

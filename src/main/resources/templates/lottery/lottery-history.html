@@ -22,7 +22,7 @@
         <tr th:each="lottery : ${lotteryList}" th:onclick="'window.open(\'/team/lottery/result/' + ${lottery.id} + '\')'">
             <td th:text="${lottery.id}">id</td>
             <td th:text="${lottery.name}">name</td>
-            <td th:text="${lottery.role.name}">role name</td>
+            <td th:text="${lottery.role?.name}">role name</td>
             <td th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy/MM/dd')}">날짜</td>
         </tr>
     </table>

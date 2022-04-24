@@ -27,13 +27,15 @@ import java.util.Optional;
 public class HomeController {
 
     private final MemberService memberService;
-    private final MemberRequestFinder memberRequestFinder;
 
     @GetMapping("/")
     public String home(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        Object userId = session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (session == null) {
+            return "index";
+        }
 
+        Object userId = session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (userId == null) {
             return "index";
         } else {

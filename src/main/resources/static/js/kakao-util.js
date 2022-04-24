@@ -1,8 +1,6 @@
 // init const
 const JAVASCRIPT_KAKAO_ID = '0fa2a3587e1ed01fb74516328fbec987';
 const APP_DOMAIN = location.origin;
-// const APP_DOMAIN = "http://mil.malclean.kr";
-// const APP_DOMAIN = "http://localhost:8080";
 // initialize kakao api here
 initKakao();
 const kakao_access_token = getCookie('authorize-access-token');

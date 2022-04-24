@@ -6,6 +6,7 @@ import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.web.WebConfig;
 import Choi.clean_lottery.web.kakaoapi.KakaoApiHelper;
 import Choi.clean_lottery.web.kakaoapi.KakaoTokenInfo;
 import Choi.clean_lottery.web.kakaoapi.KakaoUserInfo;
@@ -49,14 +50,15 @@ public class MemberController {
             throws JsonProcessingException {
         KakaoTokenInfo tokenInfo;
         try {
-            String host = request.getRequestURL().toString();
-            tokenInfo = kakaoApiHelper.getTokenByCode(code, host);
+            String tokenRedirectUrl = WebConfig.APP_DOMAIN + request.getRequestURI();
+            tokenInfo = kakaoApiHelper.getTokenByCode(code, tokenRedirectUrl);
         } catch (Exception e) {
             log.info("tokenInfo를 받아오던 중 오류가 생겼습니다 {}", e.toString());
             tokenInfo = kakaoApiHelper.getTokenByCode(code);
         }
         if (tokenInfo.hasError()) {
-            log.info("tokenInfo에 에러가 있습니다.");
+            log.info("tokenInfo에 에러가 있습니다."); // <--
+            log.info("에러 메시지 -> {}", tokenInfo.errorToString());
             return "redirect:/";
         }
         KakaoUserInfo kakaoUserInfo = memberRequestFinder.getKakaoUserInfo(tokenInfo.getAccess_token());

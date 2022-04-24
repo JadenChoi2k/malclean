@@ -21,7 +21,7 @@ import java.util.Collections;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    public static final String APP_DOMAIN = "http://mil.malclean.kr";
+    public static final String APP_DOMAIN = "https://mil.malclean.kr";
 //    public static final String APP_DOMAIN = "http://localhost:8080";
 
     @Override

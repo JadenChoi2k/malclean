@@ -79,8 +79,15 @@ public class KakaoApiHelper {
         params.put("client_id", KakaoAppConst.REST_API_KEY);
         params.put("redirect_uri", redirectURI);
         params.put("code", code);
+        log.info("카카오로 보내는 메시지 -> {}", params);
         String tokenInfoJson = request(HttpMethodType.POST, OAUTH_TOKEN_PATH, mapToParams(params));
-        return KakaoTokenInfo.fromJson(tokenInfoJson);
+        KakaoTokenInfo kakaoTokenInfo = KakaoTokenInfo.fromJson(tokenInfoJson);
+        if (kakaoTokenInfo.hasError()) {
+            params.put("redirect_uri", redirectURI.replace("http", "https"));
+            tokenInfoJson = request(HttpMethodType.POST, OAUTH_TOKEN_PATH, mapToParams(params));
+            kakaoTokenInfo = KakaoTokenInfo.fromJson(tokenInfoJson);
+        }
+        return kakaoTokenInfo;
     }
 
     // return : {access_token, refresh_token}

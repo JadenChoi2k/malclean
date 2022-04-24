@@ -1,9 +1,13 @@
 package Choi.clean_lottery.web.kakaoapi;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
+import java.util.Optional;
+
 @Getter
+@Slf4j
 public class KakaoTokenInfo {
     private String access_token;
     private Integer expires_in;
@@ -29,6 +33,7 @@ public class KakaoTokenInfo {
         JSONObject jsonObject = new JSONObject(json);
         if (jsonObject.isNull("access_token")) {
             if (jsonObject.isNull("msg") || jsonObject.isNull("code")) {
+                log.info("토큰을 찾을 수 없습니다. -> {}", json);
                 return new KakaoTokenInfo("token_not_found", 500);
             }
             return new KakaoTokenInfo(jsonObject.getString("msg"), jsonObject.getInt("code"));
@@ -43,5 +48,11 @@ public class KakaoTokenInfo {
 
     public boolean hasError() {
         return msg != null || code != null;
+    }
+
+    public String errorToString() {
+        return String.format("%s: %s",
+                Optional.ofNullable(code).orElse(0),
+                Optional.ofNullable(msg).orElse("msg null"));
     }
 }

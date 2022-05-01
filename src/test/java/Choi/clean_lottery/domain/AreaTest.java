@@ -28,4 +28,17 @@ public class AreaTest {
             }
         }
     }
+
+    @Test
+    public void change_attribute_test() throws Exception {
+        // given
+        Area area = new Area(null, "area to change", 10, 2, true);
+        // when
+        area.changeAttribute("changed", 6, 1, false);
+        // then
+        Assertions.assertEquals(area.getName(), "changed");
+        Assertions.assertEquals(area.getDifficulty(), 6);
+        Assertions.assertEquals(area.getMinimumPeople(), 1);
+        Assertions.assertEquals(area.getChangeable(), false);
+    }
 }

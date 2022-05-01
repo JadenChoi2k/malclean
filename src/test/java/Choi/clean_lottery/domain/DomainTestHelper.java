@@ -18,17 +18,33 @@ public class DomainTestHelper {
         return team;
     }
 
+    public Team createTeamWithMembers() {
+        Team team = createTeam();
+        createMembers().forEach(team::addMember);
+        return team;
+    }
+
     public List<Area> createAreas() {
+        return createAreas("area");
+    }
+
+    public List<Area> createAreas(String prefix) {
         List<Area> areas = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            Area area = new Area(null, "area" + i, i, 1);
+            Area area = new Area((long) i, null, prefix + i, i, 1, true);
             areas.add(area);
         }
         for (int i = 3; i < 6; i++) {
-            Area area = new Area(null, "area" + i, i, 0);
+            Area area = new Area((long) i, null, prefix + i, i, 0, false);
             areas.add(area);
         }
         return areas;
+    }
+
+    public Role createRole(List<Area> areas, Long id, String name) {
+        Role role = new Role(id, name, null);
+        role.addAllArea(areas);
+        return role;
     }
 
     public Lottery createLottery() {
@@ -43,15 +59,14 @@ public class DomainTestHelper {
         return lottery;
     }
 
-    public Lottery createLottery(int partcipantSize) {
+    public Lottery createLottery(int participantSize) {
         List<Member> members = createMembers();
         Team team = createTeam();
         List<Area> areas = createAreas();
         Role role = new Role("role", team);
-        areas.forEach(a -> role.addArea(a));
+        areas.forEach(role::addArea);
         team.addRole(role);
         members.forEach(m -> m.changeTeam(team));
-        Lottery lottery = Lottery.createLottery("lottery", team, team.getMembers().subList(0, partcipantSize), role);
-        return lottery;
+        return Lottery.createLottery("lottery", team, team.getMembers().subList(0, participantSize), role);
     }
 }

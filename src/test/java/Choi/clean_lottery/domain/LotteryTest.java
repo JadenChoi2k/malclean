@@ -1,8 +1,10 @@
 package Choi.clean_lottery.domain;
 
 import Choi.clean_lottery.ex.NotMemberOfTeam;
+import org.apache.tomcat.jni.Time;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ class LotteryTest {
     }
 
     @Test
-    public void 팀에_없는_역할_오류() throws Exception {
+    public void 팀에_없는_역할_검증() throws Exception {
         // given
         List<Member> members = testHelper.createMembers();
         Team team = testHelper.createTeam();
@@ -47,7 +49,7 @@ class LotteryTest {
     }
 
     @Test
-    public void 팀에_없는_멤버_오류() throws Exception {
+    public void 팀에_없는_멤버_검증() throws Exception {
         // given
         List<Member> members = testHelper.createMembers();
         Team team = testHelper.createTeam();
@@ -65,6 +67,7 @@ class LotteryTest {
     public void 참가자_구역수_같음() throws Exception {
         // given
         Lottery lottery = testHelper.createLottery(6);
+        System.out.println("lottery.getRole().areas = " + lottery.getRole().getAreas());
         // when
         List<LotteryResult> lotteryResults = lottery.drawLottery(lottery.getRole().getAreas());
         List<Member> resultMembers = lotteryResults.stream().map(lr -> lr.getMember()).collect(Collectors.toList());
@@ -155,7 +158,7 @@ class LotteryTest {
         // given
         Lottery lottery = testHelper.createLottery(3);
         List<Area> pick = new ArrayList<>(List.copyOf(lottery.getRole().getAreas()));
-        pick.add(new Area(new Role(), "no_area", 999, 0));
+        pick.add(new Area(100L, new Role(), "no_area", 999, 0, true));
         // then
         assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick));
     }
@@ -165,6 +168,7 @@ class LotteryTest {
         // given
         Lottery lottery = testHelper.createLottery();
         List<Area> pick = new ArrayList<>();
+        // when
         for (Area area : lottery.getRole().getAreas()) {
             if (area.getMinimumPeople() > 0)
                 continue;

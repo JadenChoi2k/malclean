@@ -53,23 +53,24 @@ public class Role extends BaseTimeEntity {
     }
 
     public void addArea(Area area) {
-        areas.add(area) ;
+        areas.add(area);
+        area.setRole(this);
     }
 
     public void addAllArea(Collection<Area> addAreas) {
         areas.addAll(addAreas);
+        addAreas.forEach(a -> a.setRole(this));
     }
 
     public void subArea(Area area) {
         areas.remove(area);
-    }
-
-    public void shrinkArea(int newSize) {
-        areas = areas.subList(0, newSize);
+        area.setRole(null);
     }
 
     public void setTeamRole(Team team) {
         this.team = team;
-        team.getRoles().add(this);
+        if (!team.getRoles().contains(this)) {
+            team.getRoles().add(this);
+        }
     }
 }

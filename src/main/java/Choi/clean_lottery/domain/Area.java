@@ -41,6 +41,11 @@ public class Area {
     @Setter
     private Boolean changeable;
 
+    public Area(Long id, Role role, String name, Integer difficulty, Integer minimumPeople, Boolean changeable) {
+        this(role, name, difficulty, minimumPeople, changeable);
+        this.id = id;
+    }
+
     public Area(Role role, String name, Integer difficulty, Integer minimumPeople) {
         this(role, name, difficulty, minimumPeople, true);
     }

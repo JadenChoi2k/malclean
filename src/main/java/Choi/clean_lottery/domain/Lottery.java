@@ -2,6 +2,7 @@ package Choi.clean_lottery.domain;
 
 import Choi.clean_lottery.ex.NotMemberOfTeam;
 import lombok.Getter;
+import org.springframework.data.util.Pair;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -71,7 +72,7 @@ public class Lottery {
     }
 
     // 청소 역할 무작위로 뽑기
-    public List<LotteryResult> drawLottery(List<Area> pick) throws IllegalArgumentException {
+    public List<LotteryResult> drawLotteryOld(List<Area> pick) throws IllegalArgumentException {
         // 검증 절차.
         boolean valid = validatePicks(pick);
         if (!valid) throw new IllegalArgumentException("적절하지 않은 뽑기");
@@ -124,6 +125,54 @@ public class Lottery {
         return results;
     }
 
+    // 청소 역할 무작위로 뽑기
+    public List<LotteryResult> drawLottery(List<Area> pick) throws IllegalArgumentException {
+        // 검증 절차.
+        if (!validatePicks(pick)) throw new IllegalArgumentException("적절하지 않은 뽑기");
+        // pick을 난이도에 따라 정렬. 어려운 거부터 줘야 하므로 내림차순 정렬
+        pick.sort(Comparator.comparing(Area::getDifficulty).reversed());
+        // 참가자들의 난이도 현황. 가장 낮은 사람부터 준다.
+        PriorityQueue<Pair<Integer, Member>> difficultyPQ = new PriorityQueue<>(Comparator.comparing(Pair::getFirst));
+        Random random = new Random();
+        lastRoleDateTime = LocalDateTime.now();
+        participants.forEach(participant -> difficultyPQ.offer(Pair.of(0, participant)));
+        List<LotteryResult> result = new ArrayList<>();
+        pick.forEach(area -> {
+                    List<Pair<Integer, Member>> candidates = getListOfCurrentPickMember(difficultyPQ);
+                    Pair<Integer, Member> picked = pickRandom(candidates, random);
+                    Member pickedMember = picked.getSecond();
+                    result.add(new LotteryResult(this, pickedMember, area, lastRoleDateTime));
+                    candidates.forEach(pair -> {
+                        if (pair.getSecond().equals(pickedMember)) {
+                            difficultyPQ.offer(Pair.of(
+                                    picked.getFirst() + area.getDifficulty(),
+                                    pickedMember
+                            ));
+                        } else {
+                            difficultyPQ.offer(pair);
+                        }
+                    });
+                });
+        return result;
+    }
+
+    // 난이도가 가장 낮은 멤버들을 반환.
+    private List<Pair<Integer, Member>> getListOfCurrentPickMember(PriorityQueue<Pair<Integer, Member>> pq) {
+        assert pq.peek() != null;
+        int difficulty = pq.peek().getFirst();
+        List<Pair<Integer, Member>> ret = new ArrayList<>();
+        while (true) {
+            if (pq.peek() == null) break;
+            if (!(pq.peek().getFirst() == difficulty)) break;
+            ret.add(pq.poll());
+        }
+        return ret;
+    }
+
+    private <T> T pickRandom(List<T> list, Random random) {
+        return list.get(random.nextInt(list.size()));
+    }
+
     // deprecated : 다시 뽑을 일이 없다.
     @Deprecated
     public List<LotteryResult> redrawLottery(List<Member> participants, Role role, List<Area> pick) throws IllegalArgumentException {
@@ -133,17 +182,24 @@ public class Lottery {
     }
 
     private boolean validatePicks(List<Area> pick) {
-        Map<Long, Long> AreaIdToCountMap = pick.stream()
+        if (pick.stream()
+                .anyMatch(area -> area == null
+                        || area.getId() == null
+                        || !role.isAreaOf(area)))
+            return false;
+        Map<Long, Long> areaIdToCountMap = pick.stream()
                 .map(Area::getId)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        if (AreaIdToCountMap
+        if (areaIdToCountMap
                 .values().stream()
                 .anyMatch(count -> count > participants.size()))
             return false;
-        if (pick.stream()
-                .anyMatch(area -> area == null
-                        || !role.isAreaOf(area)
-                        || AreaIdToCountMap.get(area.getId()) < area.getMinimumPeople()))
+        if (role.getAreas().stream()
+                .anyMatch(area ->
+                        Optional.ofNullable(areaIdToCountMap.get(area.getId()))
+                                .map(aLong -> aLong < area.getMinimumPeople())
+                                .orElseGet(() -> area.getMinimumPeople() > 0))
+            )
             return false;
         return true;
     }

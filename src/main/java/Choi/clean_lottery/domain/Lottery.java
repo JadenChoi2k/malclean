@@ -153,6 +153,7 @@ public class Lottery {
                         }
                     });
                 });
+        this.results = result;
         return result;
     }
 

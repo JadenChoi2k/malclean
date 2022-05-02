@@ -71,6 +71,7 @@ class LotteryTest {
         // when
         List<LotteryResult> lotteryResults = lottery.drawLottery(lottery.getRole().getAreas());
         List<Member> resultMembers = lotteryResults.stream().map(lr -> lr.getMember()).collect(Collectors.toList());
+        lotteryResults.forEach(System.out::println);
         // then
         assertEquals(lotteryResults.size(), resultMembers.size());
         for (LotteryResult lotteryResult : lotteryResults) {

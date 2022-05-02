@@ -2,12 +2,14 @@ package Choi.clean_lottery.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@ToString
 public class LotteryResult {
     @Id @GeneratedValue
     @Column(name = "result_id")

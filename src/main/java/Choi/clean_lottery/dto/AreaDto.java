@@ -18,4 +18,12 @@ public class AreaDto {
         minimumPeople = area.getMinimumPeople();
         changeable = area.getChangeable();
     }
+
+    public AreaDto(Long id, String name, Integer difficulty, Integer minimumPeople, Boolean changeable) {
+        this.id = id;
+        this.name = name;
+        this.difficulty = difficulty;
+        this.minimumPeople = minimumPeople;
+        this.changeable = changeable;
+    }
 }

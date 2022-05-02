@@ -13,7 +13,11 @@ public class LotteryResultDto {
 
     public LotteryResultDto(LotteryResult lotteryResult) {
         member = new MemberDto(lotteryResult.getMember());
-        area = new AreaDto(lotteryResult.getArea());
+        if (lotteryResult.getArea() != null) {
+            area = new AreaDto(lotteryResult.getArea());
+        } else {
+            area = new AreaDto(-1L, "삭제됨", 0, 0, false);
+        }
         pickDate = lotteryResult.getPickDate();
     }
 }

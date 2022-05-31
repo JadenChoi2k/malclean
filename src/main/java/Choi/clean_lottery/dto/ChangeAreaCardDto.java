@@ -1,8 +1,7 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Area;
-import Choi.clean_lottery.domain.AreaChangeState;
-import Choi.clean_lottery.domain.ChangeAreaCard;
+import Choi.clean_lottery.domain.role_change.AreaChangeState;
+import Choi.clean_lottery.domain.role_change.ChangeAreaCard;
 import lombok.Data;
 
 @Data

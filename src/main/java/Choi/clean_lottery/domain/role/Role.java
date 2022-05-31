@@ -1,5 +1,8 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.role;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.team.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -8,7 +11,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

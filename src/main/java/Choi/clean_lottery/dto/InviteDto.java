@@ -1,6 +1,6 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Invite;
+import Choi.clean_lottery.domain.invite.Invite;
 import lombok.Data;
 
 @Data
@@ -8,7 +8,7 @@ public class InviteDto {
     private String uuid;
     private String senderName;
     private String teamName;
-    private Invite.InviteStatus status;
+    private Invite.Status status;
 
     public InviteDto() {
     }

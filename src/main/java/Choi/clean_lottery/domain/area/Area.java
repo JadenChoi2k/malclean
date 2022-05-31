@@ -1,5 +1,6 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.area;
 
+import Choi.clean_lottery.domain.role.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

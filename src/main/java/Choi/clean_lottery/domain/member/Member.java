@@ -1,5 +1,7 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.member;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.team.Team;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package Choi.clean_lottery.service.query;
 
-import Choi.clean_lottery.domain.Lottery;
+import Choi.clean_lottery.domain.lottery.Lottery;
 import Choi.clean_lottery.dto.LotteryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)

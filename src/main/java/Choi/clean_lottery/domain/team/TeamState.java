@@ -1,4 +1,4 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.team;
 
 /**
  * ON : 정상적으로 작동하는 팀

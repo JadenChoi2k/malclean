@@ -1,7 +1,7 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.ChangeRoleState;
-import Choi.clean_lottery.domain.ChangeRoleTable;
+import Choi.clean_lottery.domain.role_change.ChangeRoleState;
+import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import lombok.Data;
 
 import java.util.List;

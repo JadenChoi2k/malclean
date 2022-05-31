@@ -1,4 +1,4 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.role_change;
 
 /**
  * YET : 인수 인계 하기 전

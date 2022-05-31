@@ -1,8 +1,12 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.role_change;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,6 +28,13 @@ public class ChangeRoleTable extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "change_role_state")
     private ChangeRoleState state = ChangeRoleState.IN_PROCESS;
+
+    @RequiredArgsConstructor
+    public enum Status {
+        IN_PROGRESS("인수인계 진행 중"),
+        DONE("끝");
+        private final String description;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receive_role_id")

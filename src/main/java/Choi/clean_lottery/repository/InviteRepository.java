@@ -1,6 +1,6 @@
 package Choi.clean_lottery.repository;
 
-import Choi.clean_lottery.domain.Invite;
+import Choi.clean_lottery.domain.invite.Invite;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

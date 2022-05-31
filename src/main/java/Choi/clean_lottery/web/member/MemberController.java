@@ -1,9 +1,8 @@
 package Choi.clean_lottery.web.member;
 
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.MemberService;
-import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
 import Choi.clean_lottery.web.WebConfig;
@@ -23,8 +22,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDateTime;
 
 @Controller

@@ -1,7 +1,7 @@
 package Choi.clean_lottery.service.query;
 
-import Choi.clean_lottery.domain.Member;
-import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.dto.TeamDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

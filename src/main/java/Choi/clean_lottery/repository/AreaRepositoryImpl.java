@@ -1,6 +1,6 @@
 package Choi.clean_lottery.repository;
 
-import Choi.clean_lottery.domain.Area;
+import Choi.clean_lottery.domain.area.Area;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

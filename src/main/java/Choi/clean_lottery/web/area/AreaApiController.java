@@ -1,7 +1,7 @@
 package Choi.clean_lottery.web.area;
 
-import Choi.clean_lottery.domain.Area;
-import Choi.clean_lottery.domain.Role;
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.dto.AreaDto;
 import Choi.clean_lottery.dto.RoleDto;
 import Choi.clean_lottery.dto.TeamDto;

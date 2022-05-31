@@ -1,6 +1,6 @@
 package Choi.clean_lottery.service.query;
 
-import Choi.clean_lottery.domain.Role;
+import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.dto.RoleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

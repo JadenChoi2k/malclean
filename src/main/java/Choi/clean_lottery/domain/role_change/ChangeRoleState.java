@@ -1,4 +1,4 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.role_change;
 
 /**
  * IN_PROCESS : 초기 상태.

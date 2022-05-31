@@ -1,6 +1,6 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Lottery;
+import Choi.clean_lottery.domain.lottery.Lottery;
 import lombok.Data;
 
 import java.time.LocalDateTime;

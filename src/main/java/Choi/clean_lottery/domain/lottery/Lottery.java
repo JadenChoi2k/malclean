@@ -1,5 +1,9 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.lottery;
 
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.ex.NotMemberOfTeam;
 import lombok.Getter;
 import org.springframework.data.util.Pair;

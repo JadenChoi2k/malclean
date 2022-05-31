@@ -1,13 +1,12 @@
 package Choi.clean_lottery.service.query;
 
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)

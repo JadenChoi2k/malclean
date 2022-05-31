@@ -1,6 +1,6 @@
 package Choi.clean_lottery.web.role;
 
-import Choi.clean_lottery.domain.Role;
+import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.dto.RoleDto;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.RoleService;
@@ -13,12 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;

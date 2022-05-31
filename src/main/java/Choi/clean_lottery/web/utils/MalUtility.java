@@ -1,6 +1,6 @@
 package Choi.clean_lottery.web.utils;
 
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;

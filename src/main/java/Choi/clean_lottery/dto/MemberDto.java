@@ -1,6 +1,6 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.member.Member;
 import lombok.Data;
 
 @Data

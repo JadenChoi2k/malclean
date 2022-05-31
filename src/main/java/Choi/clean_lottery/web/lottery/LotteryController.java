@@ -1,7 +1,7 @@
 package Choi.clean_lottery.web.lottery;
 
-import Choi.clean_lottery.domain.Lottery;
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.*;
 import Choi.clean_lottery.service.LotteryService;
 import Choi.clean_lottery.service.MemberService;

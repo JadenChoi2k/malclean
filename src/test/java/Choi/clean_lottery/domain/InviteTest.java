@@ -1,6 +1,8 @@
 package Choi.clean_lottery.domain;
 
-import org.junit.jupiter.api.Assertions;
+import Choi.clean_lottery.domain.invite.Invite;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.team.Team;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +29,7 @@ class InviteTest {
         assertEquals(sender, invite.getSender());
         assertEquals(receiver, invite.getReceiver());
         assertEquals(team, invite.getTeam());
-        assertEquals(invite.getStatus(), Invite.InviteStatus.WAITING);
+        assertEquals(invite.getStatus(), Invite.Status.WAITING);
         assertInstanceOf(String.class, invite.getUuid());
     }
 
@@ -38,7 +40,7 @@ class InviteTest {
         // when
         invite.accept();
         // then
-        assertEquals(invite.getStatus(), Invite.InviteStatus.ACCEPTED);
+        assertEquals(invite.getStatus(), Invite.Status.ACCEPTED);
         assertEquals(invite.getReceiver().getTeam(), invite.getTeam());
     }
 
@@ -49,7 +51,7 @@ class InviteTest {
         // when
         invite.reject();
         // then
-        assertEquals(invite.getStatus(), Invite.InviteStatus.REJECTED);
+        assertEquals(invite.getStatus(), Invite.Status.REJECTED);
         assertNull(invite.getReceiver().getTeam());
     }
 }

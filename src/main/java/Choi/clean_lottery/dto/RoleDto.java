@@ -1,6 +1,6 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Role;
+import Choi.clean_lottery.domain.role.Role;
 import lombok.Data;
 
 import java.time.LocalDate;

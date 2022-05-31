@@ -1,8 +1,8 @@
 package Choi.clean_lottery.service;
 
-import Choi.clean_lottery.domain.Member;
-import Choi.clean_lottery.domain.Role;
-import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.ex.NotMemberOfTeam;
 import Choi.clean_lottery.repository.MemberRepository;
 import Choi.clean_lottery.repository.RoleRepository;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

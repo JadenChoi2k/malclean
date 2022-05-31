@@ -1,9 +1,13 @@
 package Choi.clean_lottery.web.role_changing;
 
-import Choi.clean_lottery.domain.*;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role_change.ChangeAreaCard;
+import Choi.clean_lottery.domain.role_change.ChangeRoleState;
+import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
+import Choi.clean_lottery.domain.team.Team;
+import Choi.clean_lottery.domain.team.TeamState;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;
-import Choi.clean_lottery.repository.MemberRepository;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.web.SessionConst;

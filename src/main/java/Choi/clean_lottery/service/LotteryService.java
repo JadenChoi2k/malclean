@@ -1,7 +1,9 @@
 package Choi.clean_lottery.service;
 
-import Choi.clean_lottery.domain.*;
-import Choi.clean_lottery.dto.LotteryDto;
+import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.ex.NotMemberOfTeam;
 import Choi.clean_lottery.ex.NotRoleOfTeam;
 import Choi.clean_lottery.repository.*;

@@ -1,7 +1,7 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.Team;
-import Choi.clean_lottery.domain.TeamState;
+import Choi.clean_lottery.domain.team.Team;
+import Choi.clean_lottery.domain.team.TeamState;
 import lombok.Data;
 
 import java.time.LocalDateTime;

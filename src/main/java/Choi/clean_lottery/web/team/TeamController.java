@@ -1,7 +1,7 @@
 package Choi.clean_lottery.web.team;
 
-import Choi.clean_lottery.domain.ChangeRoleTable;
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.MemberDto;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;

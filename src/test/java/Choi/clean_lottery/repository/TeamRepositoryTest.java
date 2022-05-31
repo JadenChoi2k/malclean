@@ -1,8 +1,7 @@
 package Choi.clean_lottery.repository;
 
-import Choi.clean_lottery.domain.DomainTestHelper;
-import Choi.clean_lottery.domain.Member;
-import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.team.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

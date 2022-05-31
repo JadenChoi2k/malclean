@@ -1,5 +1,8 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.team;
 
+import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +39,15 @@ public class Team {
     @Column(name = "team_state")
     @Setter
     private TeamState state = TeamState.ON;
+
+    // 현재의 state에서 inner enum으로 대체될 예정
+    @RequiredArgsConstructor
+    public enum Status {
+        ON("활성화"),
+        CHANGING_ROLE("인수인계 중"),
+        CLEANING("청소 중");
+        private final String description;
+    }
 
     // 팀이 만들어진 날짜
     @Column(nullable = false, updatable = false)

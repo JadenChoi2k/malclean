@@ -1,5 +1,11 @@
 package Choi.clean_lottery.domain;
 
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
+
 import java.util.ArrayList;
 import java.util.List;
 

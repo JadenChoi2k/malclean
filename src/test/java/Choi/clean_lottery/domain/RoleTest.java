@@ -1,12 +1,11 @@
 package Choi.clean_lottery.domain;
 
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class RoleTest {
     private final DomainTestHelper testHelper = new DomainTestHelper();

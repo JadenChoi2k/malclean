@@ -1,7 +1,7 @@
 package Choi.clean_lottery.repository;
 
-import Choi.clean_lottery.domain.Role;
-import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

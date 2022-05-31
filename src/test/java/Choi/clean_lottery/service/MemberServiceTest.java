@@ -1,7 +1,7 @@
 /*
 package Choi.clean_lottery.service;
 
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.repository.MemberRepository;
 import Choi.clean_lottery.web.join.MemberJoinForm;
 import org.assertj.core.api.Assertions;

@@ -1,9 +1,9 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.role_change;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.area.Area;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -32,6 +32,14 @@ public class ChangeAreaCard extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private AreaChangeState state = AreaChangeState.YET;
+
+    @RequiredArgsConstructor
+    public enum Status {
+        YET("대기중"),
+        IN_PROGRESS("진행중"),
+        DONE("인수인계완료");
+        private final String description;
+    }
 
     public ChangeAreaCard(Area area, ChangeRoleTable changeRoleTable) {
         this.area = area;

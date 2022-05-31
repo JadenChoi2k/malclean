@@ -1,6 +1,9 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.lottery;
 
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.area.Area;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -10,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @ToString
+@NoArgsConstructor
 public class LotteryResult {
     @Id @GeneratedValue
     @Column(name = "result_id")
@@ -29,9 +33,6 @@ public class LotteryResult {
     private Area area;
 
     private LocalDateTime pickDate;
-
-    public LotteryResult() {
-    }
 
     public LotteryResult(Lottery lottery, Member member, Area area, LocalDateTime pickDate) {
         this.lottery = lottery;

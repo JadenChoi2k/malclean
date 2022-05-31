@@ -1,7 +1,7 @@
 package Choi.clean_lottery.web.invite;
 
-import Choi.clean_lottery.domain.Invite;
-import Choi.clean_lottery.domain.Member;
+import Choi.clean_lottery.domain.invite.Invite;
+import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.InviteDto;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.InviteService;
@@ -28,10 +28,10 @@ public class InviteController {
     private final TeamService teamService;
     private final TeamQueryService teamQueryService;
     private final InviteService inviteService;
-    private Map<Invite.InviteStatus, String> statusStringMap = new HashMap<>() {{
-        put(Invite.InviteStatus.WAITING, "대기 중");
-        put(Invite.InviteStatus.REJECTED, "거절");
-        put(Invite.InviteStatus.ACCEPTED, "수락");
+    private Map<Invite.Status, String> statusStringMap = new HashMap<>() {{
+        put(Invite.Status.WAITING, "대기 중");
+        put(Invite.Status.REJECTED, "거절");
+        put(Invite.Status.ACCEPTED, "수락");
     }};
 
     @ResponseBody
@@ -61,8 +61,8 @@ public class InviteController {
         if (invite == null) {
             return "invite/not-found";
         }
-        if (invite.getStatus() == Invite.InviteStatus.ACCEPTED ||
-            invite.getStatus() == Invite.InviteStatus.REJECTED) {
+        if (invite.getStatus() == Invite.Status.ACCEPTED ||
+            invite.getStatus() == Invite.Status.REJECTED) {
             model.addAttribute("status", statusStringMap.get(invite.getStatus()));
             return "invite/already-processed";
         }

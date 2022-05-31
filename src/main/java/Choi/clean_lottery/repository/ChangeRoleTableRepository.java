@@ -1,7 +1,7 @@
 package Choi.clean_lottery.repository;
 
-import Choi.clean_lottery.domain.ChangeRoleTable;
-import Choi.clean_lottery.domain.Team;
+import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

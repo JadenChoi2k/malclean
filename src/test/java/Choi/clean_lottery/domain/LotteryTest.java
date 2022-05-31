@@ -1,10 +1,14 @@
 package Choi.clean_lottery.domain;
 
+import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.lottery.LotteryResult;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.ex.NotMemberOfTeam;
-import org.apache.tomcat.jni.Time;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,8 @@
-package Choi.clean_lottery.domain;
+package Choi.clean_lottery.domain.invite;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.member.Member;
+import Choi.clean_lottery.domain.team.Team;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,10 +37,10 @@ public class Invite extends BaseTimeEntity {
     @JoinColumn(name = "team_id")
     private Team team;
     @Enumerated(EnumType.STRING)
-    private InviteStatus status = InviteStatus.WAITING;
+    private Status status = Status.WAITING;
 
-    public enum InviteStatus {
-        WAITING ,ACCEPTED, REJECTED
+    public enum Status {
+        WAITING, ACCEPTED, REJECTED
     }
 
     public Invite(String uuid, Member sender, Member receiver, Team team) {
@@ -53,19 +56,19 @@ public class Invite extends BaseTimeEntity {
     }
 
     public boolean accept() {
-        if (receiver.getTeam() != null || status != InviteStatus.WAITING) {
-            status = InviteStatus.REJECTED;
+        if (receiver.getTeam() != null || status != Status.WAITING) {
+            status = Status.REJECTED;
             return false;
         }
         receiver.changeTeam(team);
-        status = InviteStatus.ACCEPTED;
+        status = Status.ACCEPTED;
         return true;
     }
 
     public void reject() {
-        if (status != InviteStatus.WAITING) {
+        if (status != Status.WAITING) {
             return;
         }
-        status = InviteStatus.REJECTED;
+        status = Status.REJECTED;
     }
 }

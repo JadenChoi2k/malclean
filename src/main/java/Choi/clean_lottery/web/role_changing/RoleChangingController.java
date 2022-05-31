@@ -2,7 +2,8 @@ package Choi.clean_lottery.web.role_changing;
 
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.member.Member;
-import Choi.clean_lottery.domain.team.TeamState;
+import Choi.clean_lottery.domain.team.Team;
+import Choi.clean_lottery.domain.team.Team.Status;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;
 import Choi.clean_lottery.service.MemberService;
@@ -37,14 +38,14 @@ public class RoleChangingController {
         }
         Optional<Member> member = memberService.findWithTeam((Long) memberId);
         if (member.isEmpty() || member.get().getTeam() == null ||
-                member.get().getTeam().getState() != TeamState.CHANGING_ROLE) {
+                member.get().getTeam().getState() != Team.Status.CHANGING_ROLE) {
             return "redirect:/";
         }
         ChangeRoleTable table = tableRepository.findFirstByTeamOrderByCreateDateDesc(member.get().getTeam());
         if (table == null) {
             return "redirect:/";
         }
-        member.get().getTeam().setState(TeamState.CHANGING_ROLE);
+        member.get().getTeam().setState(Team.Status.CHANGING_ROLE);
         teamService.merge(member.get().getTeam());
         return "redirect:/team/role-changing/" + table.getId();
     }

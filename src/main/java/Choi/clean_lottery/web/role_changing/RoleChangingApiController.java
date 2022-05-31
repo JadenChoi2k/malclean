@@ -2,10 +2,8 @@ package Choi.clean_lottery.web.role_changing;
 
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role_change.ChangeAreaCard;
-import Choi.clean_lottery.domain.role_change.ChangeRoleState;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.team.Team;
-import Choi.clean_lottery.domain.team.TeamState;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;
 import Choi.clean_lottery.service.MemberService;
@@ -141,10 +139,10 @@ public class RoleChangingApiController {
         if (table.get().getTeam() != team) {
             return malUtility.createErrorResponse("400 bad request", "table must be in team", 400);
         }
-        if (table.get().getState() != ChangeRoleState.DONE) {
+        if (table.get().getState() != ChangeRoleTable.Status.DONE) {
             return malUtility.createErrorResponse("400 bad request", "state of table must be done", 400);
         }
-        team.setState(TeamState.ON);
+        team.setState(Team.Status.ON);
         team.setCurrentRole(table.get().getReceiveRole());
         team.getCurrentRole().setStartDate(LocalDate.now());
         teamService.save(team);

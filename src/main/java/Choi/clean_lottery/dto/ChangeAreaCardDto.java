@@ -1,6 +1,5 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.role_change.AreaChangeState;
 import Choi.clean_lottery.domain.role_change.ChangeAreaCard;
 import lombok.Data;
 
@@ -9,7 +8,7 @@ public class ChangeAreaCardDto {
     private Long id;
     private String areaName;
     private MemberDto changer;
-    private AreaChangeState state;
+    private ChangeAreaCard.Status state;
 
     public ChangeAreaCardDto(ChangeAreaCard card) {
         this.id = card.getId();

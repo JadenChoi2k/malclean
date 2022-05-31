@@ -31,7 +31,7 @@ public class ChangeAreaCard extends BaseTimeEntity {
     private Member changer;
 
     @Enumerated(EnumType.STRING)
-    private AreaChangeState state = AreaChangeState.YET;
+    private Status state = Status.YET;
 
     @RequiredArgsConstructor
     public enum Status {
@@ -47,24 +47,24 @@ public class ChangeAreaCard extends BaseTimeEntity {
     }
 
     public void setChanger(Member member) {
-        if (changer == null && state == AreaChangeState.YET) {
+        if (changer == null && state == Status.YET) {
             changer = member;
-            state = AreaChangeState.IN_PROCESS;
+            state = Status.IN_PROGRESS;
         }
     }
 
     public void detachChanger() {
-        if (state == AreaChangeState.IN_PROCESS) {
+        if (state == Status.IN_PROGRESS) {
             changer = null;
-            state = AreaChangeState.YET;
+            state = Status.YET;
         }
     }
 
     public void completeChanging() {
-        if (state != AreaChangeState.IN_PROCESS) {
+        if (state != Status.IN_PROGRESS) {
             return;
         }
-        state = AreaChangeState.DONE;
+        state = Status.DONE;
         this.changeRoleTable.oneChangeDone();
     }
 }

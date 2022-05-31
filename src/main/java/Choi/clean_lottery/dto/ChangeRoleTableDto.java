@@ -1,6 +1,5 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.role_change.ChangeRoleState;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import lombok.Data;
 
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
 @Data
 public class ChangeRoleTableDto {
     private Long id;
-    private ChangeRoleState state;
+    private ChangeRoleTable.Status state;
     private List<ChangeAreaCardDto> givingCardList;
     private List<ChangeAreaCardDto> receivingCardList;
 

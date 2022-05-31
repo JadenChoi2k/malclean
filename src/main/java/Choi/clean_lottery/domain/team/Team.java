@@ -38,10 +38,10 @@ public class Team {
     @Enumerated(EnumType.STRING)
     @Column(name = "team_state")
     @Setter
-    private TeamState state = TeamState.ON;
+    private Status state = Status.ON;
 
-    // 현재의 state에서 inner enum으로 대체될 예정
     @RequiredArgsConstructor
+    @Getter
     public enum Status {
         ON("활성화"),
         CHANGING_ROLE("인수인계 중"),
@@ -88,11 +88,11 @@ public class Team {
     }
 
     public void startRoleChanging() {
-        this.state = TeamState.CHANGING_ROLE;
+        this.state = Status.CHANGING_ROLE;
     }
 
     public void endRoleChanging() {
-        this.state = TeamState.ON;
+        this.state = Status.ON;
     }
 
     public Role updateCurrentRole(Role role, LocalDate time) {

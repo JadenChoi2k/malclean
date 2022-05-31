@@ -1,7 +1,6 @@
 package Choi.clean_lottery.dto;
 
 import Choi.clean_lottery.domain.team.Team;
-import Choi.clean_lottery.domain.team.TeamState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class TeamDto {
     private LocalDateTime createDateTime;
     private RoleDto currentRole;
     private List<RoleDto> roles;
-    private TeamState state;
+    private Team.Status state;
 
     public TeamDto(Team team) {
         id = team.getId();

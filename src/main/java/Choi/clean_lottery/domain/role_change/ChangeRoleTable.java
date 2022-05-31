@@ -27,7 +27,7 @@ public class ChangeRoleTable extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "change_role_state")
-    private ChangeRoleState state = ChangeRoleState.IN_PROCESS;
+    private Status state = Status.IN_PROGRESS;
 
     @RequiredArgsConstructor
     public enum Status {
@@ -82,12 +82,12 @@ public class ChangeRoleTable extends BaseTimeEntity {
 
     public boolean isAllDone() {
         for (ChangeAreaCard changeAreaCard : receiveAreaCardList) {
-            if (changeAreaCard.getState() != AreaChangeState.DONE) {
+            if (changeAreaCard.getState() != ChangeAreaCard.Status.DONE) {
                 return false;
             }
         }
         for (ChangeAreaCard changeAreaCard : giveAreaCardList) {
-            if (changeAreaCard.getState() != AreaChangeState.DONE) {
+            if (changeAreaCard.getState() != ChangeAreaCard.Status.DONE) {
                 return false;
             }
         }
@@ -96,20 +96,20 @@ public class ChangeRoleTable extends BaseTimeEntity {
 
     private void updateState() {
         if (isAllDone()) {
-            this.state = ChangeRoleState.DONE;
+            this.state = Status.DONE;
         }
     }
 
     public void startChanging() {
         this.team.startRoleChanging();
-        this.state = ChangeRoleState.IN_PROCESS;
+        this.state = Status.IN_PROGRESS;
     }
 
     public void endChanging() {
         if (!isAllDone()) {
             return;
         }
-        this.state = ChangeRoleState.DONE;
+        this.state = Status.DONE;
         this.team.updateCurrentRole(receiveRole);
         this.team.endRoleChanging();
     }

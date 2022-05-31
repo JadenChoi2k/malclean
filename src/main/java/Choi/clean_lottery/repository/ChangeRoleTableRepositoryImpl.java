@@ -3,7 +3,7 @@ package Choi.clean_lottery.repository;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.domain.team.Team;
-import Choi.clean_lottery.domain.team.TeamState;
+import Choi.clean_lottery.domain.team.Team.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ public class ChangeRoleTableRepositoryImpl implements ChangeRoleTableRepositoryC
     public ChangeRoleTable saveByTeamAndRole(Team team, Role receiveRole) {
         em.merge(team);
         ChangeRoleTable changeRoleTable = new ChangeRoleTable(team, receiveRole, team.getCurrentRole());
-        team.setState(TeamState.CHANGING_ROLE);
+        team.setState(Team.Status.CHANGING_ROLE);
         em.persist(changeRoleTable);
         return changeRoleTable;
     }

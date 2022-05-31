@@ -41,8 +41,8 @@
     <input type="hidden" th:value="${memberId}" id="my-member-id">
     <h2>인수인계</h2>
     <th:block th:switch="${changeTable.state}">
-        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.role_change.ChangeRoleTable.Status).IN_PROGRESS}">진행 중입니다</h3>
-        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.role_change.ChangeRoleTable.Status).DONE}">인수인계 완료</h3>
+        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.role_change.ChangeRoleTable$Status).IN_PROGRESS}">진행 중입니다</h3>
+        <h3 th:id="'table-state'" th:case="${T(Choi.clean_lottery.domain.role_change.ChangeRoleTable$Status).DONE}">인수인계 완료</h3>
     </th:block>
     <hr>
     <h3 th:text="'주는 역할 - ' + ${givingRole.name}">주는 역할</h3>

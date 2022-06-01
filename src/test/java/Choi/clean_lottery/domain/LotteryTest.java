@@ -31,7 +31,7 @@ class LotteryTest {
         team.addRole(role);
         members.forEach(m -> m.changeTeam(team));
         // when
-        Lottery lottery = Lottery.createLottery("lottery", team, team.getMembers(), role);
+        Lottery lottery = Lottery.createLottery("lottery", team, role);
         // then
         assertNotNull(lottery);
         assertTrue(team.getHistories().contains(lottery));
@@ -49,7 +49,7 @@ class LotteryTest {
         members.forEach(m -> m.changeTeam(team));
         // when
         // then
-        assertThrows(IllegalArgumentException.class, () -> Lottery.createLottery("lottery", team, team.getMembers(), role));
+        assertThrows(IllegalArgumentException.class, () -> Lottery.createLottery("lottery", team, role));
     }
 
     @Test
@@ -64,16 +64,17 @@ class LotteryTest {
         // members.forEach(m -> m.changeTeam(team));
         // when
         // then
-        assertThrows(NotMemberOfTeam.class, () -> Lottery.createLottery("lottery", team, members, role));
+        assertThrows(NotMemberOfTeam.class, () -> Lottery.createLottery("lottery", team, role).drawLottery(team.getCurrentRole().getAreas(), members));
     }
 
     @Test
     public void 참가자_구역수_같음() throws Exception {
         // given
-        Lottery lottery = testHelper.createLottery(6);
+        Lottery lottery = testHelper.createLottery();
+        List<Member> members = lottery.getTeam().getMembers().subList(0, lottery.getRole().getAreas().size());
         System.out.println("lottery.getRole().areas = " + lottery.getRole().getAreas());
         // when
-        List<LotteryResult> lotteryResults = lottery.drawLottery(lottery.getRole().getAreas());
+        List<LotteryResult> lotteryResults = lottery.drawLottery(lottery.getRole().getAreas(), members);
         List<Member> resultMembers = lotteryResults.stream().map(lr -> lr.getMember()).collect(Collectors.toList());
         lotteryResults.forEach(System.out::println);
         // then
@@ -88,12 +89,13 @@ class LotteryTest {
         // given
         Lottery lottery = testHelper.createLottery();
         List<Area> pick = lottery.getRole().getAreas();
+        List<Member> participants = lottery.getTeam().getMembers().subList(0, lottery.getRole().getAreas().size() + 1);
         // when
-        List<LotteryResult> lotteryResults = lottery.drawLottery(pick);
-        List<Member> resultMembers = lotteryResults.stream().map(lr -> lr.getMember()).collect(Collectors.toList());
+        List<LotteryResult> lotteryResults = lottery.drawLottery(pick, participants);
+        List<Member> resultMembers = lotteryResults.stream().map(LotteryResult::getMember).collect(Collectors.toList());
         // then
         assertEquals(lotteryResults.size(), resultMembers.size());
-        assertTrue(lottery.getParticipants().size() > resultMembers.size());
+        assertTrue(participants.size() > resultMembers.size());
         for (LotteryResult lotteryResult : lotteryResults) {
             assertEquals(resultMembers.stream().filter(lotteryResult.getMember()::equals).count(), 1);
         }
@@ -104,12 +106,9 @@ class LotteryTest {
         // given
         Lottery lottery = testHelper.createLottery(5);
         List<Area> areas = lottery.getRole().getAreas();
-        List<Area> pick = new ArrayList<>();
-        for (Area area : areas) {
-            pick.add(area);
-        }
+        List<Member> participants = lottery.getTeam().getMembers().subList(0, areas.size() - 1);
         // when
-        List<LotteryResult> lotteryResults = lottery.drawLottery(pick);
+        List<LotteryResult> lotteryResults = lottery.drawLottery(areas, participants);
 //        for (LotteryResult lotteryResult : lotteryResults) {
 //            System.out.print(lotteryResult.getMember().getName());
 //            System.out.println(" -> " + lotteryResult.getArea().getName() + " " + lotteryResult.getArea().getDifficulty());
@@ -129,33 +128,19 @@ class LotteryTest {
     }
 
     @Test
-    public void 다시뽑기() throws Exception {
-        // given
-        Lottery lottery = testHelper.createLottery();
-        List<LotteryResult> firstResults = lottery.drawLottery(lottery.getRole().getAreas());
-        // when
-        List<Area> pick = new ArrayList<>(List.copyOf(lottery.getRole().getAreas()));
-        pick.add(pick.get(pick.size() - 1));
-        List<LotteryResult> secondResults = lottery.redrawLottery(
-                lottery.getParticipants().subList(0, 4), lottery.getRole(), pick);
-        // then
-        assertNotEquals(firstResults, secondResults);
-        assertNotEquals(firstResults.size(), secondResults.size());
-    }
-
-    @Test
     public void 너무_많은_구역_검증() throws Exception {
         // given
         Lottery lottery = testHelper.createLottery(3);
+        List<Member> participants = lottery.getTeam().getMembers().subList(0, 3);
         List<Area> areas = lottery.getRole().getAreas();
         List<Area> pick = new ArrayList<>();
         for (Area area : areas) {
-            for (int i = 0; i < lottery.getParticipants().size() + 1; i++) {
+            for (int i = 0; i < participants.size() + 1; i++) {
                 pick.add(area);
             }
         }
         // then
-        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick));
+        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick, participants));
     }
 
     @Test
@@ -163,9 +148,9 @@ class LotteryTest {
         // given
         Lottery lottery = testHelper.createLottery(3);
         List<Area> pick = new ArrayList<>(List.copyOf(lottery.getRole().getAreas()));
-        pick.add(new Area(100L, new Role(), "no_area", 999, 0, true));
+        pick.add(new Area(100L, new Role(404L, "no_role", null), "no_area", 999, 0, true));
         // then
-        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick));
+        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick, lottery.getTeam().getMembers().subList(0, 3)));
     }
 
     @Test
@@ -180,6 +165,6 @@ class LotteryTest {
             pick.add(area);
         }
         // then
-        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick));
+        assertThrows(IllegalArgumentException.class, () -> lottery.drawLottery(pick, lottery.getTeam().getMembers()));
     }
 }

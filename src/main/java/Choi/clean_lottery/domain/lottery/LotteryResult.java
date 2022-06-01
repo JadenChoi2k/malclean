@@ -1,5 +1,6 @@
 package Choi.clean_lottery.domain.lottery;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.area.Area;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
-public class LotteryResult {
+public class LotteryResult extends BaseTimeEntity {
     @Id @GeneratedValue
     @Column(name = "result_id")
     private Long id;
@@ -35,9 +36,12 @@ public class LotteryResult {
     private LocalDateTime pickDate;
 
     public LotteryResult(Lottery lottery, Member member, Area area, LocalDateTime pickDate) {
+        this(lottery, member, area);
+    }
+
+    public LotteryResult(Lottery lottery, Member member, Area area) {
         this.lottery = lottery;
         this.member = member;
         this.area = area;
-        this.pickDate = pickDate;
     }
 }

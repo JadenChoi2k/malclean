@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
+    // kakao api 호출로 받은 유저의 아이디를 저장한다.
     @Id @Column(name = "member_id")
     private Long id;
 
@@ -24,23 +25,14 @@ public class Member extends BaseTimeEntity {
     @Setter
     private String profile_url;
 
-    // 마지막 로그인 일시
-    @Setter
-    private LocalDateTime lastLoginDateTime;
-    // 가입 일시
-    @Column(updatable = false)
-    private LocalDateTime joinDateTime;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Member(Long id, String name, String profile_url, LocalDateTime lastLoginDateTime, LocalDateTime joinDateTime) {
+    public Member(Long id, String name, String profile_url) {
         this.id = id;
         this.name = name;
         this.profile_url = profile_url;
-        this.lastLoginDateTime = lastLoginDateTime;
-        this.joinDateTime = joinDateTime;
     }
 
     public void changeTeam(Team team) {
@@ -49,6 +41,7 @@ public class Member extends BaseTimeEntity {
         }
 
         this.team = team;
+        if (team == null) return;
         team.getMembers().add(this);
     }
 

@@ -1,17 +1,19 @@
 package Choi.clean_lottery.domain.area;
 
+import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.role.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Area {
+public class Area extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "area_id")
@@ -60,7 +62,7 @@ public class Area {
     }
 
     public void changeAttribute(String name, Integer difficulty, Integer minimumPeople, Boolean changeable) {
-        if (name != null && name.length() > 0) {
+        if (StringUtils.hasText(name)) {
             this.name = name;
         }
         if (difficulty != null && difficulty >= 0) {

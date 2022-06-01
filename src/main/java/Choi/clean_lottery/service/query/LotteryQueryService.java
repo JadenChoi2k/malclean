@@ -27,7 +27,7 @@ public class LotteryQueryService {
                         " from Lottery l" +
                         " left join l.role r" +
                         " where l.team.id = :teamId" +
-                        " order by l.lastRoleDateTime desc", LotteryDto.class)
+                        " order by l.createDate desc", LotteryDto.class)
                 .setParameter("teamId", teamId)
                 .setFirstResult(page * count)
                 .setMaxResults(count)

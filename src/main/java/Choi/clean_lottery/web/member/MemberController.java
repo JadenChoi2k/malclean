@@ -72,8 +72,7 @@ public class MemberController {
         // 멤버가 등록되어 있지 않으면 조인시키고, 등록되어 있으면 업데이트한다.
         Member findResult = memberService.findOne(kakaoUserInfo.getId());
         if (findResult == null) {
-            Member joinMember = new Member(kakaoUserInfo.getId(), nickname, profile_image_url,
-                    LocalDateTime.now(), LocalDateTime.now());
+            Member joinMember = new Member(kakaoUserInfo.getId(), nickname, profile_image_url);
             findResult = memberService.join(joinMember);
         } else {
             findResult = memberService.merge(findResult);

@@ -24,7 +24,7 @@ public class TeamRepositoryTest {
     @Test
     public void 팀_불러오기_postLoad() {
         // given
-        Member manager1 = new Member(1L, "manager1", null, null, null);
+        Member manager1 = new Member(1L, "manager1", null);
         Team team1 = new Team("team1", manager1);
         em.persist(team1);
         em.flush();
@@ -38,9 +38,9 @@ public class TeamRepositoryTest {
     @Test
     public void 팀_저장() throws Exception {
         // given
-        Member manager1 = new Member(1L, "manager1", null, null, null);
+        Member manager1 = new Member(1L, "manager1", null);
         Team team1 = new Team("team1", manager1);
-        Member manager2 = new Member(2L, "manager2", null, null, null);
+        Member manager2 = new Member(2L, "manager2", null);
         Team team2 = new Team("team2", manager2);
         teamRepository.save(team1);
         teamRepository.save(team2);

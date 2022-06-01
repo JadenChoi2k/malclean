@@ -13,13 +13,13 @@ public class DomainTestHelper {
     public List<Member> createMembers() {
         List<Member> members = new ArrayList<>();
         for(long i = 0; i < 10L; i++) {
-            members.add(new Member(i, "member" + i, null, null, null));
+            members.add(new Member(i, "member" + i, null));
         }
         return members;
     }
 
     public Team createTeam() {
-        Member manager = new Member(1111L, "manager", null, null, null);
+        Member manager = new Member(1111L, "manager", null);
         Team team = new Team("team", manager);
         return team;
     }
@@ -61,7 +61,7 @@ public class DomainTestHelper {
         areas.forEach(a -> role.addArea(a));
         team.addRole(role);
         members.forEach(m -> m.changeTeam(team));
-        Lottery lottery = Lottery.createLottery("lottery", team, team.getMembers(), role);
+        Lottery lottery = Lottery.createLottery("lottery", team, role);
         return lottery;
     }
 
@@ -73,6 +73,6 @@ public class DomainTestHelper {
         areas.forEach(role::addArea);
         team.addRole(role);
         members.forEach(m -> m.changeTeam(team));
-        return Lottery.createLottery("lottery", team, team.getMembers().subList(0, participantSize), role);
+        return Lottery.createLottery("lottery", team, role);
     }
 }

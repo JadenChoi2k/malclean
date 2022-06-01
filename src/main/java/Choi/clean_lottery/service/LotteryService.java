@@ -59,24 +59,15 @@ public class LotteryService {
         if (!team.isRoleOf(role))
             throw new NotRoleOfTeam("팀의 역할이 아닙니다.");
 
-        Lottery lottery = Lottery.createLottery(name, team, participants, role);
-        lottery.drawLottery(pick.stream().map(id -> areaRepository.findById(id).orElse(null)).collect(Collectors.toList()));
+        Lottery lottery = Lottery.createLottery(name, team, role);
+        lottery.drawLottery(
+                pick.stream()
+                        .map(id -> areaRepository.findById(id).orElse(null))
+                        .collect(Collectors.toList()),
+                participants
+        );
         lotteryRepository.save(lottery);
 
-        return lottery;
-    }
-
-    public Lottery redraw(Long lotteryId, Long teamId, Set<Long> participantIds,
-                          Long roleId, List<Long> pick) {
-        Lottery lottery = findOne(lotteryId);
-        Team team = teamRepository.findOne(teamId);
-        if (lottery == null || team == null)
-            return null;
-        List<Member> participants = getMembers(participantIds, team);
-
-        Role role = roleRepository.findById(roleId);
-        lottery.redrawLottery(participants, role,
-                pick.stream().map(id -> areaRepository.findById(id).orElse(null)).collect(Collectors.toList()));
         return lottery;
     }
 

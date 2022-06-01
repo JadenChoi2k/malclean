@@ -3,10 +3,7 @@ package Choi.clean_lottery.domain.invite;
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.team.Team;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -39,11 +36,16 @@ public class Invite extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Status status = Status.WAITING;
 
+    @RequiredArgsConstructor
+    @Getter
     public enum Status {
-        WAITING, ACCEPTED, REJECTED
+        WAITING("대기중"),
+        ACCEPTED("수락됨"),
+        REJECTED("거절됨");
+        private final String description;
     }
 
-    public Invite(String uuid, Member sender, Member receiver, Team team) {
+    private Invite(String uuid, Member sender, Member receiver, Team team) {
         this.uuid = uuid;
         this.sender = sender;
         this.receiver = receiver;

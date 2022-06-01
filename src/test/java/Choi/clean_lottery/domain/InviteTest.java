@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InviteTest {
 
     Invite createInvite() {
-        Member sender = new Member(1L, "sender", null, null, null);
-        Member receiver = new Member(2L, "sender", null, null, null);
+        Member sender = new Member(1L, "sender", null);
+        Member receiver = new Member(2L, "sender", null);
         Team team = new Team("team", sender);
         Invite invite = Invite.create(sender, receiver, team);
         return invite;
@@ -20,8 +20,8 @@ class InviteTest {
     @Test
     public void invite_create() throws Exception {
         // given
-        Member sender = new Member(1L, "sender", null, null, null);
-        Member receiver = new Member(2L, "sender", null, null, null);
+        Member sender = new Member(1L, "sender", null);
+        Member receiver = new Member(2L, "sender", null);
         Team team = new Team("team", sender);
         // when
         Invite invite = Invite.create(sender, receiver, team);

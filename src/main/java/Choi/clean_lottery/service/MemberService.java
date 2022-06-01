@@ -37,7 +37,6 @@ public class MemberService {
     }
 
     public Member merge(Member member) {
-        member.setLastLoginDateTime(LocalDateTime.now());
         return memberRepository.merge(member);
     }
 

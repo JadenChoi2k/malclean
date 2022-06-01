@@ -28,7 +28,7 @@ public class LotteryRepository {
     }
 
     public List<Lottery> pagingInTeam(Long teamId, int page, int count) {
-        return em.createQuery("select l from Lottery l where l.team.id=:teamId order by l.lastRoleDateTime desc")
+        return em.createQuery("select l from Lottery l where l.team.id=:teamId order by l.createDate desc")
                 .setParameter("teamId", teamId)
                 .setFirstResult(page * count)
                 .setMaxResults(count)

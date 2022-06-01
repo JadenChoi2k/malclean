@@ -30,7 +30,7 @@ public class InviteService {
     }
 
     public Invite createInvite(Member sender, Member receiver, Team team) {
-        Invite invite = new Invite(UUID.randomUUID().toString(), sender, receiver, team);
+        Invite invite = Invite.create(sender, receiver, team);
         inviteRepository.save(invite);
         return invite;
     }

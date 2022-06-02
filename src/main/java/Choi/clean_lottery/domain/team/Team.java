@@ -1,20 +1,19 @@
 package Choi.clean_lottery.domain.team;
 
-import Choi.clean_lottery.domain.lottery.Lottery;
+import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role.Role;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team {
+public class Team extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "team_id")
@@ -27,7 +26,6 @@ public class Team {
     // 팀의 매니저. 팀원들을 추가/삭제 할 수 있다. 청소 역할을 정할 수 있다.
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "manager_id")
-    @Setter
     private Member manager;
 
     // 팀에 속하는 모든 인원은 청소 역할을 뽑을 수 있다.
@@ -49,10 +47,6 @@ public class Team {
         private final String description;
     }
 
-    // 팀이 만들어진 날짜
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createDateTime;
-
     // 현재 진행하고 있는 역할.
     // 인수인계 여부, 이전/다음 역할 등을 검증해야 한다.
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -64,15 +58,18 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
-    // 팀이 여태 뽑았던 청소목록... 아마도 나중에는 필드가 없어지고 JPQL로 조회할 것이다.
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private List<Lottery> histories = new ArrayList<>();
-
     public Team(String name, Member manager) {
         this.name = name;
-        this.manager = manager;
         manager.changeTeam(this);
-        this.createDateTime = LocalDateTime.now();
+        setManager(manager);
+    }
+
+    public void setManager(Member member) {
+        if (!member.getTeam().getId().equals(getId())) {
+            throw new IllegalArgumentException("이 팀의 멤버가 아닙니다.");
+        }
+        this.manager = member;
+        member.takeManager();
     }
 
     public void addMember(Member member) {

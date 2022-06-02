@@ -23,7 +23,7 @@ public class TeamDto {
         name = team.getName();
         manager = new MemberDto(team.getManager());
         members = team.getMembers().stream().map(MemberDto::new).collect(Collectors.toList());
-        createDateTime = team.getCreateDateTime();
+        createDateTime = team.getCreateDate();
         if (team.getCurrentRole() != null) {
             currentRole = new RoleDto(team.getCurrentRole());
         }

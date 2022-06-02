@@ -34,7 +34,7 @@ class LotteryTest {
         Lottery lottery = Lottery.createLottery("lottery", team, role);
         // then
         assertNotNull(lottery);
-        assertTrue(team.getHistories().contains(lottery));
+        assertEquals(lottery.getTeam().getId(), team.getId());
     }
 
     @Test

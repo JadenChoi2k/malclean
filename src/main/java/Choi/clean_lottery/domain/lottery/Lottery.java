@@ -41,14 +41,9 @@ public class Lottery extends BaseTimeEntity {
     public static Lottery createLottery(String name, Team team, Role role) {
         Lottery lottery = new Lottery();
         lottery.name = name;
-        lottery.addTeamHistory(team);
+        lottery.team = team;
         lottery.setRoleAndValidate(role);
         return lottery;
-    }
-
-    private void addTeamHistory(Team team) {
-        this.team = team;
-        team.getHistories().add(this);
     }
 
     private boolean validateParticipants(List<Member> participants) throws NotMemberOfTeam {

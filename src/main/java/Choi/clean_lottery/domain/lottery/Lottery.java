@@ -2,6 +2,7 @@ package Choi.clean_lottery.domain.lottery;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.lottery.result.LotteryResult;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.domain.team.Team;

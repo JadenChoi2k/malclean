@@ -1,6 +1,6 @@
 package Choi.clean_lottery.dto;
 
-import Choi.clean_lottery.domain.lottery.LotteryResult;
+import Choi.clean_lottery.domain.lottery.result.LotteryResult;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,6 +18,6 @@ public class LotteryResultDto {
         } else {
             area = new AreaDto(-1L, "삭제됨", 0, 0, false);
         }
-        pickDate = lotteryResult.getPickDate();
+        pickDate = lotteryResult.getCreateDate();
     }
 }

@@ -1,6 +1,7 @@
-package Choi.clean_lottery.domain.lottery;
+package Choi.clean_lottery.domain.lottery.result;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
+import Choi.clean_lottery.domain.lottery.Lottery;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.area.Area;
 import lombok.Getter;
@@ -9,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,13 +33,7 @@ public class LotteryResult extends BaseTimeEntity {
     @JoinColumn(name = "area_id")
     private Area area;
 
-    private LocalDateTime pickDate;
-
-    public LotteryResult(Lottery lottery, Member member, Area area, LocalDateTime pickDate) {
-        this(lottery, member, area);
-    }
-
-    public LotteryResult(Lottery lottery, Member member, Area area) {
+        public LotteryResult(Lottery lottery, Member member, Area area) {
         this.lottery = lottery;
         this.member = member;
         this.area = area;

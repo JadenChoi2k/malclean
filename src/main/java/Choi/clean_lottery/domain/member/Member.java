@@ -82,6 +82,14 @@ public class Member extends BaseTimeEntity {
 
     public void getOutOfTeam() {
         log.info("[Member.getOutOfTeam] member {}: out of team {}", getId(), getTeam().getId());
+        // 매니저인 경우.
+        if (this.position == Position.TEAM_MANAGER) {
+            // 혼자가 아니면 나올 수 없다.
+            if (this.team.getMembers().size() != 1) {
+                log.info("[Member.getOutOfTeam] member {}: cannot out of team. manager", getId());
+                throw new IllegalArgumentException("매니저를 강퇴할 수 없습니다.");
+            }
+        }
         this.position = Position.NONE;
         this.team = null;
     }

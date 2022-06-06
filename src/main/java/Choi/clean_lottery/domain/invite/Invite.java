@@ -52,6 +52,10 @@ public class Invite extends BaseTimeEntity {
         this.team = team;
     }
 
+    public static Invite create(Member sender, Team team) {
+        return create(sender, null, team);
+    }
+
     public static Invite create(Member sender, Member receiver, Team team) {
         String uuid = UUID.randomUUID().toString();
         return new Invite(uuid, sender, receiver, team);
@@ -67,10 +71,20 @@ public class Invite extends BaseTimeEntity {
         return true;
     }
 
+    public boolean accept(Member receiver) {
+        setReceiver(receiver);
+        return accept();
+    }
+
     public void reject() {
         if (status != Status.WAITING) {
             return;
         }
         status = Status.REJECTED;
+    }
+
+    public void reject(Member receiver) {
+        setReceiver(receiver);
+        reject();
     }
 }

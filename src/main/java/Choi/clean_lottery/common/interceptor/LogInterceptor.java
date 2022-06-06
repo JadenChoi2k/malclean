@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.interceptor;
+package Choi.clean_lottery.common.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;

@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.converter;
+package Choi.clean_lottery.common.converter;
 
 import org.springframework.core.convert.converter.Converter;
 

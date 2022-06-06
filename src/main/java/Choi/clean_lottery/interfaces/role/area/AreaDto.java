@@ -1,4 +1,4 @@
-package Choi.clean_lottery.interfaces.area;
+package Choi.clean_lottery.interfaces.role.area;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -42,11 +42,9 @@ public class AreaDto {
     @Getter
     @Setter
     @Builder
-    public static class ChangeAreaRequest {
+    public static class EditAreaRequest {
         @NotNull
         private Long roleId;
-        @NotNull
-        private Long areaId;
         @Length(min = 2, max = 15)
         private String name;
         @Max(10)

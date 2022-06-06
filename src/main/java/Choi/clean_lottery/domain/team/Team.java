@@ -1,15 +1,18 @@
 package Choi.clean_lottery.domain.team;
 
+import Choi.clean_lottery.common.exception.NotRoleOfTeam;
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role.Role;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -65,8 +68,8 @@ public class Team extends BaseTimeEntity {
     }
 
     public void setManager(Member member) {
-        if (!member.getTeam().getId().equals(getId())) {
-            throw new IllegalArgumentException("이 팀의 멤버가 아닙니다.");
+        if (!isMemberOf(member)) {
+            throw new NotRoleOfTeam("이 팀의 멤버가 아닙니다.");
         }
         this.manager = member;
         member.takeManager();
@@ -93,6 +96,10 @@ public class Team extends BaseTimeEntity {
     }
 
     public Role updateCurrentRole(Role role, LocalDate time) {
+        if (!isRoleOf(role)) {
+            log.info("role id={} is not a role of team id={}", role.getId(), getId());
+            throw new NotRoleOfTeam();
+        }
         this.currentRole = role;
         role.setStartDate(time);
         return this.currentRole;

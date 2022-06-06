@@ -5,7 +5,7 @@ public interface TeamService {
 
     TeamInfo addMemberToTeam(TeamCommand.AddMemberRequest addMemberRequest);
 
-    void editRoleSequence(TeamCommand.ChangeCurrentRoleRequest changeCurrentRoleRequest);
+    void changeCurrentRole(TeamCommand.ChangeCurrentRoleRequest changeCurrentRoleRequest);
 
     TeamInfo changeManager(TeamCommand.ChangeManagerRequest changeManagerRequest);
 

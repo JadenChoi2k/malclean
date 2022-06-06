@@ -1,6 +1,6 @@
 package Choi.clean_lottery.domain;
 
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import Choi.clean_lottery.domain.lottery.Lottery;
 import Choi.clean_lottery.domain.lottery.result.LotteryResult;
 import Choi.clean_lottery.domain.member.Member;

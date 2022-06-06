@@ -1,9 +1,6 @@
-package Choi.clean_lottery.web.interceptor;
+package Choi.clean_lottery.common.interceptor;
 
 import Choi.clean_lottery.web.SessionConst;
-import Choi.clean_lottery.web.kakaoapi.KakaoApiHelper;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserInfo;
-import Choi.clean_lottery.web.member.MemberRequestFinder;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

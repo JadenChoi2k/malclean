@@ -1,10 +1,9 @@
 package Choi.clean_lottery.web;
 
-import Choi.clean_lottery.web.converter.LocalDateToStringConverter;
-import Choi.clean_lottery.web.converter.StringToLocalDateConverter;
-import Choi.clean_lottery.web.interceptor.LogInterceptor;
-import Choi.clean_lottery.web.interceptor.LoginCheckInterceptor;
-import Choi.clean_lottery.web.interceptor.MemberCheckInterceptor;
+import Choi.clean_lottery.common.converter.LocalDateToStringConverter;
+import Choi.clean_lottery.common.converter.StringToLocalDateConverter;
+import Choi.clean_lottery.common.interceptor.LogInterceptor;
+import Choi.clean_lottery.common.interceptor.MemberCheckInterceptor;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

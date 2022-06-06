@@ -9,16 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
-    private final TeamReader teamReader;
     private final TeamStore teamStore;
-    // 읽기에 한정해서 다른 도메인을 참조한다.
+    private final TeamReader teamReader;
     private final MemberReader memberReader;
     private final RoleReader roleReader;
 
@@ -41,12 +37,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public void editRoleSequence(TeamCommand.ChangeCurrentRoleRequest changeCurrentRoleRequest) {
+    public void changeCurrentRole(TeamCommand.ChangeCurrentRoleRequest changeCurrentRoleRequest) {
         Team team = teamReader.getTeamById(changeCurrentRoleRequest.getTeamId());
         Role role = roleReader.getRoleById(changeCurrentRoleRequest.getRoleId());
-        if (team == null) throw new IllegalArgumentException("팀을 찾을 수 없습니다.");
-        if (role == null) throw new IllegalArgumentException("역할을 찾을 수 없습니다.");
-        if (team.isRoleOf(role)) throw new IllegalArgumentException("팀에 없는 역할입니다.");
         team.setCurrentRole(role);
     }
 

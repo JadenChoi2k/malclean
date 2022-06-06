@@ -3,7 +3,7 @@ package Choi.clean_lottery.domain.lottery.result;
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.lottery.Lottery;
 import Choi.clean_lottery.domain.member.Member;
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

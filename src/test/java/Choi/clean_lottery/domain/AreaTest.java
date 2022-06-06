@@ -1,6 +1,6 @@
 package Choi.clean_lottery.domain;
 
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

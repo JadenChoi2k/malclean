@@ -2,7 +2,7 @@ package Choi.clean_lottery.domain.role_change;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import lombok.*;
 
 import javax.persistence.*;

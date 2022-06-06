@@ -1,7 +1,7 @@
 package Choi.clean_lottery.domain.role;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import Choi.clean_lottery.domain.team.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
@@ -48,6 +48,11 @@ public class Role extends BaseTimeEntity {
     public Role(String name, Team team) {
         this.setName(name);
         this.team = team;
+    }
+
+    public void changeName(String name) {
+        if (name == null) throw new IllegalArgumentException("적절하지 않은 요청입니다.");
+        this.name = name;
     }
 
     public boolean isAreaOf(Area area) {

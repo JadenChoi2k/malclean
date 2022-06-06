@@ -1,4 +1,4 @@
-package Choi.clean_lottery.domain.area;
+package Choi.clean_lottery.domain.role.area;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.role.Role;

@@ -1,6 +1,6 @@
 package Choi.clean_lottery.service;
 
-import Choi.clean_lottery.domain.area.Area;
+import Choi.clean_lottery.domain.role.area.Area;
 import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.ex.NotRoleOfTeam;

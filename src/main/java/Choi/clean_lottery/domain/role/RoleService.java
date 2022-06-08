@@ -6,5 +6,7 @@ public interface RoleService {
 
     RoleInfo editRole(RoleCommand.EditRoleRequest editRequest);
 
+    void detachFromTeam(Long roleId);
+
     RoleInfo retrieveRoleInfo(Long roleId);
 }

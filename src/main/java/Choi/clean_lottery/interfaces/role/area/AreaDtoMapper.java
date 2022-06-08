@@ -13,12 +13,10 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface AreaDtoMapper {
 
-    @Mapping(source = "name", target = "areaName")
     AreaCommand.RegisterAreaRequest of(AreaDto.RegisterAreaRequest registerAreaRequest);
 
     @Mapping(source = "name", target = "areaName", defaultValue = "")
     @Mapping(target = "difficulty", defaultValue = "-1")
     @Mapping(target = "minimumPeople", defaultValue = "-1")
-    @Mapping(target = "changeable", defaultValue = "null")
     AreaCommand.EditAreaRequest of(AreaDto.EditAreaRequest editAreaRequest);
 }

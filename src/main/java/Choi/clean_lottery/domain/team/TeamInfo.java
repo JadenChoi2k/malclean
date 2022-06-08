@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Builder
 public class TeamInfo {
     private Long teamId;
     private String teamName;

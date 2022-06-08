@@ -48,6 +48,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public void detachFromTeam(Long roleId) {
+        roleStore.detachFromTeam(roleId);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public RoleInfo retrieveRoleInfo(Long roleId) {
         return new RoleInfo(roleReader.getRoleById(roleId));

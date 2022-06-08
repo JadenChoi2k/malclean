@@ -1,6 +1,7 @@
 package Choi.clean_lottery.domain.role;
 
 import Choi.clean_lottery.domain.role.area.AreaInfo;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -15,6 +16,14 @@ public class RoleInfo {
     private String name;
     private List<AreaInfo> areaList;
     private LocalDate startDate;
+
+    @Builder
+    public RoleInfo(Long roleId, String name, List<AreaInfo> areaList, LocalDate startDate) {
+        this.roleId = roleId;
+        this.name = name;
+        this.areaList = areaList;
+        this.startDate = startDate;
+    }
 
     public RoleInfo(Role role) {
         this.roleId = role.getId();

@@ -1,12 +1,10 @@
 package Choi.clean_lottery.domain.role.area;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 public class AreaInfo {
     private Long id;
     private String name;

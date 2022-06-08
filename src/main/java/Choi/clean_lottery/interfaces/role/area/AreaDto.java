@@ -29,7 +29,7 @@ public class AreaDto {
         @NotNull
         private Long roleId;
         @Length(min = 2, max = 15)
-        private String name;
+        private String areaName;
         @Max(10)
         @Min(0)
         private Integer difficulty;
@@ -44,7 +44,7 @@ public class AreaDto {
     @Builder
     public static class EditAreaRequest {
         @NotNull
-        private Long roleId;
+        private Long areaId;
         @Length(min = 2, max = 15)
         private String name;
         @Max(10)

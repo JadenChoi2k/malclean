@@ -18,21 +18,15 @@ public class AreaApiController {
     private final AreaFacade areaFacade;
     private final AreaDtoMapper areaDtoMapper;
 
-    @GetMapping("/{areaId}")
-    public CommonResponse retrieve(@PathVariable Long areaId) {
-        AreaInfo areaInfo = areaFacade.retrieve(areaId);
-        return CommonResponse.success(areaInfo);
-    }
-
-    @DeleteMapping("/{areaId}")
-    public CommonResponse detachFromRole(@PathVariable Long areaId) {
-        areaFacade.detachFromRole(areaId);
-        return CommonResponse.success("ok");
-    }
-
     @PostMapping("/")
     public CommonResponse register(@RequestBody @Valid AreaDto.RegisterAreaRequest registerAreaRequest) {
         AreaInfo areaInfo = areaFacade.register(areaDtoMapper.of(registerAreaRequest));
+        return CommonResponse.success(areaInfo);
+    }
+
+    @GetMapping("/{areaId}")
+    public CommonResponse retrieve(@PathVariable Long areaId) {
+        AreaInfo areaInfo = areaFacade.retrieve(areaId);
         return CommonResponse.success(areaInfo);
     }
 
@@ -42,6 +36,12 @@ public class AreaApiController {
             @RequestBody @Valid AreaDto.EditAreaRequest editAreaRequest) {
         AreaInfo areaInfo = areaFacade.edit(combine(areaId, editAreaRequest));
         return CommonResponse.success(areaInfo);
+    }
+
+    @DeleteMapping("/{areaId}")
+    public CommonResponse detachFromRole(@PathVariable Long areaId) {
+        areaFacade.detachFromRole(areaId);
+        return CommonResponse.success("ok");
     }
 
     private AreaCommand.EditAreaRequest combine(

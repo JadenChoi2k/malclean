@@ -2,6 +2,7 @@ HELP.md
 .gradle
 build/
 src/main/resources/application.yml
+src/main/resources/application-prod.yml
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -39,4 +40,4 @@ out/
 /src/main/java/Choi/clean_lottery/web/kakaoapi/KakaoAppConst.java
 !/.gitignore
 !/.gitignore
-/src/main/resources/application-prod.yml
+/src/main/java/Choi/clean_lottery/interfaces/social/kakao/KakaoAppConst.java

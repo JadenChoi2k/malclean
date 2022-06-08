@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.kakaoapi;
+package Choi.clean_lottery.interfaces.social.kakao;
 
 import lombok.Getter;
 

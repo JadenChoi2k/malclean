@@ -14,9 +14,13 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public MemberInfo registerMember(Long id, String name, String profileUrl) {
-        log.info("member registered: [id={}] {} ({})", id, name, profileUrl);
-        return new MemberInfo(memberStore.store(new Member(id, name, profileUrl)));
+    public MemberInfo registerMember(MemberCommand.RegisterMemberRequest registerMemberRequest) {
+        if (memberReader.exists(registerMemberRequest.getId())) return null;
+        log.info("member registered: [id={}] {} ({})",
+                registerMemberRequest.getId(),
+                registerMemberRequest.getName(),
+                registerMemberRequest.getProfileUrl());
+        return new MemberInfo(memberStore.store(registerMemberRequest.toEntity()));
     }
 
     @Override
@@ -27,6 +31,8 @@ public class MemberServiceImpl implements MemberService{
         member.updateProfile(name, profileUrl);
         return new MemberInfo(member);
     }
+
+
 
     @Override
     @Transactional

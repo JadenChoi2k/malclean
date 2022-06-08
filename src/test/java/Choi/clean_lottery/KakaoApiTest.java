@@ -1,9 +1,8 @@
 package Choi.clean_lottery;
 
 import Choi.KakaoRestApiHelper;
-import Choi.clean_lottery.web.kakaoapi.KakaoAppConst;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserInfo;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserTokenInfo;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoAppConst;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoUserTokenInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

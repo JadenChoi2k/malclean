@@ -6,9 +6,9 @@ import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.query.TeamQueryService;
 import Choi.clean_lottery.web.SessionConst;
 import Choi.clean_lottery.web.WebConfig;
-import Choi.clean_lottery.web.kakaoapi.KakaoApiHelper;
-import Choi.clean_lottery.web.kakaoapi.KakaoTokenInfo;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserInfo;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoApiHelper;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoTokenInfo;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoUserResponse;
 import Choi.clean_lottery.web.utils.MalUtility;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,7 +57,7 @@ public class MemberController {
             log.info("에러 메시지 -> {}", tokenInfo.errorToString());
             return "redirect:/";
         }
-        KakaoUserInfo kakaoUserInfo = memberRequestFinder.getKakaoUserInfo(tokenInfo.getAccess_token());
+        KakaoUserResponse kakaoUserInfo = memberRequestFinder.fetchKakaoUserInfo(tokenInfo.getAccess_token());
         if (kakaoUserInfo == null || kakaoUserInfo.hasError()) {
             log.info("kakoUserInfo가 null이거나 kakaoUserInfo에 에러가 있습니다.");
             return "redirect:/";

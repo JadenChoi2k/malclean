@@ -1,7 +1,7 @@
 package Choi.clean_lottery.domain.member;
 
 public interface MemberService {
-    MemberInfo registerMember(Long id, String name, String profileUrl);
+    MemberInfo registerMember(MemberCommand.RegisterMemberRequest registerMemberRequest);
 
     MemberInfo updateMemberProfile(Long id, String name, String profileUrl);
 

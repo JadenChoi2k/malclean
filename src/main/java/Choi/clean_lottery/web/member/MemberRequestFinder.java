@@ -1,8 +1,7 @@
 package Choi.clean_lottery.web.member;
 
-import Choi.clean_lottery.web.kakaoapi.KakaoApiHelper;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserInfo;
-import Choi.clean_lottery.web.kakaoapi.KakaoUserTokenInfo;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoApiHelper;
+import Choi.clean_lottery.interfaces.social.kakao.KakaoUserResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -45,7 +44,7 @@ public class MemberRequestFinder {
         return kakaoApiHelper.getUserIdByToken(token.get().getValue());
     }
 
-    public KakaoUserInfo getKakaoUserInfo(HttpServletRequest request) throws JsonProcessingException {
+    public KakaoUserResponse fetchKakaoUserInfo(HttpServletRequest request) throws JsonProcessingException {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return null;
         try {
@@ -55,14 +54,14 @@ public class MemberRequestFinder {
             if (token.isEmpty()) {
                 return null;
             }
-            return getKakaoUserInfo(token.get().getValue());
+            return fetchKakaoUserInfo(token.get().getValue());
         } catch (NoSuchElementException ex) {
             // 토큰을 못 찾았을 경우.
             return null;
         }
     }
 
-    public KakaoUserInfo getKakaoUserInfo(String token) throws JsonProcessingException {
+    public KakaoUserResponse fetchKakaoUserInfo(String token) throws JsonProcessingException {
         Long userId = kakaoApiHelper.getUserIdByToken(token);
         if (userId == null) {
             return null;

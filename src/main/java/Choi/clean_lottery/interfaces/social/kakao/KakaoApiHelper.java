@@ -1,11 +1,9 @@
-package Choi.clean_lottery.web.kakaoapi;
+package Choi.clean_lottery.interfaces.social.kakao;
 
 import Choi.clean_lottery.web.WebConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -17,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static Choi.clean_lottery.web.kakaoapi.KakaoApiHelper.HttpMethodType.GET;
+import static Choi.clean_lottery.interfaces.social.kakao.KakaoApiHelper.HttpMethodType.GET;
 
 @Component
 @Slf4j
@@ -118,12 +116,12 @@ public class KakaoApiHelper {
         return userTokenInfo.getId();
     }
 
-    public KakaoUserInfo getUserInfoByUserId(Long userId) throws JsonProcessingException {
+    public KakaoUserResponse getUserInfoByUserId(Long userId) throws JsonProcessingException {
         Map<String, String> params = new HashMap<>();
         params.put("target_id_type", "user_id");
         params.put("target_id", userId.toString());
         String userInfoJson = request(HttpMethodType.GET, USER_ME_PATH, "?" + mapToParams(params));
-        return KakaoUserInfo.fromJson(userInfoJson);
+        return KakaoUserResponse.fromJson(userInfoJson);
     }
 
     public String request(final String apiPath) {

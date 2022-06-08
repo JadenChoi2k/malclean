@@ -1,13 +1,10 @@
-package Choi.clean_lottery.web.kakaoapi;
+package Choi.clean_lottery.interfaces.social.kakao;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
-
 @Getter
-public class KakaoUserInfo {
+public class KakaoUserResponse {
     private Long id;
     private String connected_at;
     // jsonObject로 변환하여 사용한다.
@@ -17,28 +14,28 @@ public class KakaoUserInfo {
     private String msg;
     private Integer code;
 
-    protected KakaoUserInfo() {
+    protected KakaoUserResponse() {
     }
 
-    public KakaoUserInfo(Long id, String connected_at, JSONObject properties, JSONObject kakao_account) {
+    public KakaoUserResponse(Long id, String connected_at, JSONObject properties, JSONObject kakao_account) {
         this.id = id;
         this.connected_at = connected_at;
         this.properties = properties;
         this.kakao_account = kakao_account;
     }
 
-    public KakaoUserInfo(String msg, Integer code) {
+    public KakaoUserResponse(String msg, Integer code) {
         this.msg = msg;
         this.code = code;
     }
 
-    public static KakaoUserInfo fromJson(String json) {
+    public static KakaoUserResponse fromJson(String json) {
         JSONObject jsonObject = new JSONObject(json);
         if (jsonObject.isNull("id")) {
-            return new KakaoUserInfo(jsonObject.getString("msg"), jsonObject.getInt("code"));
+            return new KakaoUserResponse(jsonObject.getString("msg"), jsonObject.getInt("code"));
         }
 
-        return new KakaoUserInfo(
+        return new KakaoUserResponse(
                 jsonObject.getLong("id"),
                 jsonObject.getString("connected_at"),
                 jsonObject.getJSONObject("properties"),

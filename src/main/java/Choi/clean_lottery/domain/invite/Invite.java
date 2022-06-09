@@ -39,9 +39,9 @@ public class Invite extends BaseTimeEntity {
     @RequiredArgsConstructor
     @Getter
     public enum Status {
-        WAITING("대기중"),
-        ACCEPTED("수락됨"),
-        REJECTED("거절됨");
+        WAITING("대기 중"),
+        ACCEPTED("수락"),
+        REJECTED("거절");
         private final String description;
     }
 

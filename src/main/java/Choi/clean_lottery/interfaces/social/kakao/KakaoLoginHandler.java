@@ -2,6 +2,7 @@ package Choi.clean_lottery.interfaces.social.kakao;
 
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
+import Choi.clean_lottery.web.SessionConst;
 import Choi.clean_lottery.web.member.MemberRequestFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Component
@@ -26,10 +28,15 @@ public class KakaoLoginHandler implements SocialLoginHandler {
     public SocialUserInfo handle(HttpServletRequest request, HttpServletResponse response) {
         // get token info
         KakaoTokenInfo tokenInfo = getTokenInfo(request);
-        // access token injection to cookie
-        injectAccessTokenCookie(tokenInfo.getAccess_token(), tokenInfo.getExpires_in(), response);
         // returns kakao info fetch by access token
-        return getKakaoUserInfo(tokenInfo.getAccess_token());
+        KakaoUserInfo kakaoUserInfo = getKakaoUserInfo(tokenInfo.getAccess_token());
+        // access token injection to cookie
+        setSessionAndInjectCookie(
+                request, response,
+                tokenInfo.getExpires_in(),
+                tokenInfo.getAccess_token(),
+                kakaoUserInfo.getSocialId());
+        return kakaoUserInfo;
     }
 
     private String getCode(HttpServletRequest request) {
@@ -56,7 +63,14 @@ public class KakaoLoginHandler implements SocialLoginHandler {
         return tokenInfo;
     }
 
-    private void injectAccessTokenCookie(String accessToken, Integer expireIn, HttpServletResponse response) {
+    // TODO: 스프링 시큐리티 이용하여 분리하기.
+    private void setSessionAndInjectCookie(HttpServletRequest request, HttpServletResponse response,
+                                           Integer expireIn, String accessToken, Long userId) {
+        // set session
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(expireIn);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, userId);
+        // inject cookie
         Cookie tokenCookie = new Cookie("authorize-access-token", accessToken);
         tokenCookie.setMaxAge(expireIn);
         tokenCookie.setPath("/");

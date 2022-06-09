@@ -16,4 +16,16 @@ public class MemberFacade {
     public MemberInfo register(MemberCommand.RegisterMemberRequest registerMemberRequest) {
         return memberService.registerMember(registerMemberRequest);
     }
+
+    public void deleteMember(Long memberId) {
+        memberService.deleteMember(memberId);
+    }
+
+    public void getOutOfTeam(Long memberId) {
+        memberService.getOutOfTeam(memberId);
+    }
+
+    public MemberInfo retrieveMemberInfo(Long memberId) {
+        return memberService.retrieveMemberInfo(memberId);
+    }
 }

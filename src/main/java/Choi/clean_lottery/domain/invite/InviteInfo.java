@@ -15,4 +15,8 @@ public class InviteInfo {
         this.teamName = invite.getTeam().getName();
         this.status = invite.getStatus();
     }
+
+    public boolean alreadyProcessed() {
+        return getStatus() == Invite.Status.ACCEPTED || getStatus() == Invite.Status.REJECTED;
+    }
 }

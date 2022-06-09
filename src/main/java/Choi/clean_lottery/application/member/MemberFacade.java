@@ -3,6 +3,8 @@ package Choi.clean_lottery.application.member;
 import Choi.clean_lottery.domain.member.MemberCommand;
 import Choi.clean_lottery.domain.member.MemberInfo;
 import Choi.clean_lottery.domain.member.MemberService;
+import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
+import Choi.clean_lottery.domain.member.query.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberFacade {
     private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
 
     public MemberInfo register(MemberCommand.RegisterMemberRequest registerMemberRequest) {
         return memberService.registerMember(registerMemberRequest);
@@ -27,5 +30,9 @@ public class MemberFacade {
 
     public MemberInfo retrieveMemberInfo(Long memberId) {
         return memberService.retrieveMemberInfo(memberId);
+    }
+
+    public MemberQueryInfo.WithTeam withTeam(Long memberId) {
+        return memberQueryService.withTeam(memberId);
     }
 }

@@ -1,7 +1,7 @@
 package Choi.clean_lottery.interfaces.member;
 
 import Choi.clean_lottery.application.member.MemberFacade;
-import Choi.clean_lottery.domain.member.MemberInfo;
+import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoAppConst;
@@ -90,9 +90,10 @@ public class MemberController {
         if (memberId == null) {
             return "redirect:/";
         }
-        /**
-         * 쿼리 전용 서비스 구현 후 퍼사드에서 호출
-         */
+        MemberQueryInfo.WithTeam withTeam = memberFacade.withTeam((Long) memberId);
+        model.addAttribute("member", withTeam.getMemberInfo());
+        model.addAttribute("team", withTeam.getTeamInfo());
+        model.addAttribute("isManager", withTeam.getMemberInfo().getIsManager());
         return "info/memberInfo";
     }
 }

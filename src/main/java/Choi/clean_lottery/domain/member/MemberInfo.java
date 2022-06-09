@@ -8,13 +8,17 @@ public class MemberInfo {
     private String memberName;
     private String profileUrl;
     private String teamName;
-    private Boolean isManager;
+    private Member.Position position;
 
     public MemberInfo(Member member) {
         this.memberId = member.getId();
         this.memberName = member.getName();
         this.profileUrl = member.getProfile_url();
         this.teamName = member.getTeam().getName();
-        this.isManager = member.getTeam().getManager().getId().equals(member.getId());
+        this.position = member.getPosition();
+    }
+
+    public boolean getIsManager() {
+        return this.position == Member.Position.TEAM_MANAGER;
     }
 }

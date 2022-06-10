@@ -29,7 +29,7 @@ public class LotteryServiceImpl implements LotteryService {
 
     @Override
     @Transactional(readOnly = true)
-    public LotteryInfo.Main getLotteryInfo(Long lotteryId) {
+    public LotteryInfo.Main retrieve(Long lotteryId) {
         return new LotteryInfo.Main(lotteryReader.getLotteryById(lotteryId));
     }
 

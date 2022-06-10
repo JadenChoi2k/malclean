@@ -21,7 +21,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         Member member = memberReader.getMemberById(memberId);
         return MemberQueryInfo.WithTeam.builder()
                 .memberInfo(new MemberInfo(member))
-                .teamInfo(member.getTeam() == null ? null : new TeamInfo(member.getTeam()))
+                .teamInfo(member.getTeam() == null ? null : new MemberQueryInfo.WithTeam.TeamInfo(member.getTeam()))
                 .build();
     }
 }

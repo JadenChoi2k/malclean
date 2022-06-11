@@ -19,19 +19,19 @@ public class RoleApiController {
     private final RoleDtoMapper roleDtoMapper;
 
     @GetMapping("/{roleId}")
-    public CommonResponse retrieve(@PathVariable Long roleId) {
+    public CommonResponse<RoleInfo> retrieve(@PathVariable Long roleId) {
         return CommonResponse.success(roleFacade.retrieve(roleId));
     }
 
     @PostMapping("/")
-    public CommonResponse register(@RequestBody @Valid RoleDto.RegisterRoleRequest registerRoleRequest) {
+    public CommonResponse<RoleInfo> register(@RequestBody @Valid RoleDto.RegisterRoleRequest registerRoleRequest) {
         RoleCommand.RegisterRoleRequest command = roleDtoMapper.of(registerRoleRequest);
         RoleInfo roleInfo = roleFacade.register(command);
         return CommonResponse.success(roleInfo);
     }
 
     @PutMapping("/{roleId}")
-    public CommonResponse edit(
+    public CommonResponse<RoleInfo> edit(
             @PathVariable Long roleId,
             @RequestBody @Valid RoleDto.EditRoleRequest editRoleRequest) {
         RoleCommand.EditRoleRequest command = combine(roleId, editRoleRequest);
@@ -46,7 +46,7 @@ public class RoleApiController {
     }
 
     @DeleteMapping("/{roleId}")
-    public CommonResponse detachFromTeam(@PathVariable Long roleId) {
+    public CommonResponse<String> detachFromTeam(@PathVariable Long roleId) {
         roleFacade.detachFromTeam(roleId);
         return CommonResponse.success("ok");
     }

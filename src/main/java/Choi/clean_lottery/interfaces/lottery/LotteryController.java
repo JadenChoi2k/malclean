@@ -7,10 +7,10 @@ import Choi.clean_lottery.domain.lottery.LotteryCommand;
 import Choi.clean_lottery.domain.lottery.LotteryInfo;
 import Choi.clean_lottery.domain.lottery.query.LotteryQueryInfo;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
-import Choi.clean_lottery.domain.role.area.AreaInfo;
 import Choi.clean_lottery.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -69,14 +68,31 @@ public class LotteryController {
     }
 
     @GetMapping("/history")
-    public String lottery(HttpServletRequest request, Model model,
+    public String history(HttpServletRequest request, Model model,
+                          @RequestParam(required = false, defaultValue = "10", value = "size") Integer size,
                           @RequestParam(required = false, defaultValue = "0", value = "page") Integer page) {
-        return null;
+        if (page < 0 || size <= 0) {
+            return history(request, model, 10, 0);
+        }
+        HttpSession session = request.getSession();
+        Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (memberId == null) {
+            return "redirect:/?redirectURI=/team/lottery/history";
+        }
+        var withTeam = memberFacade.withTeam((Long) memberId);
+        var pageResult = lotteryFacade.retrievePageQuery(withTeam.getTeamInfo().getTeamId(), PageRequest.of(page, size));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("count", size);
+        model.addAttribute("firstCount", Math.toIntExact(page / 5) * 5);
+        model.addAttribute("lastCount", pageResult.getTotalPages());
+        model.addAttribute("team", withTeam.getTeamInfo());
+        model.addAttribute("lotteryList", pageResult.toList());
+        return "lottery/lottery-history";
     }
 
     @GetMapping("/result/{lotteryId}")
     public String result(HttpServletRequest request, @PathVariable Long lotteryId, Model model) {
-        LotteryQueryInfo lotteryInfo = lotteryFacade.retrieveQuery(lotteryId);
+        LotteryQueryInfo.Main lotteryInfo = lotteryFacade.retrieveQuery(lotteryId);
         model.addAttribute("lottery", lotteryInfo);
         model.addAttribute("role", lotteryInfo.getRole());
         Object memberId = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);

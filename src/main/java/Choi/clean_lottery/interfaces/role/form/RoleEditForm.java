@@ -1,14 +1,17 @@
-package Choi.clean_lottery.web.role;
+package Choi.clean_lottery.interfaces.role.form;
 
 import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.dto.RoleDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@Getter
+@Setter
+@Builder
 public class RoleEditForm {
     @NotNull
     private Long id;

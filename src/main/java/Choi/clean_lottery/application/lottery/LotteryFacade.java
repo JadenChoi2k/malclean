@@ -7,7 +7,11 @@ import Choi.clean_lottery.domain.lottery.query.LotteryQueryInfo;
 import Choi.clean_lottery.domain.lottery.query.LotteryQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -24,7 +28,11 @@ public class LotteryFacade {
         return lotteryService.drawLottery(drawLotteryRequest);
     }
 
-    public LotteryQueryInfo retrieveQuery(Long lotteryId) {
+    public LotteryQueryInfo.Main retrieveQuery(Long lotteryId) {
         return lotteryQueryService.retrieve(lotteryId);
+    }
+
+    public Page<LotteryQueryInfo.PageItem> retrievePageQuery(Long teamId, Pageable pageable) {
+        return lotteryQueryService.retrievePage(teamId, pageable);
     }
 }

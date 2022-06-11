@@ -101,7 +101,7 @@ class RoleApiControllerTest {
     @Test
     void detachFromTeam() {
         // given
-        CommonResponse<RoleInfo> response = roleApiController.detachFromTeam(1L);
+        CommonResponse<String> response = roleApiController.detachFromTeam(1L);
         // when
         CommonResponse.Result result = response.getResult();
         //

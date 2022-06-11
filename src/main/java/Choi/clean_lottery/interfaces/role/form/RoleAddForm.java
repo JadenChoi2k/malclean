@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.role;
+package Choi.clean_lottery.interfaces.role.form;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

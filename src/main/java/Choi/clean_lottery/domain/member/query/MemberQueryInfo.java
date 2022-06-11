@@ -24,12 +24,14 @@ public class MemberQueryInfo {
         @Builder
         public static class TeamInfo {
             private Long teamId;
+            private String name;
             List<MemberInfo> members;
             List<RoleInfo> roles;
             RoleInfo currentRole;
 
             public TeamInfo(Team team) {
                 this.teamId = team.getId();
+                this.name = team.getName();
                 this.members = team.getMembers().stream()
                         .map(MemberInfo::new)
                         .collect(Collectors.toList());

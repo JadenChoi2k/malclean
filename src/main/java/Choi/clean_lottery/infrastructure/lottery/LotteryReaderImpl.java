@@ -21,7 +21,7 @@ public class LotteryReaderImpl implements LotteryReader {
     @Override
     public Lottery getLotteryById(Long lotteryId) {
         return lotteryJpaRepository.findById(lotteryId)
-                .orElseThrow(() -> new EntityNotFoundException("청소 기록을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("청소 기록을 찾을 수 없습니다. lotteryId: " + lotteryId));
     }
 
     @Override

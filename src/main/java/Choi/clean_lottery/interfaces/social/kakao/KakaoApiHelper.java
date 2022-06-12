@@ -1,6 +1,6 @@
 package Choi.clean_lottery.interfaces.social.kakao;
 
-import Choi.clean_lottery.web.WebConfig;
+import Choi.clean_lottery.interfaces.WebConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

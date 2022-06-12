@@ -9,11 +9,10 @@ import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.RoleService;
 import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.TeamQueryService;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import Choi.clean_lottery.web.utils.MalUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+//@Controller
 @Slf4j
 @RequestMapping("/team")
 @RequiredArgsConstructor

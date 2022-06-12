@@ -74,8 +74,15 @@ public class Role extends BaseTimeEntity {
         area.setRole(null);
     }
 
+    public void detachFromTeam() {
+        this.team = null;
+    }
+
     public void setTeamRole(Team team) {
         this.team = team;
+        if (team == null) {
+            return;
+        }
         if (!team.getRoles().contains(this)) {
             team.getRoles().add(this);
         }

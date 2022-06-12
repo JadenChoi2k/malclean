@@ -3,15 +3,13 @@ package Choi.clean_lottery.web.role_changing;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.team.Team;
-import Choi.clean_lottery.domain.team.Team.Status;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-@Controller
+//@Controller
 @RequestMapping("/team/role-changing")
 @RequiredArgsConstructor
 @Slf4j

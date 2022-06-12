@@ -28,6 +28,7 @@ public class RoleDto {
     @Setter
     @Builder
     public static class EditRoleRequest {
+        @NotNull
         private Long id;
         @Length(min = 1, max = 16)
         private String name;

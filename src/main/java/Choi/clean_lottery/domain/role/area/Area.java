@@ -75,4 +75,8 @@ public class Area extends BaseTimeEntity {
             this.changeable = changeable;
         }
     }
+
+    public void detachFromRole() {
+        this.role = null;
+    }
 }

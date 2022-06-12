@@ -1,4 +1,4 @@
-package Choi.clean_lottery.infrastructure.change_role;
+package Choi.clean_lottery.infrastructure.role_change;
 
 import Choi.clean_lottery.common.exception.EntityNotFoundException;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
@@ -17,13 +17,13 @@ public class ChangeRoleTableReaderImpl implements ChangeRoleTableReader {
     @Override
     public ChangeRoleTable getTableById(Long tableId) {
         return tableRepository.findById(tableId)
-                .orElseThrow(() -> new EntityNotFoundException("인수인계 테이블을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("인수인계 테이블을 찾을 수 없습니다. tableId: " + tableId));
     }
 
     @Override
     public Long getTableIdByTeam(Team team) {
         return tableRepository.findFirstByTeamOrderByCreateDateDesc(team)
-                .orElseThrow(() -> new EntityNotFoundException("인수인계 중이 아닙니다."))
+                .orElseThrow(() -> new EntityNotFoundException("인수인계 중이 아닙니다. teamId: " + team.getId()))
                 .getId();
     }
 }

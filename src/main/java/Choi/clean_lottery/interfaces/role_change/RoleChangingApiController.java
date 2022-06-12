@@ -1,4 +1,4 @@
-package Choi.clean_lottery.interfaces.role_changing;
+package Choi.clean_lottery.interfaces.role_change;
 
 import Choi.clean_lottery.application.member.MemberFacade;
 import Choi.clean_lottery.application.role_change.ChangeRoleTableFacade;
@@ -7,7 +7,7 @@ import Choi.clean_lottery.common.response.ErrorCode;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableInfo;
 import Choi.clean_lottery.domain.role_change.card.ChangeAreaCardCommand;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

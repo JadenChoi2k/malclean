@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web;
+package Choi.clean_lottery.interfaces;
 
 import Choi.clean_lottery.common.converter.LocalDateToStringConverter;
 import Choi.clean_lottery.common.converter.StringToLocalDateConverter;

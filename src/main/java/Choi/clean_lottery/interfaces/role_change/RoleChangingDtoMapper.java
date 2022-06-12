@@ -1,4 +1,4 @@
-package Choi.clean_lottery.interfaces.role_changing;
+package Choi.clean_lottery.interfaces.role_change;
 
 import Choi.clean_lottery.domain.member.MemberInfo;
 import Choi.clean_lottery.domain.role.area.AreaInfo;

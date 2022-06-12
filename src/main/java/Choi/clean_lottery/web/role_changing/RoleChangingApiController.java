@@ -8,20 +8,19 @@ import Choi.clean_lottery.dto.ChangeRoleTableDto;
 import Choi.clean_lottery.repository.ChangeRoleTableRepository;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import Choi.clean_lottery.web.utils.MalUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
-@RestController
+//@RestController
 @RequestMapping("/team/role-changing/api")
 @RequiredArgsConstructor
 public class RoleChangingApiController {

@@ -5,7 +5,7 @@ import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoAppConst;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -47,12 +47,14 @@ public class MemberController {
         return "redirect:/";
     }
 
+    /**
+     * 서비스를 탈퇴한다.
+     * TODO: 카카오에서도 탈퇴시키는 절차 넣기.
+     * @param request
+     * @return
+     */
     @GetMapping("/delete")
     public String withdraw(HttpServletRequest request) {
-        /**
-         * 서비스를 탈퇴한다.
-         * 서비스에서도 탈퇴시키고, 카카오에서도 탈퇴시킨다.
-         */
         HttpSession session = request.getSession();
         Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {
@@ -63,12 +65,13 @@ public class MemberController {
         return "redirect:/";
     }
 
+    /**
+     * 팀에서 나온다.
+     * @param request
+     * @return
+     */
     @GetMapping("/team-out")
     public String outFromTeam(HttpServletRequest request) {
-        /**
-         * 팀에서 나온다.
-         * 팀에서 나온 후 메인화면으로 리다이렉트한다.
-         */
         HttpSession session = request.getSession();
         Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {
@@ -78,13 +81,14 @@ public class MemberController {
         return "redirect:/";
     }
 
+    /**
+     * 내 정보를 조회한다.
+     * @param request
+     * @param model
+     * @return
+     */
     @GetMapping("/info")
     public String info(HttpServletRequest request, Model model) {
-        /**
-         * 세션 조회
-         * 유효한 세션이 아니면 메인화면으로 리다이렉트시킨다.
-         * 유효한 세션이면 쿼리용 서비스를 조회하여 멤버를 꺼내서 모델 객체에 주입한다.
-         */
         HttpSession session = request.getSession();
         Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {

@@ -39,11 +39,14 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
+    @Transactional
     public void detachFromRole(Long areaId) {
-        areaStore.detachFromRole(areaId);
+        Area area = areaReader.getAreaById(areaId);
+        area.detachFromRole();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AreaInfo retrieve(Long areaId) {
         Area area = areaReader.getAreaById(areaId);
         if (area == null) {

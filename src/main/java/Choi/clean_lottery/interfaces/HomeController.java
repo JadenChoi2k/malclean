@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web;
+package Choi.clean_lottery.interfaces;
 
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.service.MemberService;

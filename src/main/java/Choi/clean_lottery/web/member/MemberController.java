@@ -4,8 +4,8 @@ import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.query.TeamQueryService;
-import Choi.clean_lottery.web.SessionConst;
-import Choi.clean_lottery.web.WebConfig;
+import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.interfaces.WebConfig;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoApiHelper;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoTokenInfo;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoUserResponse;
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@Controller
+//@Controller
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/member")

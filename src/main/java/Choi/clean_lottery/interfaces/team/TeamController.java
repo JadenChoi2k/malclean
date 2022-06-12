@@ -6,7 +6,7 @@ import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.member.MemberInfo;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.domain.team.TeamCommand;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import Choi.clean_lottery.web.team.TeamForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.service.MemberService;
 import Choi.clean_lottery.service.TeamService;
 import Choi.clean_lottery.service.query.TeamQueryService;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

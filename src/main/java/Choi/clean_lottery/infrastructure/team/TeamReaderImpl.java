@@ -16,6 +16,6 @@ public class TeamReaderImpl implements TeamReader {
     @Override
     public Team getTeamById(Long teamId) {
         return teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다. teamId: " + teamId));
     }
 }

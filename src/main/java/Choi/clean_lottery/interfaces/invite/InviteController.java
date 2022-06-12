@@ -5,7 +5,7 @@ import Choi.clean_lottery.common.response.CommonResponse;
 import Choi.clean_lottery.common.response.ErrorCode;
 import Choi.clean_lottery.domain.invite.InviteCommand;
 import Choi.clean_lottery.domain.invite.InviteInfo;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -2,7 +2,7 @@ package Choi.clean_lottery.interfaces.social.kakao;
 
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import Choi.clean_lottery.web.member.MemberRequestFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

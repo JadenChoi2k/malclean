@@ -8,7 +8,7 @@ import Choi.clean_lottery.dto.TeamDto;
 import Choi.clean_lottery.repository.AreaRepository;
 import Choi.clean_lottery.repository.RoleRepository;
 import Choi.clean_lottery.service.query.TeamQueryService;
-import Choi.clean_lottery.web.SessionConst;
+import Choi.clean_lottery.interfaces.SessionConst;
 import Choi.clean_lottery.web.utils.MalUtility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 
-@RestController
+//@RestController
 @RequestMapping("/area/api")
 @RequiredArgsConstructor
 public class AreaApiController {

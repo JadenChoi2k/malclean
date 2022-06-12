@@ -1,4 +1,4 @@
-package Choi.clean_lottery.infrastructure.change_role;
+package Choi.clean_lottery.infrastructure.role_change;
 
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableStore;

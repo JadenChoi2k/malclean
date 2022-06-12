@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AreaInfo {
-    private Long id;
-    private String name;
+    private Long areaId;
+    private String areaName;
     private Integer difficulty;
     private Integer minimumPeople;
     private Boolean changeable;
 
     public AreaInfo(Area area) {
-        this.id = area.getId();
-        this.name = area.getName();
+        this.areaId = area.getId();
+        this.areaName = area.getName();
         this.difficulty = area.getDifficulty();
         this.minimumPeople = area.getMinimumPeople();
         this.changeable = area.getChangeable();

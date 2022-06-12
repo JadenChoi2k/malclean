@@ -50,7 +50,7 @@ public class LotteryQueryInfo {
             return getResult().stream()
                     .filter(lr -> lr.getMember().getMemberId().equals(memberId))
                     .map(LotteryQueryInfo.Main.LotteryResultQueryInfo::getArea)
-                    .map(AreaInfo::getName)
+                    .map(AreaInfo::getAreaName)
                     .collect(Collectors.toList());
         }
 
@@ -63,7 +63,7 @@ public class LotteryQueryInfo {
         private Map<String, List<MemberInfo>> getAreaNameToMemberInfoList() {
             Map<String, List<MemberInfo>> ret = new HashMap<>();
             getResult().forEach(lr -> {
-                String areaName = lr.getArea().getName();
+                String areaName = lr.getArea().getAreaName();
                 if (!ret.containsKey(areaName)) {
                     ret.put(areaName, new ArrayList<>());
                 }

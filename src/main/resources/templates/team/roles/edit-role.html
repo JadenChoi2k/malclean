@@ -31,8 +31,8 @@
             <th>최소 인원</th>
             <th>인수인계</th>
             </thead>
-            <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.id})|" th:id="'area$$' + ${area.id}">
-                <td th:text="${area.name}">이름</td>
+            <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.getAreaId})|" th:id="'area$$' + ${area.getAreaId}">
+                <td th:text="${area.getAreaName}">이름</td>
                 <td th:text="${area.difficulty}">난이도</td>
                 <td th:text="${area.minimumPeople}">최소 인원</td>
                 <td th:text="${area.changeable}?'✅':''">인수인계</td>

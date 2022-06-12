@@ -2,6 +2,7 @@ package Choi.clean_lottery.domain.role_change;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.role.Role;
+import Choi.clean_lottery.domain.role_change.card.ChangeAreaCard;
 import Choi.clean_lottery.domain.team.Team;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -12,7 +12,4 @@ import java.util.List;
 public class TeamForm {
     @Pattern(regexp = "[a-zA-Z가-힣0-9 ]{2,16}")
     private String teamName;
-    // 처음에 초대할 멤버의 id 목록. 존재하는 팀이 없어야 초대 가능하다.
-    // 한 사람 당 하나의 팀만 있기 때문에...!
-    private List<Long> memberIds;
 }

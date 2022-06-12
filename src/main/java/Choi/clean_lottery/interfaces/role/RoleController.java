@@ -9,7 +9,6 @@ import Choi.clean_lottery.domain.role.RoleInfo;
 import Choi.clean_lottery.domain.role.area.AreaCommand;
 import Choi.clean_lottery.interfaces.role.form.RoleAddForm;
 import Choi.clean_lottery.interfaces.role.form.RoleEditForm;
-import Choi.clean_lottery.interfaces.role.form.RolesChangeForm;
 import Choi.clean_lottery.web.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

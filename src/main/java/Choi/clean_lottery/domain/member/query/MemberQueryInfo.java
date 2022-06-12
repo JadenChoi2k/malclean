@@ -16,8 +16,8 @@ public class MemberQueryInfo {
     @Setter
     @Builder
     public static class WithTeam {
-        MemberInfo memberInfo;
-        TeamInfo teamInfo;
+        private MemberInfo memberInfo;
+        private TeamInfo teamInfo;
 
         @Getter
         @Setter
@@ -25,9 +25,10 @@ public class MemberQueryInfo {
         public static class TeamInfo {
             private Long teamId;
             private String name;
-            List<MemberInfo> members;
-            List<RoleInfo> roles;
-            RoleInfo currentRole;
+            private List<MemberInfo> members;
+            private List<RoleInfo> roles;
+            private RoleInfo currentRole;
+            private Team.Status status;
 
             public TeamInfo(Team team) {
                 this.teamId = team.getId();
@@ -39,6 +40,16 @@ public class MemberQueryInfo {
                         .map(RoleInfo::new)
                         .collect(Collectors.toList());
                 this.currentRole = new RoleInfo(team.getCurrentRole());
+                this.status = team.getState();
+            }
+
+            public boolean isRoleOf(Long roleId) {
+                return roles.stream()
+                        .anyMatch(r -> r.getRoleId().equals(roleId));
+            }
+
+            public boolean isChangingRole() {
+                return this.status == Team.Status.CHANGING_ROLE;
             }
         }
     }

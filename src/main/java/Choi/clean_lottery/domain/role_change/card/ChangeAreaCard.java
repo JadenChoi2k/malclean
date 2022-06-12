@@ -1,8 +1,9 @@
-package Choi.clean_lottery.domain.role_change;
+package Choi.clean_lottery.domain.role_change.card;
 
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role.area.Area;
+import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import lombok.*;
 
 import javax.persistence.*;

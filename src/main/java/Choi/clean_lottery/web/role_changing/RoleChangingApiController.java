@@ -1,7 +1,7 @@
 package Choi.clean_lottery.web.role_changing;
 
 import Choi.clean_lottery.domain.member.Member;
-import Choi.clean_lottery.domain.role_change.ChangeAreaCard;
+import Choi.clean_lottery.domain.role_change.card.ChangeAreaCard;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTable;
 import Choi.clean_lottery.domain.team.Team;
 import Choi.clean_lottery.dto.ChangeRoleTableDto;

@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.team;
+package Choi.clean_lottery.interfaces.team;
 
 import lombok.Getter;
 import lombok.Setter;

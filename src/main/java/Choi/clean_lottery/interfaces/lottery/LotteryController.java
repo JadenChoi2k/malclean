@@ -7,7 +7,7 @@ import Choi.clean_lottery.domain.lottery.LotteryCommand;
 import Choi.clean_lottery.domain.lottery.LotteryInfo;
 import Choi.clean_lottery.domain.lottery.query.LotteryQueryInfo;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;

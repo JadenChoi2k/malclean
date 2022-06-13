@@ -31,8 +31,8 @@
             <th>최소 인원</th>
             <th>인수인계</th>
             </thead>
-            <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.getAreaId})|" th:id="'area$$' + ${area.getAreaId}">
-                <td th:text="${area.getAreaName}">이름</td>
+            <tr th:each="area: ${areas}" th:onclick="|openEditAreaModal(${area.areaId})|" th:id="'area$$' + ${area.areaId}">
+                <td th:text="${area.areaName}">이름</td>
                 <td th:text="${area.difficulty}">난이도</td>
                 <td th:text="${area.minimumPeople}">최소 인원</td>
                 <td th:text="${area.changeable}?'✅':''">인수인계</td>
@@ -116,7 +116,7 @@
             alert('양식을 다 채워주세요.');
         }
         createArea({
-            name: name,
+            areaName: name,
             difficulty: difficulty,
             minimumPeople: minimumPeople,
             changeable: changeable
@@ -131,8 +131,8 @@
                 alert('역할 가져오기 실패');
                 return;
             }
-            document.getElementById('edit-area-id').value = area.id;
-            document.getElementById('edit-area-name').value = area.name;
+            document.getElementById('edit-area-id').value = area.areaId;
+            document.getElementById('edit-area-name').value = area.areaName;
             document.getElementById('edit-area-difficulty-range').value =
             document.getElementById('edit-area-difficulty-range-value').innerText = area.difficulty
             document.getElementById('edit-area-minimumPeople-range').value =

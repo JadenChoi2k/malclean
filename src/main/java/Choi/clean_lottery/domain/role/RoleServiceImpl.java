@@ -25,8 +25,11 @@ public class RoleServiceImpl implements RoleService {
         createRequest.getAreaRequestList().stream()
                 .map(req -> createAreaByRegisterRequest(role, req))
                 .forEach(role::addArea);
-        roleStore.store(role);
-        return new RoleInfo(role);
+        Role stored = roleStore.store(role);
+        if (team.getCurrentRole() == null) {
+            team.updateCurrentRole(stored);
+        }
+        return new RoleInfo(stored);
     }
 
     private Area createAreaByRegisterRequest(Role role, AreaCommand.RegisterAreaRequest registerAreaRequest) {

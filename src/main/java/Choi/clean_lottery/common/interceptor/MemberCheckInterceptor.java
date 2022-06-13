@@ -1,6 +1,6 @@
 package Choi.clean_lottery.common.interceptor;
 
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

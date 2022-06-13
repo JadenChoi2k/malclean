@@ -1,4 +1,4 @@
-package Choi.clean_lottery.web.member;
+package Choi.clean_lottery.interfaces.social;
 
 import Choi.clean_lottery.interfaces.social.kakao.KakaoApiHelper;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoUserResponse;

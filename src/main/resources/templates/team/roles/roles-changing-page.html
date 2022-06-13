@@ -102,7 +102,7 @@
             method: 'GET'
         }).then(response => response.json())
         .then(data => {
-            if (data.code === 200) {
+            if (data.result === 'SUCCESS') {
                 if (data.data.state === "DONE") {
                     document.getElementById('table-state').innerText = '인수인계 완료!';
                 }
@@ -131,7 +131,7 @@
         if (prevStateName == row.children[1].innerText) {
             return;
         }
-        // changer {id, name, profile_url}
+        // changer {id, name, profileUrl}
         while (row.children[2].hasChildNodes()) {
             row.children[2].removeChild(row.children[2].lastChild);
         }
@@ -147,7 +147,7 @@
                 }
             } else {
                 const profileGroup = domParser.parseFromString(`<div class="profile-group">
-                <img src="${changer.profile_url}"><span class="m-1">${changer.name}</span></div>`, 'text/html');
+                <img src="${changer.profileUrl}"><span class="m-1">${changer.name}</span></div>`, 'text/html');
                 for (let elem of profileGroup.getElementsByClassName('profile-group')) {
                     row.children[2].appendChild(elem);
                 }
@@ -164,7 +164,7 @@
                 method: 'GET'
             }).then(response => response.json())
             .then(data => {
-                if (data.code != 200) {
+                if (data.result !== 'SUCCESS') {
                     console.log(JSON.stringify(data));
                     alert('오류가 발생했습니다. ' + data.msg);
                     return;
@@ -181,7 +181,7 @@
                 method: 'GET'
             }).then(response => response.json())
                 .then(data => {
-                    if (data.code != 200) {
+                    if (data.result !== 'SUCCESS') {
                         alert('오류가 발생했습니다. ' + data.msg);
                         return;
                     }
@@ -197,7 +197,7 @@
                 method: 'GET'
             }).then(response => response.json())
                 .then(data => {
-                    if (data.code != 200) {
+                    if (data.result !== 'SUCCESS') {
                         alert('오류가 발생했습니다. ' + data.msg);
                         return;
                     }
@@ -212,7 +212,7 @@
             method:'GET'
         }).then(response => response.json())
         .then(data => {
-            if (data.code === 200) {
+            if (data.result === 'SUCCESS') {
                 alert('인수인계가 모두 완료되었습니다!');
             } else {
                 alert('인수인계가 완료되지 못했습니다.');

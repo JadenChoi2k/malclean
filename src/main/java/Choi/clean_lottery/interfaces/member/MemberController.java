@@ -5,7 +5,7 @@ import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
 import Choi.clean_lottery.interfaces.social.kakao.KakaoAppConst;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

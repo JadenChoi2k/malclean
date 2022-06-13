@@ -5,7 +5,7 @@ import Choi.clean_lottery.application.role_change.ChangeRoleTableFacade;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableCommand;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableInfo;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

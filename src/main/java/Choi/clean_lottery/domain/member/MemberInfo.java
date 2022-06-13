@@ -2,6 +2,8 @@ package Choi.clean_lottery.domain.member;
 
 import lombok.Getter;
 
+import java.util.Optional;
+
 @Getter
 public class MemberInfo {
     private Long memberId;
@@ -14,8 +16,12 @@ public class MemberInfo {
         this.memberId = member.getId();
         this.memberName = member.getName();
         this.profileUrl = member.getProfile_url();
-        this.teamName = member.getTeam().getName();
+        this.teamName = member.hasTeam() ? member.getTeam().getName() : null;
         this.position = member.getPosition();
+    }
+
+    public boolean hasTeam() {
+        return this.teamName != null;
     }
 
     public boolean getIsManager() {

@@ -5,6 +5,7 @@ import Choi.clean_lottery.domain.role.area.AreaInfo;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableInfo;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -18,6 +19,7 @@ public interface RoleChangingDtoMapper {
 
     ChangeRoleTableDto.AreaCardDto of(ChangeRoleTableInfo.AreaCardInfo areaCardInfo);
 
+    @Mapping(source = "areaName", target = "name")
     ChangeRoleTableDto.AreaCardDto.AreaDto of(AreaInfo areaInfo);
 
     ChangeRoleTableDto.AreaCardDto.MemberDto of(MemberInfo memberInfo);

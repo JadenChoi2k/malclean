@@ -27,7 +27,7 @@
                                 <div class="modal-body">
                                     <div class="list-group">
                                         <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"
-                                                th:each="role: ${roles}" th:text="${role.name}" th:onclick="|changeRoleById(${role.id})|">역할의 이름</button>
+                                                th:each="role: ${roles}" th:text="${role.name}" th:onclick="|changeRoleById(${role.roleId})|">역할의 이름</button>
                                     </div>
                                 </div>
                             </div>
@@ -45,11 +45,11 @@
                 <h4 class="partin-number">현재원 : -1명</h4>
                 <div class="row max-md mx-auto">
                     <div th:each="member:${members}" class="col-md-3 col-6 member" id="member123"
-                         th:id="'member' + ${member.id}"
-                         onclick="memberToggle(123)" th:onclick="|memberToggle(${member.id})|" partin="true">
+                         th:id="'member' + ${member.memberId}"
+                         onclick="memberToggle(123)" th:onclick="|memberToggle(${member.memberId})|" partin="true">
                         <img src="http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
-                             th:src="${member.profile_url}" class="partin">
-                        <h5 class="mt-2" th:text="${member.name}">홍길동</h5>
+                             th:src="${member.profileUrl}" class="partin">
+                        <h5 class="mt-2" th:text="${member.memberName}">홍길동</h5>
                     </div>
                 </div>
             </div>
@@ -64,16 +64,16 @@
                 <h4 class="partin-number">현재원 : -1명</h4>
                 <h4 class="m-3 pick-number">현재 구역 수 : -1</h4>
                 <h3>구역 선택</h3>
-                <div class="row text-center my-2 area" th:each="area:${currentRole.areas}">
+                <div class="row text-center my-2 area" th:each="area:${currentRole.areaList}">
                     <span class="col-md-3"></span>
-                    <div class="col-6 col-md-3 h3" th:text="${area.name}">2층 중앙복도 및 계단</div>
+                    <div class="col-6 col-md-3 h3" th:text="${area.areaName}">2층 중앙복도 및 계단</div>
                     <div class="col-5 col-lg-3">
                         <div class="row m-0">
                             <button class="col-md-3 col-4 btn btn-outline-light"
-                                    th:data-area="${area.id}" th:onclick="|subArea(&quot;area$$${area.id}&quot;, &quot;${area.minimumPeople}&quot;)|" onclick="subArea('area$$' + this.getAttribute('data-area'))"><h4>-</h4></button>
-                            <label class="col-md-6 col-4 mt-2 h5 area-num" id="area$$id" th:id="'area$$' + ${area.id}" th:text="${area.minimumPeople}"></label>
+                                    th:data-area="${area.areaId}" th:onclick="|subArea(&quot;area$$${area.areaId}&quot;, &quot;${area.minimumPeople}&quot;)|" onclick="subArea('area$$' + this.getAttribute('data-area'))"><h4>-</h4></button>
+                            <label class="col-md-6 col-4 mt-2 h5 area-num" id="area$$id" th:id="'area$$' + ${area.areaId}" th:text="${area.minimumPeople}"></label>
                             <button class="col-md-3 col-4 btn btn-outline-light"
-                                    th:data-area="${area.id}" onclick="addArea('area$$' + this.getAttribute('data-area'))"><h5>+</h5></button>
+                                    th:data-area="${area.areaId}" onclick="addArea('area$$' + this.getAttribute('data-area'))"><h5>+</h5></button>
                         </div>
                     </div>
                     <span class="col-1 col-md-3"></span>

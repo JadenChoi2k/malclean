@@ -9,7 +9,7 @@ import Choi.clean_lottery.domain.role.RoleInfo;
 import Choi.clean_lottery.domain.role.area.AreaCommand;
 import Choi.clean_lottery.interfaces.role.form.RoleAddForm;
 import Choi.clean_lottery.interfaces.role.form.RoleEditForm;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,7 +48,6 @@ public class RoleController {
 
         return "team/roles/role-home";
     }
-
 
     @GetMapping("/{roleId}/edit")
     public String roleEditForm(HttpServletRequest request, @PathVariable Long roleId,

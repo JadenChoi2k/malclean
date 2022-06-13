@@ -23,12 +23,12 @@ function updateSequence() {
 
 function fetchRoleInfo(row) {
     let roleId = row.getElementsByClassName('role-id-col')[0].innerText * 1;
-    getRoleFromServer(roleId, (data)=>alert(JSON.stringify(data)));
+    getRoleFromServer(roleId, (data)=>alert(JSON.stringify(data.data)));
 }
 
 // 테이블의 행 클릭 시 팝업 형태로 보여준다.
 function getRoleFromServer(roleId, cbk) {
-    fetch(location.origin + `/team/roles/${roleId}`,
+    fetch(location.origin + `/api/v1/role/${roleId}`,
         {method:'GET'})
         .then(resp => resp.json())
         .then(cbk)

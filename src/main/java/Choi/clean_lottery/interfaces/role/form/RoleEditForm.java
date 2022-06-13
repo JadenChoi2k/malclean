@@ -1,7 +1,6 @@
 package Choi.clean_lottery.interfaces.role.form;
 
 import Choi.clean_lottery.domain.role.Role;
-import Choi.clean_lottery.dto.RoleDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Builder
 public class RoleEditForm {
     @NotNull
     private Long id;
@@ -21,12 +19,13 @@ public class RoleEditForm {
 
     public RoleEditForm() {}
 
-    public RoleEditForm(Role role) {
-        id = role.getId();
-        name = role.getName();
+    @Builder
+    public RoleEditForm(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public RoleEditForm(RoleDto role) {
+    public RoleEditForm(Role role) {
         id = role.getId();
         name = role.getName();
     }

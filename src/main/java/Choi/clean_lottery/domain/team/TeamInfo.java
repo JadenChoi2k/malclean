@@ -27,7 +27,7 @@ public class TeamInfo {
         this.memberIdList = team.getMembers().stream()
                 .map(Member::getId)
                 .collect(Collectors.toList());
-        this.currentRoleId = team.getCurrentRole().getId();
+        this.currentRoleId = team.getCurrentRole() != null ? team.getCurrentRole().getId() : null;
         this.roleIdList = team.getRoles().stream()
                 .map(Role::getId)
                 .collect(Collectors.toList());

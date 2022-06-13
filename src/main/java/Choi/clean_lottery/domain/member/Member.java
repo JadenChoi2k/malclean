@@ -48,6 +48,7 @@ public class Member extends BaseTimeEntity {
         this.id = id;
         this.name = name;
         this.profile_url = profile_url;
+        this.position = Position.NONE;
     }
 
     public void takeManager() {
@@ -62,6 +63,10 @@ public class Member extends BaseTimeEntity {
         if (!this.profile_url.equals(profile_url)) {
             this.profile_url = profile_url;
         }
+    }
+
+    public boolean hasTeam() {
+        return this.team != null;
     }
 
     public void changeTeam(Team team) {

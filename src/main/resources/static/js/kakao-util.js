@@ -77,10 +77,14 @@ function createInviteAndShowPopup() {
     }).then(response => {
         return response.json()
     }).then(function(data) {
-        window.Kakao.Link.sendCustom({
-            templateId: 69677,
-            templateArgs: data
-        })
+        if (data.result === 'SUCCESS') {
+            window.Kakao.Link.sendCustom({
+                templateId: 69677,
+                templateArgs: data.data
+            })
+        } else {
+            alert('초대장 생성에 실패하였습니다.');
+        }
     });
 }
 

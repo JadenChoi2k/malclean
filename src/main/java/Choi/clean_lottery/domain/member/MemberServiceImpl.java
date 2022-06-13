@@ -54,4 +54,9 @@ public class MemberServiceImpl implements MemberService{
     public MemberInfo retrieveMemberInfo(Long memberId) {
         return new MemberInfo(memberReader.getMemberById(memberId));
     }
+
+    @Override
+    public boolean exists(Long memberId) {
+        return memberReader.exists(memberId);
+    }
 }

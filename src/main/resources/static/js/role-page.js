@@ -1,4 +1,5 @@
 const domParser = new DOMParser();
+const AREA_API_PATH = '/api/v1/area';
 
 function getAreaInput() {
     return `<div class="input-group main-area-input mb-2">
@@ -93,73 +94,60 @@ function getRoleId() {
 }
 
 function getAreaFromServer(areaId) {
-    return fetch(`${APP_DOMAIN}/area/api/${areaId}`, {
+    return fetch(`${AREA_API_PATH}/${areaId}`, {
         method: 'GET'
     })
         .then(response => response.json())
         .then(data => {
-            if (data.code === 200) {
-                return data.area;
+            if (data.result === 'SUCCESS') {
+                return data.data;
             } else {
                 return null;
             }
         });
 }
 
-// area: {name, difficulty, minimumPeople}
+// area: {areaName, difficulty, minimumPeople, changeable}
 function createArea(newArea) {
     newArea.roleId = getRoleId();
-    fetch(`${APP_DOMAIN}/area/api/add`, {
+    fetch(`${AREA_API_PATH}/`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(newArea),
     })
         .then(response => response.json())
         .then(data => {
-            if (data.code === 201) {
+            if (data.result === 'SUCCESS') {
                 alert('추가되었습니다.');
                 location.reload();
             } else {
-                if (data.code === 401) {
-                    alert('추가 권한이 없습니다.');
-                } else if (data.code === 404) {
-                    alert('존재하지 않는 역할입니다.');
-                } else {
-                    alert('추가에 실패하였습니다.');
-                }
+                alert('추가에 실패하였습니다.');
             }
         });
 }
 
-// area: {areaId, name, difficulty, minimumPeople}
+// area: {areaId, name, difficulty, minimumPeople, changeable}
 function editArea(changedArea) {
-    changedArea.roleId = getRoleId();
-    fetch(`${APP_DOMAIN}/area/api/edit/${changedArea.areaId}`, {
-        method: 'POST',
+    console.log(`editArea(${JSON.stringify(changedArea)})`);
+    fetch(`${AREA_API_PATH}/${changedArea.areaId}`, {
+        method: 'PUT',
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(changedArea),
     })
         .then(response => response.json())
         .then(data => {
-            if (data.code === 200) {
+            if (data.result === 'SUCCESS') {
                 alert('수정되었습니다.')
                 location.reload();
             } else {
-                alert(JSON.stringify(data));
-                if (data.code === 401) {
-                    alert('수정 권한이 없습니다.');
-                } else if (data.code === 404) {
-                    alert('잘못된 요청입니다.');
-                } else {
-                    alert('수정에 실패하였습니다.');
-                }
+                alert('수정에 실패하였습니다.');
             }
         });
 }
 
 function deleteArea(areaId) {
-    fetch(`${APP_DOMAIN}/area/api/delete/${areaId}`, {
-        method: 'GET',
+    fetch(`${AREA_API_PATH}/${areaId}`, {
+        method: 'DELETE',
     })
         .then(response => response.json())
         .then(data => {

@@ -18,15 +18,15 @@
             </tr>
         </thead>
         <tr th:each="role:${roles}">
-            <td th:text="${role.id.equals(currentRole?.id)} ? '✅' : ''"></td>
-            <td th:text="${role.id}"></td>
+            <td th:text="${role.roleId.equals(currentRole?.roleId)} ? '✅' : ''"></td>
+            <td th:text="${role.roleId}"></td>
             <td th:text="${role.name}"></td>
             <td>
                 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#roleDetail"
-                    th:data-bs-target="'#roleDetail' + ${role.id}">
+                    th:data-bs-target="'#roleDetail' + ${role.roleId}">
                     자세히 보기
                 </button>
-                <div class="modal fade text-dark text-start" id="roleDetail" th:id="'roleDetail' + ${role.id}"
+                <div class="modal fade text-dark text-start" id="roleDetail" th:id="'roleDetail' + ${role.roleId}"
                      tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -37,15 +37,15 @@
                             <div class="modal-body">
                                 <h5>구역</h5>
                                 <ul>
-                                    <li th:each="area:${role.areas}"
-                                        th:text="|${area.name} 난이도: ${area.difficulty} 최소인원: ${area.minimumPeople} 인수인계: ${area.changeable ? 'O' : 'X'}|"></li>
+                                    <li th:each="area:${role.areaList}"
+                                        th:text="|${area.areaName} 난이도: ${area.difficulty} 최소인원: ${area.minimumPeople} 인수인계: ${area.changeable ? 'O' : 'X'}|"></li>
                                 </ul>
                                 <h5 th:text="'시작날짜 - ' + ${role.startDate}"></h5>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" th:if="${isManager}" th:onclick="|getToRoleEdit(${role.id})|">수정</button>
+                                <button type="button" class="btn btn-warning" th:if="${isManager}" th:onclick="|getToRoleEdit(${role.roleId})|">수정</button>
                                 <button type="button" class="btn btn-danger" th:if="${isManager}"
-                                        th:onclick="|confirmPost('삭제하시겠습니까?', '/team/roles/${role.id}/remove')|">삭제</button>
+                                        th:onclick="|confirmPost('삭제하시겠습니까?', '/team/roles/${role.roleId}/remove')|">삭제</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                             </div>
                         </div>
@@ -69,8 +69,8 @@
                         <div class="list-group">
                             <h5>다음 구역 선택</h5>
                             <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"
-                                    th:each="role: ${roles}" th:text="${role.name}" th:unless="${role.id.equals(currentRole.id)}"
-                                    th:onclick="|if(confirm(&quot;이 역할로 하시겠습니까?&quot;)) location.href=&quot;/team/role-changing/start/${role.id}&quot;|" >
+                                    th:each="role: ${roles}" th:text="${role.name}" th:unless="${role.roleId.equals(currentRole?.roleId)}"
+                                    th:onclick="|if(confirm(&quot;이 역할로 하시겠습니까?&quot;)) location.href=&quot;/team/role-changing/start/${role.roleId}&quot;|" >
                                 역할의 이름</button>
                         </div>
                     </div>

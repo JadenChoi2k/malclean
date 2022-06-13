@@ -1,4 +1,4 @@
-package Choi.clean_lottery.interfaces.role.form;
+package Choi.clean_lottery.interfaces.team;
 
 import lombok.Data;
 

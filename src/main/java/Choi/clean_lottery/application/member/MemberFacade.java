@@ -32,6 +32,12 @@ public class MemberFacade {
         return memberService.retrieveMemberInfo(memberId);
     }
 
+    public boolean exists(Long memberId) {
+        return memberService.exists(memberId);
+    }
+
+    /* memberQueryService */
+
     public MemberQueryInfo.WithTeam withTeam(Long memberId) {
         return memberQueryService.withTeam(memberId);
     }

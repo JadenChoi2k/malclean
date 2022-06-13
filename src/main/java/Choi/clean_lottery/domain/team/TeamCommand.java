@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 
 public class TeamCommand {
 
@@ -33,6 +33,7 @@ public class TeamCommand {
     public static class ChangeCurrentRoleRequest {
         private Long teamId;
         private Long roleId;
+        private LocalDate startDate;
     }
 
     @Getter

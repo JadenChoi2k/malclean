@@ -7,7 +7,7 @@ import Choi.clean_lottery.common.response.ErrorCode;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.domain.role_change.ChangeRoleTableInfo;
 import Choi.clean_lottery.domain.role_change.card.ChangeAreaCardCommand;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@RestController("/api/v1/role-changing")
+@RestController
+@RequestMapping("/api/v1/role-changing")
 @RequiredArgsConstructor
 public class RoleChangingApiController {
     private final ChangeRoleTableFacade changeRoleTableFacade;

@@ -40,6 +40,7 @@ public class TeamServiceImpl implements TeamService {
     public void changeCurrentRole(TeamCommand.ChangeCurrentRoleRequest changeCurrentRoleRequest) {
         Team team = teamReader.getTeamById(changeCurrentRoleRequest.getTeamId());
         Role role = roleReader.getRoleById(changeCurrentRoleRequest.getRoleId());
+        role.setStartDate(changeCurrentRoleRequest.getStartDate());
         team.setCurrentRole(role);
     }
 

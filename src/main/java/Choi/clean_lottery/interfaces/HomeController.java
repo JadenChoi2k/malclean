@@ -1,7 +1,9 @@
 package Choi.clean_lottery.interfaces;
 
+import Choi.clean_lottery.application.member.MemberFacade;
+import Choi.clean_lottery.common.constant.SessionConst;
 import Choi.clean_lottery.domain.member.Member;
-import Choi.clean_lottery.service.MemberService;
+import Choi.clean_lottery.domain.member.MemberInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,25 +18,24 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemberService memberService;
+    private final MemberFacade memberFacade;
 
     @GetMapping("/")
-    public String home(HttpServletRequest request, Model model) {
+    public String home(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session == null) {
             return "index";
         }
 
-        Object userId = session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (userId == null) {
+        Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (memberId == null) {
             return "index";
         } else {
-            Member member = memberService.findOne((Long) userId);
-            if (member == null) {
+            if (memberFacade.exists((Long) memberId)) {
+                return "redirect:/team";
+            } else {
                 return "index";
             }
-            model.addAttribute(member);
-            return "redirect:/team";
         }
     }
 }

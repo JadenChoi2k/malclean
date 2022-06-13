@@ -10,4 +10,6 @@ public interface MemberService {
     void deleteMember(Long memberId);
 
     MemberInfo retrieveMemberInfo(Long memberId);
+
+    boolean exists(Long memberId);
 }

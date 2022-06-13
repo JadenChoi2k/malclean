@@ -21,8 +21,8 @@
 <div th:replace="~{fragment/sidebar::sidebar}"></div>
 <h1 class="m-3">내 정보</h1>
 <img class="profile-image-big" src="http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
-     th:href="${member.profile_url}">
-<h3 class="m-2" th:text="${member.name}">홍길동</h3>
+     th:href="${member.profileUrl}">
+<h3 class="m-2" th:text="${member.memberName}">홍길동</h3>
 <h4 th:text="|${team.name}의 매니저입니다.|" th:if="${isManager}"></h4>
 <h4 th:text="|${team.name}의 멤버입니다.|" th:unless="${isManager}">팀팀의 멤버입니다</h4>
 <a class="d-block border-top border-bottom border-light p-2 max-sm text-white h4 mt-3 mb-0"

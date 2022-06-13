@@ -21,7 +21,6 @@ public class MemberQueryInfo {
 
         @Getter
         @Setter
-        @Builder
         public static class TeamInfo {
             private Long teamId;
             private String name;
@@ -39,7 +38,7 @@ public class MemberQueryInfo {
                 this.roles = team.getRoles().stream()
                         .map(RoleInfo::new)
                         .collect(Collectors.toList());
-                this.currentRole = new RoleInfo(team.getCurrentRole());
+                this.currentRole = team.getCurrentRole() != null ? new RoleInfo(team.getCurrentRole()) : null;
                 this.status = team.getState();
             }
 

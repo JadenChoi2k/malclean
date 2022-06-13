@@ -1,11 +1,13 @@
 package Choi.clean_lottery.interfaces.invite;
 
 import Choi.clean_lottery.application.invite.InviteFacade;
+import Choi.clean_lottery.application.member.MemberFacade;
 import Choi.clean_lottery.common.response.CommonResponse;
 import Choi.clean_lottery.common.response.ErrorCode;
 import Choi.clean_lottery.domain.invite.InviteCommand;
 import Choi.clean_lottery.domain.invite.InviteInfo;
-import Choi.clean_lottery.interfaces.SessionConst;
+import Choi.clean_lottery.common.constant.SessionConst;
+import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,19 +24,21 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class InviteController {
     private final InviteFacade inviteFacade;
+    private final MemberFacade memberFacade;
     private final InviteDtoMapper inviteDtoMapper;
 
     @ResponseBody
-    @GetMapping("/{teamId}/create")
-    public CommonResponse create(HttpServletRequest request, @PathVariable Long teamId) {
+    @GetMapping("/create")
+    public CommonResponse create(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object memberId = session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {
             return CommonResponse.fail("로그인", ErrorCode.COMMON_INVALID_ACCESS.getErrorMsg());
         }
+        MemberQueryInfo.WithTeam withTeam = memberFacade.withTeam((Long) memberId);
         InviteInfo inviteInfo = inviteFacade.createInvite(InviteCommand.CreateInviteRequest.builder()
                 .senderId((Long) memberId)
-                .teamId(teamId)
+                .teamId(withTeam.getTeamInfo().getTeamId())
                 .build());
         return CommonResponse.success(inviteDtoMapper.of(inviteInfo));
     }

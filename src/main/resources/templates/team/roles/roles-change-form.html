@@ -39,12 +39,12 @@
             <th scope="col">이름</th>
         </tr>
         </thead>
-        <tr class="roles-change-row">
+        <tr th:if="${currentRole} != null" class="roles-change-row">
             <td class="role-sequence-col">✅</td>
-            <td class="role-id-col" th:text="${currentRole.id}"></td>
+            <td class="role-id-col" th:text="${currentRole.roleId}"></td>
             <td th:text="${currentRole.name}"></td>
         </tr>
-        <tr class="roles-change-row" th:each="name:*{roleNames}" th:unless="${changeForm.roleIds.get(nameStat.index).equals(currentRole.id)}">
+        <tr class="roles-change-row" th:each="name:*{roleNames}" th:unless="${changeForm.roleIds.get(nameStat.index).equals(currentRole?.roleId)}">
             <td class="role-sequence-col"></td>
             <td class="role-id-col" th:text="${changeForm.roleIds.get(nameStat.index)}"></td>
             <td th:text="${name}"></td>

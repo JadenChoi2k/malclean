@@ -31,6 +31,14 @@ public class MemberCommand {
     @Getter
     @Setter
     @Builder
+    public static class ChangeManagerRequest {
+        private Long prevManagerId;
+        private Long nextManagerId;
+    }
+
+    @Getter
+    @Setter
+    @Builder
     public static class ChangeTeamRequest {
         private Long memberId;
         private Long teamId;

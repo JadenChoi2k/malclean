@@ -125,7 +125,9 @@ public class RoleController {
         if (!withTeam.getMemberInfo().getIsManager()) {
             bindingResult.reject("unauthorized.manager");
         }
-        if (form.getAreaNames().size() != form.getDifficulties().size() ||
+        if (form.getAreaNames() == null || form.getDifficulties() == null || form.getMinimumPeoples() == null) {
+            bindingResult.reject("WrongRequest.roleAddForm.hasNoArea");
+        } else if (form.getAreaNames().size() != form.getDifficulties().size() ||
                 form.getAreaNames().size() != form.getMinimumPeoples().size() ||
                 form.getDifficulties().size() != form.getMinimumPeoples().size()) {
             bindingResult.reject("WrongRequest.wrongInput");
@@ -164,6 +166,6 @@ public class RoleController {
         if (memberFacade.retrieveMemberInfo((Long) memberId).getIsManager()) {
             roleFacade.detachFromTeam(roleId);
         }
-        return "redirect:/team/roles" + Optional.of(redirectURI).orElse("");
+        return "redirect:/team/roles" + Optional.ofNullable(redirectURI).orElse("");
     }
 }

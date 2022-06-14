@@ -24,6 +24,7 @@ public class RoleChangingController {
     private final ChangeRoleTableFacade changeRoleTableFacade;
     private final MemberFacade memberFacade;
 
+    @GetMapping
     public String roleChangingHome(HttpServletRequest request) {
         Object memberId = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {
@@ -31,14 +32,14 @@ public class RoleChangingController {
         }
         MemberQueryInfo.WithTeam withTeam = memberFacade.withTeam((Long) memberId);
         if (withTeam.getMemberInfo() == null || withTeam.getTeamInfo() == null ||
-        !withTeam.getTeamInfo().isChangingRole()) {
+                !withTeam.getTeamInfo().isChangingRole()) {
             return "redirect:/";
         }
         Long tableId = changeRoleTableFacade.findTableIdByTeamId(withTeam.getTeamInfo().getTeamId());
         return "redirect:/team/role-changing/" + tableId;
     }
 
-    @GetMapping("/role-changing/start/{roleId}")
+    @GetMapping("/start/{roleId}")
     public String rolesChangingStart(HttpServletRequest request, @PathVariable Long roleId) {
         Object memberId = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
         if (memberId == null) {

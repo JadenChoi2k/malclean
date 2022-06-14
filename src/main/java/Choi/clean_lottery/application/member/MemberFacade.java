@@ -20,6 +20,10 @@ public class MemberFacade {
         return memberService.registerMember(registerMemberRequest);
     }
 
+    public void changeManager(MemberCommand.ChangeManagerRequest changeManagerRequest) {
+        memberService.changeManager(changeManagerRequest);
+    }
+
     public void deleteMember(Long memberId) {
         memberService.deleteMember(memberId);
     }

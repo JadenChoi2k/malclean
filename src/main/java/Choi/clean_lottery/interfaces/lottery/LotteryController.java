@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @Controller
-@RequestMapping("team/lottery")
+@RequestMapping("/team/lottery")
 @RequiredArgsConstructor
 public class LotteryController {
     private final LotteryFacade lotteryFacade;
@@ -54,6 +54,7 @@ public class LotteryController {
             return "redirect:/";
         }
         if (bindingResult.hasErrors()) {
+            log.info("pickLottery validation has error: {}", bindingResult);
             return lotteryPickForm(session, model);
         }
         MemberQueryInfo.WithTeam withTeam = memberFacade.withTeam((Long) memberId);
@@ -83,8 +84,10 @@ public class LotteryController {
         var pageResult = lotteryFacade.retrievePageQuery(withTeam.getTeamInfo().getTeamId(), PageRequest.of(page, size));
         model.addAttribute("currentPage", page);
         model.addAttribute("count", size);
-        model.addAttribute("firstCount", Math.toIntExact(page / 5) * 5);
-        model.addAttribute("lastCount", pageResult.getTotalPages());
+        int firstCount = Math.toIntExact(page / 5) * 5;
+        int wholeCount = pageResult.getTotalPages() - 1;
+        model.addAttribute("firstCount", firstCount);
+        model.addAttribute("lastCount", Math.min(firstCount + 4, wholeCount));
         model.addAttribute("team", withTeam.getTeamInfo());
         model.addAttribute("lotteryList", pageResult.toList());
         return "lottery/lottery-history";

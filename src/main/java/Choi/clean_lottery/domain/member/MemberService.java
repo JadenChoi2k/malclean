@@ -5,6 +5,8 @@ public interface MemberService {
 
     MemberInfo updateMemberProfile(Long id, String name, String profileUrl);
 
+    void changeManager(MemberCommand.ChangeManagerRequest changeManagerRequest);
+
     void getOutOfTeam(Long memberId);
 
     void deleteMember(Long memberId);

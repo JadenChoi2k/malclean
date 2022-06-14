@@ -1,5 +1,6 @@
 package Choi.clean_lottery.domain.member;
 
+import Choi.clean_lottery.ex.NotMemberOfTeam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,21 @@ public class MemberServiceImpl implements MemberService{
         return new MemberInfo(member);
     }
 
-
+    @Override
+    @Transactional
+    public void changeManager(MemberCommand.ChangeManagerRequest changeManagerRequest) {
+        Member prevManager = memberReader.getMemberById(changeManagerRequest.getPrevManagerId());
+        Member nextManager = memberReader.getMemberById(changeManagerRequest.getNextManagerId());
+        if (!prevManager.getTeam().isMemberOf(nextManager)) {
+            log.info("매니저 교체 중 오류 발생. prevManagerId={}, nextManagerId={}",
+                    changeManagerRequest.getPrevManagerId(),
+                    changeManagerRequest.getNextManagerId());
+            throw new NotMemberOfTeam("매니저와 멤버가 서로 같은 팀이 아닙니다");
+        }
+        prevManager.getTeam().setManager(nextManager);
+        prevManager.takeDownManager();
+        nextManager.takeManager();
+    }
 
     @Override
     @Transactional

@@ -32,14 +32,6 @@ function onMemberConfirmed() {
 function drawLottery() {
     const partinNum = getPartinNumber();
     const areaNum = getAreaNumber();
-
-    if (partinNum != areaNum) {
-        let result = confirm("수가 맞지 않습니다. 그래도 뽑습니까?");
-        if (!result) {
-            return;
-        }
-    }
-    // alert('뽑으러 갑니다~');
     slide.to(1);
     partinMembersAnimate();
     setTimeout(() => sendPost(getParamsFromPage()), 3500);
@@ -228,7 +220,7 @@ function getParamsFromPage() {
     const lotteryName = document.getElementById('lottery-name-input').value;
     const members = document.getElementsByClassName('member');
     const areas = document.getElementsByClassName('area-num');
-    const currentRoleID = currentRole.id;
+    const currentRoleID = currentRole.roleId;
     let memberIds = [];
     let areaIds = [];
 

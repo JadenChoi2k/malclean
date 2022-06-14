@@ -1,6 +1,9 @@
 package Choi.clean_lottery.interfaces.member;
 
 import Choi.clean_lottery.application.member.MemberFacade;
+import Choi.clean_lottery.common.constant.LogConst;
+import Choi.clean_lottery.domain.member.MemberCommand;
+import Choi.clean_lottery.domain.member.MemberInfo;
 import Choi.clean_lottery.domain.member.query.MemberQueryInfo;
 import Choi.clean_lottery.interfaces.social.SocialLoginHandler;
 import Choi.clean_lottery.interfaces.social.SocialUserInfo;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.Cookie;
@@ -78,6 +82,42 @@ public class MemberController {
             return "redirect:/";
         }
         memberFacade.getOutOfTeam((Long) memberId);
+        return "redirect:/";
+    }
+
+    /**
+     * 매니저만 접근 가능한 페이지
+     */
+    @GetMapping("/manager/team-out/{memberId}")
+    public String kickOutMemberFromTeam(HttpServletRequest request, @PathVariable Long memberId) {
+        Object managerId = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        if (managerId == null) {
+            return "redirect:/";
+         }
+        MemberInfo managerInfo = memberFacade.retrieveMemberInfo((Long) managerId);
+        if (!managerInfo.getIsManager()) {
+            log.info("[{}] 매니저만 접근할 수 있는 페이지에 접근. 메인화면으로 리다이렉트", request.getAttribute(LogConst.LOG_ID));
+            return "redirect:/";
+        }
+        memberFacade.getOutOfTeam(memberId);
+        return "redirect:/";
+    }
+
+    @GetMapping("/manager/change/{memberId}")
+    public String changeManager(HttpServletRequest request, @PathVariable Long memberId) {
+        Object managerId = request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+        if (managerId == null) {
+            return "redirect:/";
+        }
+        MemberInfo managerInfo = memberFacade.retrieveMemberInfo((Long) managerId);
+        if (!managerInfo.getIsManager()) {
+            log.info("[{}] 매니저만 접근할 수 있는 페이지에 접근. 메인화면으로 리다이렉트", request.getAttribute(LogConst.LOG_ID));
+            return "redirect:/";
+        }
+        memberFacade.changeManager(MemberCommand.ChangeManagerRequest.builder()
+                .prevManagerId((Long) managerId)
+                .nextManagerId(memberId)
+                .build());
         return "redirect:/";
     }
 

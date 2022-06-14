@@ -71,6 +71,9 @@ public class Team extends BaseTimeEntity {
         if (!isMemberOf(member)) {
             throw new NotRoleOfTeam("이 팀의 멤버가 아닙니다.");
         }
+        if (this.manager != null) {
+            this.manager.takeDownManager();
+        }
         this.manager = member;
         member.takeManager();
     }

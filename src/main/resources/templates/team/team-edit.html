@@ -20,7 +20,7 @@
         <td th:text="${member.memberName}"></td>
         <td>
             <button class="btn btn-sm btn-outline-warning m-1" th:if="${isManager}" th:onclick="|askConfirm('매니저를 위임하시겠습니까?', &quot;/member/manager/change/${member.memberId}&quot;)|">매니저 위임</button>
-            <button class="btn btn-sm btn-outline-danger m-1" th:if="${isManager}" th:onclick="|askConfirm('팀에서 추방하시겠습니까?', &quot;/member/team-out/${member.memberId}&quot;)|">팀에서 추방</button>
+            <button class="btn btn-sm btn-outline-danger m-1" th:if="${isManager}" th:onclick="|askConfirm('팀에서 추방하시겠습니까?', &quot;/member/manager/team-out/${member.memberId}&quot;)|">팀에서 추방</button>
         </td>
     </tr>
 </table>

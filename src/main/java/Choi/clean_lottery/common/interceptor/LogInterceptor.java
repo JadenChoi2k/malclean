@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
+import static Choi.clean_lottery.common.constant.LogConst.LOG_ID;
+
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
-
-    private static final String LOG_ID = "logID";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

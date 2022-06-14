@@ -55,7 +55,7 @@
             <div class="d-block w-100 vertical-30">
                 <div class="h-100 mx-2">
                     <div class="h4" th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy년 MM월 dd일')}"></div>
-                    <div class="my-2 text-start text-md-center display-2" th:text="'「' + ${member.name} + '」님은'">
+                    <div class="my-2 text-start text-md-center display-2" th:text="'「' + ${member.memberName} + '」님은'">
                         「홍길동」님은
                     </div>
                     <div th:if="${myAreas.isEmpty()}" class="display-1">휴식</div>
@@ -72,8 +72,8 @@
                         <div th:unless="${companions.isEmpty()}" th:each="entry: ${companions}">
                             <span class="h4" th:text="|${entry.getKey()} 전우: |"></span>
                             <span th:each="member: ${entry.getValue()}">
-                            <span class="h4" th:if="${memberStat.last}" th:text="|${member.name}님|"></span>
-                            <span class="h4" th:unless="${memberStat.last}" th:text="|${member.name}님, |"></span>
+                            <span class="h4" th:if="${memberStat.last}" th:text="|${member.memberName}님|"></span>
+                            <span class="h4" th:unless="${memberStat.last}" th:text="|${member.memberName}님, |"></span>
                         </span>
                         </div>
                     </div>
@@ -101,10 +101,10 @@
                     <tr th:each="result:${lottery.result}">
                         <td>
                             <img class="profile-image" th:src="${result.member.profileUrl}">
-                            <h5 th:text="${result.member.name}"></h5>
+                            <h5 th:text="${result.member.memberName}"></h5>
                         </td>
                         <td class="align-middle">
-                            <div class="h3" th:text="${result.area.getAreaName}"></div>
+                            <div class="h3" th:text="${result.area.areaName}"></div>
                         </td>
                     </tr>
                 </table>

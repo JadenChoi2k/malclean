@@ -1,5 +1,6 @@
 package Choi.clean_lottery.domain.role_change;
 
+import Choi.clean_lottery.common.exception.IllegalStatusException;
 import Choi.clean_lottery.domain.member.MemberReader;
 import Choi.clean_lottery.domain.role.RoleReader;
 import Choi.clean_lottery.domain.team.TeamReader;
@@ -27,6 +28,7 @@ public class ChangeRoleTableServiceImpl implements ChangeRoleTableService {
                 roleReader.getRoleById(registerTableRequest.getGiveRoleId())
         );
         ChangeRoleTable stored = changeRoleTableStore.store(changeRoleTable);
+        stored.startChanging();
         return new ChangeRoleTableInfo.Main(stored);
     }
 
@@ -40,6 +42,8 @@ public class ChangeRoleTableServiceImpl implements ChangeRoleTableService {
     @Transactional
     public void completeChanging(Long tableId) {
         ChangeRoleTable table = changeRoleTableReader.getTableById(tableId);
-        table.endChanging();
+        if (!table.endChanging()) {
+            throw new IllegalStatusException("인수인계가 아직 완료되지 않았습니다. tableId: " + tableId);
+        }
     }
 }

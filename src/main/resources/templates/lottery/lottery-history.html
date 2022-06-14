@@ -19,10 +19,10 @@
             <th>역할</th>
             <th>날짜</th>
         </thead>
-        <tr th:each="lottery : ${lotteryList}" th:onclick="'window.open(\'/team/lottery/result/' + ${lottery.id} + '\')'">
+        <tr th:each="lottery : ${lotteryList}" th:onclick="'window.location=\'/team/lottery/result/' + ${lottery.id} + '\''">
             <td th:text="${lottery.id}">id</td>
             <td th:text="${lottery.name}">name</td>
-            <td th:text="${lottery.role?.name}">role name</td>
+            <td th:text="${lottery.roleName}">role name</td>
             <td th:text="${#temporals.format(lottery.lastRoleDateTime, 'yyyy/MM/dd')}">날짜</td>
         </tr>
     </table>

@@ -56,6 +56,13 @@ public class Member extends BaseTimeEntity {
         this.position = Position.TEAM_MANAGER;
     }
 
+    public void takeDownManager() {
+        if (this.position == Position.TEAM_MANAGER) {
+            log.info("[Member.takeDownManager] member {}: take down manager in team", getId());
+            this.position = Position.TEAM_MEMBER;
+        }
+    }
+
     public void updateProfile(String name, String profile_url) {
         if (!this.name.equals(name)) {
             this.name = name;

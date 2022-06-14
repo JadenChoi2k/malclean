@@ -106,12 +106,13 @@ public class ChangeRoleTable extends BaseTimeEntity {
         this.state = Status.IN_PROGRESS;
     }
 
-    public void endChanging() {
+    public boolean endChanging() {
         if (!isAllDone()) {
-            return;
+            return false;
         }
         this.state = Status.DONE;
         this.team.updateCurrentRole(receiveRole);
         this.team.endRoleChanging();
+        return true;
     }
 }

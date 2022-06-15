@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -26,6 +24,6 @@ public class LotteryReaderImpl implements LotteryReader {
 
     @Override
     public Page<Lottery> findAll(Team team, Pageable pageable) {
-        return lotteryJpaRepository.findAllByTeam(team, pageable);
+        return lotteryJpaRepository.findAllByTeamOrderByCreateDateDesc(team, pageable);
     }
 }

@@ -81,6 +81,7 @@ public class KakaoApiHelper {
         String tokenInfoJson = request(HttpMethodType.POST, OAUTH_TOKEN_PATH, mapToParams(params));
         KakaoTokenInfo kakaoTokenInfo = KakaoTokenInfo.fromJson(tokenInfoJson);
         if (kakaoTokenInfo.hasError()) {
+            log.info("토큰을 받아오던 중 에러 발생: {}", kakaoTokenInfo.errorToString());
             params.put("redirect_uri", redirectURI.replace("http", "https"));
             tokenInfoJson = request(HttpMethodType.POST, OAUTH_TOKEN_PATH, mapToParams(params));
             kakaoTokenInfo = KakaoTokenInfo.fromJson(tokenInfoJson);

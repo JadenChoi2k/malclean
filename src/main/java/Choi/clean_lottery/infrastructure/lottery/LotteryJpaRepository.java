@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LotteryJpaRepository extends JpaRepository<Lottery, Long> {
     // TODO: 팀 아이디로 받아오기.
-    Page<Lottery> findAllByTeam(Team team, Pageable pageable);
+    Page<Lottery> findAllByTeamOrderByCreateDateDesc(Team team, Pageable pageable);
 }

@@ -49,7 +49,7 @@ public class KakaoLoginHandler implements SocialLoginHandler {
     }
 
     private String getTokenRedirectUrl(HttpServletRequest request) {
-        return request.getRequestURL().toString();
+        return request.getRequestURL().toString().replace("http", "https");
     }
 
     private KakaoTokenInfo getTokenInfo(HttpServletRequest request) {

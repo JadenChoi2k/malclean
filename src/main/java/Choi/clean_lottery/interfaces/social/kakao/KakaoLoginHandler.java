@@ -49,12 +49,16 @@ public class KakaoLoginHandler implements SocialLoginHandler {
     }
 
     private String getTokenRedirectUrl(HttpServletRequest request) {
+        if (request.getLocalPort() == 8080) {
+            return request.getRequestURL().toString();
+        }
         return request.getRequestURL().toString().replace("http", "https");
     }
 
     private KakaoTokenInfo getTokenInfo(HttpServletRequest request) {
         String code = getCode(request);
         String tokenRedirectUrl = getTokenRedirectUrl(request);
+        log.info("tokenRedirectUrl {}", tokenRedirectUrl);
         KakaoTokenInfo tokenInfo = kakaoApiHelper.getTokenByCode(code, tokenRedirectUrl);
         if (tokenInfo.hasError()) {
             log.error("tokenInfo hasError: {}", tokenInfo.errorToString());

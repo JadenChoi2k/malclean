@@ -1,6 +1,6 @@
 package Choi.clean_lottery.domain.member;
 
-import Choi.clean_lottery.ex.NotMemberOfTeam;
+import Choi.clean_lottery.common.exception.NotMemberOfTeam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

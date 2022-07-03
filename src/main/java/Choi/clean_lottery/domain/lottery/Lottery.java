@@ -1,12 +1,12 @@
 package Choi.clean_lottery.domain.lottery;
 
+import Choi.clean_lottery.common.exception.NotMemberOfTeam;
 import Choi.clean_lottery.domain.BaseTimeEntity;
 import Choi.clean_lottery.domain.role.area.Area;
 import Choi.clean_lottery.domain.lottery.result.LotteryResult;
 import Choi.clean_lottery.domain.member.Member;
 import Choi.clean_lottery.domain.role.Role;
 import Choi.clean_lottery.domain.team.Team;
-import Choi.clean_lottery.ex.NotMemberOfTeam;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
